@@ -1,0 +1,1472 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JointHex">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="阅读《Effective Modern C++》时记录下的笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Effective Modern C++ 笔记">
+<meta property="og:url" content="http://example.com/2022/09/09/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/C++/Effective%20Modern%20C++%20Note/index.html">
+<meta property="og:site_name" content="JointHex的技术分享站">
+<meta property="og:description" content="阅读《Effective Modern C++》时记录下的笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-09T11:58:00.000Z">
+<meta property="article:modified_time" content="2024-03-04T06:14:39.465Z">
+<meta property="article:author" content="JointHex">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="长篇笔记">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Effective Modern C++ 笔记 - JointHex的技术分享站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>JointHex的技术分享站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/NPR.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Effective Modern C++ 笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-09-09 19:58" pubdate>
+          2022年9月9日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          51 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Effective Modern C++ 笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>阅读《Effective Modern C++》时记录下的笔记</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="type-deduction">Type Deduction</h2>
+<h3 id="template-deduction">Template Deduction</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">f</span><span class="hljs-params">(ParamType param)</span></span>; <span class="hljs-comment">// ParamType是与T相关的一系列类型，比如T&amp;</span><br><span class="hljs-built_in">f</span>(expr);<br></code></pre></td></tr></table></figure>
+<p>Case 1: ParamType is a reference or pointer, but not a universal
+reference</p>
+<ol type="1">
+<li><p>if expr's type is a reference, ignore the reference part</p></li>
+<li><p>Then pattern-match expr's type against ParamType to determine
+T.</p></li>
+</ol>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220909200540123.png" srcset="/img/loading.gif" lazyload /></p>
+<p>非常符合常识</p>
+<hr />
+<p>Case 2: ParamType is a universal reference</p>
+<ul>
+<li>If expr is an lvalue, both T and ParamType are deduced to be
+lvalue</li>
+<li>If expr is an rvalue, the same as case 1.</li>
+</ul>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220909221716159.png" srcset="/img/loading.gif" lazyload /></p>
+<hr />
+<p>Case 3: ParamType is neither a pointer nor a reference</p>
+<ol type="1">
+<li>if expr's type is a reference, ignore the reference part.</li>
+<li>If after ignoring expr's reference-ness, expr is const, ignore that,
+too. If it's volatile, also ignore that.</li>
+</ol>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220909222408552.png" srcset="/img/loading.gif" lazyload /></p>
+<p>A more complecated case:</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220909223542600.png" srcset="/img/loading.gif" lazyload /></p>
+<p>*右边的const表示指针指向的地址不变，即指针的const-ness，在值传递是是可以被丢弃的，而*左边的const表示指针指向的地址的内容不变，这个const-ness需要被保留</p>
+<hr />
+<p>For Array &amp;&amp; pointer, if by-value, array will be deduced to
+pointer, if reference, array will still be array, which means the length
+information is preserved.</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220909230636595.png" srcset="/img/loading.gif" lazyload /></p>
+<p>用这个特点还可以实现模板函数得到数组长度。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220909230730022.png" srcset="/img/loading.gif" lazyload /></p>
+<blockquote>
+<p>constexpr是为了让其编译时即可用，例如</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220909230930014.png" srcset="/img/loading.gif" lazyload /></p>
+</blockquote>
+<p>建议更多使用std::array而不是built in的array</p>
+<hr />
+<p>Function</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220909231344387.png" srcset="/img/loading.gif" lazyload /></p>
+<hr />
+<p>总结</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220909231552875.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="auto-deduction">Auto Deduction</h3>
+<p>基本与template
+deduction一致，但对于用{}进行初始化的变量会推导成<code>std::initializer_list&lt;T&gt;</code>类型，T是{}内的值的类型，值必须是单一类型。Template
+deduction的T无法直接推导为<code>std::initializer_list</code>.</p>
+<blockquote>
+<p>auto x = {1};</p>
+<p>auto x {1};</p>
+</blockquote>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910092950764.png" srcset="/img/loading.gif" lazyload /></p>
+<p>c++14中要确保函数返回值能够推导。此处的auto采用template
+deduction的规则而不是auto，即不能将{}推导为std::initializer_list.The
+same is true when auto is used in a parameter type specification in a
+C++14 lambda.</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910094023080.png" srcset="/img/loading.gif" lazyload /></p>
+<hr />
+<p>总结</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910094101035.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="decltype">decltype</h3>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910095405309.png" srcset="/img/loading.gif" lazyload /></p>
+<p>auto在这里并不是类型推导，而是表明采用C++11的trailing return type
+syntax.这种语法的好处是返回值可以用参数列表里的内容进行推导。</p>
+<p>C++11允许单语句的lambda表达式返回类型的推导，C++14则允许所有lambda表达式和函数的推导，也就是说在C++14中上图的-&gt;
+decltype(c[i])可以被省略。</p>
+<p>但是这样做实际上是存在问题的，因为auto的类型推导会消除reference-ness。</p>
+<p>C++14引入了语法decltype(auto)，表示在类型推导时用decltype的规则。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910101416365.png" srcset="/img/loading.gif" lazyload /></p>
+<p>同样可以用于变量类型的推导。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910101651842.png" srcset="/img/loading.gif" lazyload /></p>
+<p>但是上面的函数无法正确处理右值。下面是最终版本。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910102608424.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910102617894.png" srcset="/img/loading.gif" lazyload /></p>
+<hr />
+<p>decltype对与name和expression有不同的表现。对于name，它产生的就是name声明的类型。对于lvalue表达式，它产生的是lvalue
+reference。</p>
+<blockquote>
+<p>对于int x, decltype(x)为int，但decltype((x))为int&amp;</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910103848200.png" srcset="/img/loading.gif" lazyload /></p>
+<p>注意f2返回了一个局部变量的引用，这是undefined
+behavior，应当避免！</p>
+</blockquote>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910104414665.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="view-deduced-type">View deduced type</h3>
+<h4 id="编译期">编译期</h4>
+<p>利用编译器报错。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910105130444.png" srcset="/img/loading.gif" lazyload /></p>
+<h4 id="运行期">运行期</h4>
+<p>打印typeid(x).name()</p>
+<p>typeid(x)会产生std::type_info的object，不同编译器的name方法实现不同，GNU和Clang的编译器的信息不是很易读（i表示int，P表示指针，K表示const），可以用c++filt进行解码，Microsoft的易读。</p>
+<p>但是std::type_info::name返回的类型名is treated as if it had been
+passed to a template function as a by-value
+parameter.也就是说，它的reference-ness会被忽略，const(以及volatile)会被忽略。所以并不可靠。</p>
+<hr />
+<p>用库Boost.TypeIndex（非标准库），该库在不同编译器下都能得到正确的类型</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910111849615.png" srcset="/img/loading.gif" lazyload /></p>
+<blockquote>
+<p>cvr: const、volatile、reference</p>
+</blockquote>
+<h2 id="auto">Auto</h2>
+<p>涉及到vector的size时建议用auto，因为size的返回类型为<code>std::vector::size_type</code>，太长，而直接用unsigned有时候会出问题。</p>
+<p>map的遍历也建议用auto，因为用<code>std::pair&lt;Key, Value&gt;</code>得到它内部的元素时需要注意Key类型往往和map不一致，需要加上const，忽略const会导致奇怪的错误。</p>
+<p>在访问<code>std::vector&lt;bool&gt;</code>的元素时不要使用auto。<code>std::vector&lt;T&gt;</code>的操作符[]在T非bool的时候都返回T&amp;，但bool则返回<code>std::vector&lt;bool&gt;::reference</code>，这是因为<code>std::vector&lt;bool&gt;</code>实现时一个bit一个bool变量的值。</p>
+<p><code>std::vector&lt;bool&gt;::reference</code>是一种proxy
+class的技术，为更高效的计算等服务，需要支持隐式转换(bool)</p>
+<p>一些显式的proxy
+class有<code>std::shared_ptr</code>、<code>std::unique_ptr</code>。</p>
+<p>Invisible proxy class(e.g.
+<code>std::vector&lt;bool&gt;::reference</code>)不适合用auto。更准确地说，在使用auto时，需要先将Invisible
+proxy class进行类型转换（explicitly typed initializer idiom, e.g.
+<code>static_cast</code>）</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910143524318.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="modern-c">Modern C++</h2>
+<h3 id="initialize-with-and">Initialize with () and</h3>
+<p>{} can be used in the widest variety of contexts, prevent implicit
+narrowing conversions, and immune to C++'s most vexing parse(i.e.
+constructor with 0 arguments).</p>
+<p>但需要注意auto和{}的冲突。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910151856767.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910151931017.png" srcset="/img/loading.gif" lazyload /></p>
+<p>对于含std::initializer_list的constructor，{}会优先该constructor（会尝试类型转换，隐式(包括narrow
+conversion)、显式）。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910152608826.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910152932277.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910153119644.png" srcset="/img/loading.gif" lazyload /></p>
+<p>空的{}会调用default constructor而不是Std::initializer_list
+constructor</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910153316023.png" srcset="/img/loading.gif" lazyload /></p>
+<hr />
+<p>模板编写存在的问题</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910154859706.png" srcset="/img/loading.gif" lazyload /></p>
+<p>到底应该采用上面这种还是下面这种只有调用者知道。这个问题留待std::make_unique、std::make_shared解决。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910154937223.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="use-alias-declaration-instead-of-typedef">Use alias declaration
+instead of typedef</h3>
+<p>alias declaration在模板方面更具优势。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910180747349.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910180758997.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910183052334.png" srcset="/img/loading.gif" lazyload /></p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910183244711.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="use-scoped-enums-instead-of-unscoped-enums">Use scoped enums
+instead of unscoped enums</h3>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910183503544.png" srcset="/img/loading.gif" lazyload /></p>
+<p>enum class的优势：</p>
+<ul>
+<li>scoped，不会污染命名空间</li>
+<li>不会隐式转换为整型（想要转换则用cast）</li>
+</ul>
+<p>scoped enum和unscoped enum都可以前向声明，默认underlying
+type为int，可以用:指定underlying type.</p>
+<p>enum的definition也可以指定underlying type。</p>
+<p>unscoped
+enum在访问(std::get&lt;&gt;)std::tuple的时候较为方便使用。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910191141198.png" srcset="/img/loading.gif" lazyload /></p>
+<p>即使用模板函数结合scoped enum，</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910191258679.png" srcset="/img/loading.gif" lazyload /></p>
+<p>最终仍需要这样。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910191410569.png" srcset="/img/loading.gif" lazyload /></p>
+<p>依然较为麻烦。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910191837714.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="prefer-deleted-functions-to-private-undefined-ones">Prefer
+deleted functions to private undefined ones</h3>
+<p>private undefined ones may still be used within the class and its
+friend class, and will fail when link. But use delete, it will fail when
+compile.</p>
+<p>deleted
+function通常声明为public，这是因为编译器优先检测accessibility再检测deleted，如果声明为private，那么编译器报错会是访问权限不够而不是deleted。</p>
+<p>delete也可以用于防止隐式转换。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910200520073.png" srcset="/img/loading.gif" lazyload /></p>
+<p>float也被reject是因为C++倾向于将float转double。</p>
+<p>delete还可以用于删除特化的模板函数。（private无法做到这点因为模板特化必须在namespace
+scope而不是class scope）</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910201337047.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="declare-overriding-functions-override">Declare overriding
+functions override</h3>
+<blockquote>
+<p>函数签名可以包括the function's reference
+qualifier，&amp;表明当*this为lvalue时，&amp;&amp;表明当*this为rvalue时</p>
+</blockquote>
+<p>override的条件</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910204626088.png" srcset="/img/loading.gif" lazyload /></p>
+<p>Because little difference of function signatures between base class
+and derived class may cause you not actually overriding a function, it's
+necessary to use override keywords to explicitly tell the compiler you
+want to override the base function so that when some difference exists,
+compiler can send wrong messages correctly.</p>
+<p>override虽然是关键字，但它只在特定位置被识别为关键字，也就是说函数名可以是override。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220910210120925.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="prefer-const_iterators-to-iterators">Prefer const_iterators to
+iterators</h3>
+<p>C++98使用const_iterator相当不方便，C++11和C++14则很好地支持了这一点。</p>
+<p>C++11的container仅支持non-member
+function的begin、end，但并不支持non-member
+function的cbegin、cend。可以实现下图的cbegin、cend。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911074421795.png" srcset="/img/loading.gif" lazyload /></p>
+<p>std::begin在container为const时返回的类型为const_iterator。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911074012299.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="declare-functions-noexcept-if-they-wont-emit-exceptions">Declare
+functions noexcept if they won't emit exceptions</h3>
+<p>C++98用throw()声明函数可能抛出的所有异常，一旦实现修改，可能对整体代码有较大影响。且执行时需要检查抛出异常是否在throw声明的函数中，一旦不在，需要抛出异常、终止程序，这对性能有一定开销。</p>
+<p>C++11只在意是否会抛出异常，即noexcept关键词。声明noexcept可以在编译时做更多的优化。</p>
+<p>C++11中memory deallocation functions(delete and
+delete[])和destructor默认noexcept，除非显式声明（比如noexcept(false)）</p>
+<p>条件noexcept</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911092419767.png" srcset="/img/loading.gif" lazyload /></p>
+<p>当声明一个函数noexcept时，compiler并不会检查它的具体实现是否调用了non-noexcept的函数，因为一些历史遗留的函数可能是noexcept但并没有这样声明。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911101702435.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="use-constexpr-whenever-possible">Use constexpr whenever
+possible</h3>
+<p>const的object未必在编译时已知，而constexpr的object一定已知。</p>
+<p>即all constexpr objects are const, but not all const objects are
+constexpr</p>
+<p>C++11
+constexpr只能一个语句，也就是return语句。可以用?:实现if-else，用递归实现循环。</p>
+<p>C++14则没有该要求。</p>
+<p>constexpr function只能用和返回literal
+type(除void外的内置类型以及constexpr的构造函数的用户自定义类)</p>
+<p>C++11中constexpr的member
+function是隐式const的，所以不能修改成员变量（constructor除外），且void不是literal
+type，所以setters不能设为constexpr，但C++14移除了这两个限制，所以可以。</p>
+<p>constexpr在传入编译时已知的参数时是编译器已知的，否则是运行时已知的。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911112325570.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="make-const-member-functions-thread-safe">Make const member
+functions thread safe</h3>
+<p>使用mutable关键字的成员变量使得即使是const的member
+function也可以对其进行修改。</p>
+<p>一般情况下，const的member
+function是线程安全的，但由于mutable的成员变量可以被const的member
+function修改，该函数不再线程安全。</p>
+<p>如果只是添加一个互斥锁，</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911114124655.png" srcset="/img/loading.gif" lazyload /></p>
+<p>看样子能解决问题，但实际上由于std::mutex只能move，不能copy，反而使得Polynomial无法被copy了。</p>
+<p>但没有更好的解决办法。</p>
+<p>当只需要维护一个变量时，std::atomic可能是更高效的选择。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911133749655.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="understand-special-member-function-generation">Understand
+special member function generation</h3>
+<p>Generated special member functions are implicitly public and inline,
+and they are non-virtual unless it is a destructor derived from a
+virtual destructor.</p>
+<p>只有用到了copy、move，响应的special member function才会被生成。</p>
+<p>copy constructor和copy assignment operator之间相互独立</p>
+<p>default move constructor、move assignment will try to do memberwise
+move. If move operation is disabled for one member, use copy instead for
+that member.</p>
+<p>两个copy
+operation之间相互独立，声明了一个并不会阻止编译器自动生成另一个。</p>
+<p>两个move operation之间不独立，
+声明一个会阻止编译器自动生成另一个。</p>
+<p>如果至少显式声明了一个copy operation，编译器将不会生成move
+operations。</p>
+<p>反过来，如果至少显式声明了一个move operation，编译器也不会生成copy
+operations.</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911140109104.png" srcset="/img/loading.gif" lazyload /></p>
+<p>It is better to obey the rule for copy too.</p>
+<p>如果编译器生成的special memory
+function能满足需求，那么可以显式地用=default。</p>
+<p>即使编译器生成的special memory
+function满足你的需求，也建议用=default显式声明，因为简单的修改可能对该未声明的函数产生难以察觉的影响（比如加入destructor导致默认的move
+operations失效，最终调用了copy，导致效率降低）</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911144452898.png" srcset="/img/loading.gif" lazyload /></p>
+<p>模板函数不会影响special memory function的产生。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911144724768.png" srcset="/img/loading.gif" lazyload /></p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911144739983.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="smart-pointers">Smart Pointers</h2>
+<p>除非你要用C++98，否则应用std::unique_ptr而不是std::auto_ptr</p>
+<h3
+id="use-stdunique_ptr-for-exclusive-ownership-resource-management">Use
+std::unique_ptr for exclusive-ownership resource management</h3>
+<p>可以将std::unique_ptr的性能开销看作与raw
+ptr相同。（用默认的deleter或stateless function object时）</p>
+<p>move-only</p>
+<p>unique_ptr的第二个模板参数可以指定析构函数</p>
+<p>用函数需要函数指针，但用stateless function object（比如lambda
+expressions with no captures）则unique_ptr不需要额外空间。</p>
+<p>std::unique_ptr有两种形式，<code>std::unique_ptr&lt;T&gt;</code>和<code>std::unique_ptr&lt;T[]&gt;</code>，所以不存在模糊性。</p>
+<p><code>std::unique_ptr&lt;T&gt;</code>没有[]操作符，<code>std::unique_ptr&lt;T[]&gt;</code>没有*和-&gt;操作符</p>
+<p><code>std::unique_ptr</code>可以轻松地转换成<code>std::shared_ptr</code></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911175645811.png" srcset="/img/loading.gif" lazyload /></p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911175731305.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="use-stdshared_ptr-for-shared-ownership-resource-management">Use
+std::shared_ptr for shared-ownership resource management</h3>
+<p>std::shared_ptr占用的空间是原生指针的两倍，因为它还需要一个指向reference
+count的指针。</p>
+<p>reference
+count的内存必须动态分配（std::make_shared可以避免动态分配），这样多个std::shared_ptr才能指向同一个。</p>
+<p>Increment and decrement on reference count must be atomic.</p>
+<p>Move不需要改变reference count，因而快于copy。</p>
+<p>std::shared_ptr同样支持自定义deleter，但略有不同，不需要模板的第二个参数。这使得不同deleter属于同一类型，更灵活。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911193243738.png" srcset="/img/loading.gif" lazyload /></p>
+<p>自定义deleter的大小并不会影响std::shared_ptr的大小。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911194110707.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911194553588.png" srcset="/img/loading.gif" lazyload /></p>
+<p>使用shared_ptr容易犯以下错误：</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911200732659.png" srcset="/img/loading.gif" lazyload /></p>
+<p>emplace_back(this)会重复申请control block。</p>
+<p>一种可行的解决方法是将该类T继承自<code>std::enable_shared_from_this&lt;T&gt;</code></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911200857101.png" srcset="/img/loading.gif" lazyload /></p>
+<p>使用<code>shared_from_this</code>时必须确保该object已有<code>shared_ptr</code>。</p>
+<p>为实现这点，该类往往将ctor声明为private，用工厂函数创建。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911202057147.png" srcset="/img/loading.gif" lazyload /></p>
+<p>control block甚至还有一个虚函数，用于确保指向的物体被正确析构。</p>
+<p>std::shared_ptr不能用于数组，也不应用于数组。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220911203126722.png" srcset="/img/loading.gif" lazyload /></p>
+<h3
+id="use-stdweak_ptr-for-stdshared_ptr-like-pointers-that-can-dangle">Use
+std::weak_ptr for std::shared_ptr-like pointers that can dangle</h3>
+<p>std::weak_ptr没有dereference操作。</p>
+<p>std::weak_ptr::expired()用于检测指针是否悬空，但实际使用中往往容易线程不安全。</p>
+<p>std::weak_ptr::lock()用于检测指针是否悬空，不悬空则返回shared_ptr，这就使得之后的使用中不会悬空。</p>
+<p>当不需要参与对象生命周期的管理，而只在意指针是否悬空时，采用。</p>
+<p>可以避免shared_ptr之间的循环引用的问题。</p>
+<p>std::weak_ptr的开销可以看作和shared_ptr一致。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912083212046.png" srcset="/img/loading.gif" lazyload /></p>
+<h3
+id="prefer-stdmake_unique-and-stdmake_shared-to-direct-use-of-new">Prefer
+std::make_unique and std::make_shared to direct use of new</h3>
+<p>std::make_unique在C++14才有，在C++11中可以这样定义。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912083738741.png" srcset="/img/loading.gif" lazyload /></p>
+<p>std::allocate_shared和std::make_shared类似，但它的第一个参数指定了一个allocator对象用于内存分配。</p>
+<p>用new的指针作为参数初始化智能指针可能会由于异常发生内存泄漏。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912091716561.png" srcset="/img/loading.gif" lazyload /></p>
+<p>如果先执行new
+Widget，再执行computePriority()，再构造std::shared_ptr，在执行computePriority的时候抛出异常，那么new
+Widget分配的内存空间将被泄漏。而使用std::make_shared则不会有该问题（exception
+safety）。</p>
+<p>用new出来的指针作为参数初始化shared_ptr需要两次内存分配（一次new，一次control
+block），但std::make_shared会一次性分配内存给这两个内容，因而效率更高。</p>
+<hr />
+<p>make的缺点</p>
+<ul>
+<li>不能指定deleter</li>
+<li>采用parentheses initializer而不是braced
+initializer。如果想要使用braced
+initializer，可以用auto声明{}对象再传入。</li>
+<li>由于control
+block和object的内存空间是一并allocate的，所以必须一起deallocate。所以只有当所有std::shared_ptr和std::weak_ptr被释放之后（reference
+count和weak count都为0），它们的空间才会被释放（这也是为什么需要weak
+count）。所以对于一些特别大的而且最后一个指针被析构特别迟的object，make并不是很实用，直接new对内存的利用效率会更高（只需要等最后一个shared_ptr被析构就会被释放）。</li>
+<li>对于自己定义了new和delete的类，make并不适用，因为它们往往只分配自己需要的确切空间。</li>
+</ul>
+<blockquote>
+<p>事实上，只要注意一点，new也可以exception safety.</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912133351058.png" srcset="/img/loading.gif" lazyload /></p>
+<p>但是注意这次传递的是lvalue，也就意味着copy，而copy对于std::shared_ptr意味着atomic的increment，并不高效，应采用下面的方法。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912133844431.png" srcset="/img/loading.gif" lazyload /></p>
+</blockquote>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912134023376.png" srcset="/img/loading.gif" lazyload /></p>
+<h3
+id="when-using-the-pimpl-idiom-define-special-member-functions-in-the-implementation-file">When
+using the Pimpl Idiom, define special member functions in the
+implementation file</h3>
+<h4 id="pimpl-idiom-in-c98">Pimpl Idiom in C++98</h4>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912160236004.png" srcset="/img/loading.gif" lazyload /></p>
+<p>在上面的实现中，widget.h需要include
+<code>&lt;string&gt;</code>、<code>&lt;vector&gt;</code>、<code>gadget.h</code>，这意味着编译更加费时而且一旦这些文件有修改都需要重新编译。</p>
+<p>而Pimpl
+Idiom将这一系列private且没有getter的成员变量封装到struct中，struct的具体成员组成放到.cpp中，使得include
+widget.h的文件不再include
+<code>&lt;string&gt;</code>、<code>&lt;vector&gt;</code>、<code>gadget.h</code>。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912160252560.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912160728733.png" srcset="/img/loading.gif" lazyload /></p>
+<h4 id="pimpl-idiom-with-smart-pointer">Pimpl Idiom with smart
+pointer</h4>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912160932909.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912160950413.png" srcset="/img/loading.gif" lazyload /></p>
+<p>这样子的实现看样子没有问题且能正确编译，但是一旦使用该类编译器就会报错。这是因为默认的析构函数是inline的，在头文件中，而头文件的该类型是incomplete的，所以应在头文件中声明该析构函数并在.cpp中实现（=default或={}），确保实现时类型已经complete。（此问题只对std::unique_ptr出现，std::shared_ptr不要求类型完整）</p>
+<p>值得注意的是，由于声明了析构函数，编译器将不会产生move
+operations，而move对于std::shared_ptr的效率来说意义较大，所以也应声明并在cpp中实现（如果在.h中实现会报相同的错，因为move需要destroy）</p>
+<p>此外，由于编译器不会为含move-only的成员变量的类生成copy
+oprations，需要自己实现deep copy。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912162714114.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="rvalue-references-move-semantics-and-perfect-forwarding">Rvalue
+References, Move Semantics and Perfect Forwarding</h2>
+<h3 id="stdmove-and-stdforward">std::move and std::forward</h3>
+<p>它们实际上不做任何事（runtime），而只是cast。</p>
+<p>std::move无条件地将它的参数cast成rvalue</p>
+<p>std::forward cast to rvalue only if its argument was initialized with
+an
+rvalue.（也就是是让lvalue保持lvalue，rvalue保持rvalue。由于函数的参数始终为lvalue，所以这是必要的）</p>
+<p>don't declare objects const if you want to be able to move from them.
+这样的做法经常会变成copy。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912191705100.png" srcset="/img/loading.gif" lazyload /></p>
+<h3
+id="distinguish-universal-references-from-rvalue-references">Distinguish
+universal references from rvalue references</h3>
+<h4 id="universal-reference">universal reference</h4>
+<p>共两种情况</p>
+<ul>
+<li><p>作为模板参数，必须严格是<code>T&amp;&amp;</code>（<code>const T&amp;&amp;</code>、<code>std::vector&lt;T&gt;&amp;&amp;</code>之类的都不是universal
+reference）且存在类型推导</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912193527006.png" srcset="/img/loading.gif" lazyload /></p></li>
+<li><p>auto</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912193555456.png" srcset="/img/loading.gif" lazyload /></p></li>
+</ul>
+<p>下面的例子由于不存在类型推导所以不是universal reference.</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912194642207.png" srcset="/img/loading.gif" lazyload /></p>
+<p>下图则属于univeresal reference。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912194838777.png" srcset="/img/loading.gif" lazyload /></p>
+<p>auto&amp;&amp;通常出现在C++14的lambda表达式的参数列表中。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912200048684.png" srcset="/img/loading.gif" lazyload /></p>
+<h3
+id="use-stdmove-on-rvalue-references-stdforward-on-universal-references">Use
+std::move on rvalue references, std::forward on universal
+references</h3>
+<p>即使一个物体不支持move，在作为函数的返回值时也可以将它转成rvalue，这并不会影响什么，程序会照常copy它，而当它后来改变成支持move时就能自然而然得到效率提高。</p>
+<p>没有必要将函数内部使用且返回的局部变量cast成rvalue，因为C++一直有一个机制return
+value
+optimization（RVO），即当函数的返回值是它内部的局部变量时，将要返回的局部变量直接构造在分配好的用于返回的内存空间，这样就避免了copy。</p>
+<p>而一旦使用std::move，就会不满足RVO的条件，那么函数存放返回值的地方就不会存着该局部变量，需要真正执行一次move。</p>
+<p>当函数有不同的执行路径，可能返回不同的局部变量时，RVO可能不会被实现。但这种情况依然不需要使用std::move。因为当编译器知道自己不能实现时，会自行将返回值转成右值，即std::move。</p>
+<p>perfect-forward不会为了确认参数类型而构造临时object（比如literal的字符串传给universal
+reference，再forward，这个literal在传给universal
+reference的时候不需要被构造，而是直接forward(literal)）</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220912212334979.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="avoid-overloading-on-universal-references">Avoid overloading on
+universal references</h3>
+<p>universal
+reference能匹配绝大多数的参数，如果重载了int，但调用时用short，short会被universal
+reference匹配上而不是int，这往往会造成不想要的结果。</p>
+<p>Compiler产生的copy是const
+T&amp;，一旦传参数时传的不是const，universal
+reference的函数就会因为准确匹配而代替copy操作。</p>
+<p>当涉及到继承时，copy和move也不会像想象中那样运作。</p>
+<blockquote>
+<p>Person实现了universal reference</p>
+</blockquote>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220913230211061.png" srcset="/img/loading.gif" lazyload /></p>
+<p>Person(rhs)和Person(std::move(rhs))都会匹配上universal
+reference（rhs是SpecialPerson而不是Person，这就导致没法直接匹配上）。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220913230419704.png" srcset="/img/loading.gif" lazyload /></p>
+<h3
+id="familiarize-yourself-with-alternatives-to-overloading-on-universal-references">Familiarize
+yourself with alternatives to overloading on universal references</h3>
+<h4 id="use-tag-dispatch">Use tag dispatch</h4>
+<p>通过引入一个新的参数来解决问题，只要该参数在我们想调用重载函数时不会和universal
+reference的参数匹配上就可以了。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220914172028904.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220914172044434.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220914172233280.png" srcset="/img/loading.gif" lazyload /></p>
+<p>一些编译器会优化掉这些运行时并不起作用的tag。</p>
+<hr />
+<p>但这还只解决了部分问题，仍存在两个问题。</p>
+<ul>
+<li><p>编译器生成的copy是const T&amp;，想调用copy时依然可能被universal
+reference抢占。</p></li>
+<li><p>子类调用它的copy、move依然会出现匹配上universal
+reference的问题。</p></li>
+</ul>
+<p>第一个问题可以用以下方法解决。（std::decay用于去reference-ness和const-ness和volatile-ness）</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220915092310444.png" srcset="/img/loading.gif" lazyload /></p>
+<p>第二个问题的解决需要用到<code>std::is_base_of&lt;T1, T2&gt;</code>，当T1是T2基类时为true。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220915092632548.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220915092714028.png" srcset="/img/loading.gif" lazyload /></p>
+<p>再将int问题一并解决，最终解决方案如下</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220915092959859.png" srcset="/img/loading.gif" lazyload /></p>
+<h4 id="trade-off">Trade-off</h4>
+<p>perfect-forward不会为了确认参数类型而构造临时object（比如literal的字符串传给universal
+reference，再forward，这个literal在传给universal
+reference的时候不需要被构造，而是直接forward(literal)）。</p>
+<p>一些参数无法被forward。</p>
+<p>编译器的报错可能难以读懂。可以用static_assert辅助。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220915094656794.png" srcset="/img/loading.gif" lazyload /></p>
+<p>但是由于std::forward在static_assert的上方，static_assert的信息往往在很长的std::forward报错的下方。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220915094759775.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="understand-reference-collapsing">Understand reference
+collapsing</h3>
+<p>模板实例化的时候会发生reference
+collapsing，将reference-to-reference变成reference.</p>
+<p>If either reference is an lvalue reference, the result is an lvalue
+reference. Otherwise (i.e., if both are rvalue references) the result is
+an rvalue reference.</p>
+<p>由于该机制，forward可以如下图简单实现。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220915101121245.png" srcset="/img/loading.gif" lazyload /></p>
+<p>auto同样会发生reference collapsing。</p>
+<p>所以universal reference的本质就是type
+deduction区分lvalue和rvalue、reference collapsing发生。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220915101912509.png" srcset="/img/loading.gif" lazyload /></p>
+<h3
+id="assume-that-move-operations-are-not-present-not-cheap-and-not-used">Assume
+that move operations are not present, not cheap and not used</h3>
+<p>move operations并不总像我们想象中那样快。</p>
+<p>对于大多数标准容器，它们内部有指针，指向heap上分配的空间，这部分的move是很快的，只需要指针的赋值。</p>
+<p>但对于特殊的容器，比如std::array，它的数据是放在object内部的，所以move时需要将整个object内的数据move，并不很快。</p>
+<p>std::string的很多种实现里都有一种small string
+optimization（SSO）的机制，即将长度小于等于15的字符串直接放在object内部而不是动态分配heap。而短字符串是很多应用场景下的字符串用法，所以它的move也并没有想象中那么快。</p>
+<p>由于C++98的代码遗留问题，为了保证exception
+safety，标准库中的一些move只有当noexcept的时候才会被编译器使用</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220915105423152.png" srcset="/img/loading.gif" lazyload /></p>
+<h3
+id="familiarize-yourself-with-perfect-forwarding-failure-cases">Familiarize
+yourself with perfect forwarding failure cases</h3>
+<p>对于这样一个函数</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220915163112608.png" srcset="/img/loading.gif" lazyload /></p>
+<p>如果下面两种形式都能正确被编译执行，那就是成功forward。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220915163232780.png" srcset="/img/loading.gif" lazyload /></p>
+<ul>
+<li>braced initializers
+<ul>
+<li>compiler不会直接将{}类型推导为std::initializer_list</li>
+<li>可以引入一个auto变量（std::initializer_list）</li>
+</ul></li>
+<li>declaration-only integral const static data members
+<ul>
+<li>这种变量实际上不会被分配内存，是编译期的常量，所以没法生成reference。</li>
+<li>可以通过definition解决。</li>
+</ul></li>
+<li>template and overloaded function names
+<ul>
+<li>对于有重载或模板类的函数，无法正确推导出具体是哪个。</li>
+<li><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220915170337452.png" srcset="/img/loading.gif" lazyload /></li>
+<li><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220915170402584.png" srcset="/img/loading.gif" lazyload /></li>
+</ul></li>
+<li>bitfields
+<ul>
+<li><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220915163943933.png" srcset="/img/loading.gif" lazyload /></li>
+<li>bitfield实现了按位的任意拆分访问，因为无法生成对任意位的reference，所以是不允许对非const的bitfield进行的。</li>
+<li>通过copy解决</li>
+<li><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220915164726436.png" srcset="/img/loading.gif" lazyload /></li>
+</ul></li>
+</ul>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220915162856697.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="lambda-expressions">Lambda Expressions</h2>
+<p>lambda表达式会被编译成closure class，运行时会生成closure。</p>
+<h3 id="avoid-default-capture-modes">Avoid default capture modes</h3>
+<ul>
+<li><p>当使用default by-reference [&amp;]
+capture时，往往容易忽略捕捉到的变量的生命周期，导致dangling。比如将lambda表达式存入vector中，而该lambda中含有局部变量的reference，一旦离开这个scope就会导致lambda里面捕捉的reference
+dangling。</p></li>
+<li><p>静态变量是不需要捕获也不能显式捕获的，静态变量相当于引用，可以直接在lambda表达式中使用。当使用default
+by-value [=] capture时，容易误以为是值捕获。</p></li>
+<li><p>当想要捕获成员变量（divisor）时</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220916150853258.png" srcset="/img/loading.gif" lazyload /></p>
+<p>它的实际效果其实如下图</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220916150941863.png" srcset="/img/loading.gif" lazyload /></p>
+<p>并不是我们想要的值捕获</p></li>
+</ul>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220916151047008.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="use-init-capture-to-move-objects-into-closures">Use init capture
+to move objects into closures</h3>
+<p>C++14引入了init capture（generalized lambda
+capture）机制，类似于函数的初始化，等号左边的作用域和右边的作用域不同。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220916161647661.png" srcset="/img/loading.gif" lazyload /></p>
+<p>C++11可以用std::bind模拟。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220916161802715.png" srcset="/img/loading.gif" lazyload /></p>
+<p>std::bind会将左值以copy的方式，右值以move的方式传递。</p>
+<p>声明为const是因为默认情况下lambda表达式的函数为const。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220916221116091.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="use-delctype-on-auto-parameters-to-stdforward-them">Use delctype
+on auto&amp;&amp; parameters to std::forward them</h3>
+<p>C++14有一个新特性——generic
+lambdas，即参数列表中的参数类型可以用auto。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220916222340494.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220916222354988.png" srcset="/img/loading.gif" lazyload /></p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220916222550752.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="prefer-lambdas-to-stdbind">Prefer lambdas to std::bind</h3>
+<ul>
+<li><p>如果使用std::bind，对于有重载的函数，由于编译器不能推断是哪个，会编译错误。为解决该错误需要static_cast函数的类型。</p></li>
+<li><p>使用std::bind对某些表达式需要较复杂的处理。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220916230834674.png" srcset="/img/loading.gif" lazyload /></p>
+<p>上面的lambda表达式不能直接改成下面的。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220916230857538.png" srcset="/img/loading.gif" lazyload /></p>
+<p>而应该这样。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220916231019315.png" srcset="/img/loading.gif" lazyload /></p>
+<p>不过C++11由于模板参数不能省略，则更麻烦一点。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220916231121757.png" srcset="/img/loading.gif" lazyload /></p></li>
+<li><p>由于用std::bind实现可能更复杂，这也导致它更难以被inline实现。</p></li>
+</ul>
+<p>还有例子可以体现复杂性。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220916231740442.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220916231752174.png" srcset="/img/loading.gif" lazyload /></p>
+<p>构造std::bind时std::bind始终复制它的参数，而调用构造好的bind
+object时传递的参数为reference。</p>
+<p>在C++14中，没有理由继续使用std::bind。</p>
+<p>但在C++11中，由于lambda表达式不支持auto，可以用std::bind调用模板函数来实现；由于lambda表达式不支持move
+capture，可以用std::bind结合lambda表达式实现。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220917100630054.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="the-concurrency-api">The Concurrency API</h2>
+<h3 id="prefer-task-based-programming-to-thread-based">Prefer task-based
+programming to thread-based</h3>
+<p>std::async是task-based的，它可以减轻管理线程的负担，而且可以得到执行的任务的返回值。而std::thread则无法得到返回值，并且如果throw了exception，那么将导致程序终止。</p>
+<p>除非对线程很了解并且需要自定义线程的管理方式来极大化运行效率、涉及底层API的调用或者需要设置线程的优先级，否则最好使用std::async。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220917131000217.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="specify-stdlaunchasync-if-asnchronicity-is-essential">Specify
+std::launch::async if asnchronicity is essential</h3>
+<p>std::async可以用std::launch指定policy。std::launch::async使得它只能在其他线程上运行，std::launch::deferred使得它只有在它返回的future的get或wait方法被调用时才会被执行，也就是同步在该线程上执行。std::async的默认值实际上就是std::launch::async|std::launch::deferred。</p>
+<p>默认的std::async不能很好地和thread_local
+variable一同使用，因为无法控制该task在哪个线程中使用。</p>
+<p>deferred的线程不会被wait_for阻塞，而且由于它只有在它返回的future的get或wait方法被调用时才会被执行，下面的代码并不能正常工作（当fut为deferred的时候）。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220921221852361.png" srcset="/img/loading.gif" lazyload /></p>
+<p>这种问题并不容易被发现，只有当线程使用较多，程序倾向于分配deferred的时候才容易发生。</p>
+<p>为了判断fut是否是deferred，可以用wait_for函数，因为如果是deferred则它的返回值是std::future_status::deferred。由于不需要等待，所以wait_for(0s)。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220921222435507.png" srcset="/img/loading.gif" lazyload /></p>
+<p>可以直接使用默认的std::async的场合</p>
+<ul>
+<li>fut的get或wait一定会被调用 或者 该任务允许不被执行</li>
+<li>使用wait_for或wait_until的地方应对deferred作检查</li>
+<li>不在意用的是那个thread的thread_local变量</li>
+</ul>
+<p>当需要异步时，可以直接指定。下面提供了一个方便的函数。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220921225007282.png" srcset="/img/loading.gif" lazyload /></p>
+<p>C++14中可以直接用auto指定返回类型。</p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220921225243340.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="make-stdthreads-unjoinable-on-all-paths">Make std::threads
+unjoinable on all paths</h3>
+<p>std::thread object: C++线程的实例</p>
+<p>an underlying thread: 计算机中真正的线程</p>
+<p>std::thread
+object有两个状态，joinable和unjoinable。joinable指underlying
+thread能够或者正在运行，被阻塞或等待调度。unjoinable包括default-constructed、be
+moved from、have been joined、have been
+detached（即没有underlying的thread就是unjoinable）。</p>
+<p>joinable的thread的析构发生时，程序会终止。</p>
+<p>因而使得所有thread在out of scope的时候都unjoinable是很重要的。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220921234105788.png" srcset="/img/loading.gif" lazyload /></p>
+<p>注意std::thread最后声明，因为std::thread一旦被初始化随时可能运行，要确保其他变量已经初始化好了。对于unjoinable的对象调用join、detach是未定义行为，应避免。</p>
+<p>由于std::thread object从joinable变成unjoinable只能通过function
+call比如join、detach、move
+operation，而在析构发生时它们不会被调用，所以不会存在多线程的data
+race现象导致析构时的判断过时。</p>
+<p>析构时join对性能有一定影响，可能会造成不必要的等待（以及hung
+program）。析构时detach会造成预料之外的数据修改。</p>
+<p>要想更好地实现，需要与underlying thread进行通信。</p>
+<p>由于上面的ThreadRAII实现了析构函数，编译器将不会生成move
+oprations。但理应支持。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220921235811499.png" srcset="/img/loading.gif" lazyload /></p>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220921235842236.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="be-aware-of-varying-thread-handle-destructor-behavior">Be aware
+of varying thread handle destructor behavior</h3>
+<p>线程的返回值既不能存在被调用的线程（callee）中（因为执行完就销毁了），也不能以future的形式存放在调用线程的线程（caller）中（因为future可以用来move创建std::shared_future，std::shared_future又可以被多次copy），而是放在动态申请的空间Shared
+State中。</p>
+<ul>
+<li>The destructor for the last future referring to a shared state for a
+non-deferred task launched via std::async blocks until the task
+completes</li>
+<li>The destructor for all other futures simply destroys the future
+object.</li>
+</ul>
+<hr />
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220923144741075.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="something-else-to-learn">Something else to learn</h2>
+<p>The Curiously Recurring Template Pattern(CRTP)</p>
+<p>std::multiset</p>
+<p>std::enable_if、SFINAE</p>
+<p>std::launch::async当真的没有线程可以分配时会发生什么</p>
+<p>C++14支持单引号作为数字分隔符</p>
+<p>std::promise</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/" class="category-chain-item">长篇笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/C/" class="category-chain-item">C++</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/C/" class="print-no-link">#C++</a>
+      
+        <a href="/tags/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/" class="print-no-link">#长篇笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Effective Modern C++ 笔记</div>
+      <div>http://example.com/2022/09/09/长篇笔记/C++/Effective Modern C++ Note/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JointHex</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年9月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/09/30/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/C++/C++%20Concurrency%20in%20Action%20Note/" title="C++ Concurrency in Action笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C++ Concurrency in Action笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/29/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/DeepLearning/" title="Deep Learning">
+                        <span class="hidden-mobile">Deep Learning</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,2468 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JointHex">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="学习GAMES101课程时记录的笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GAMES101笔记">
+<meta property="og:url" content="http://example.com/2021/07/20/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/%E5%9B%BE%E5%BD%A2%E5%AD%A6/GAMES101/index.html">
+<meta property="og:site_name" content="JointHex的技术分享站">
+<meta property="og:description" content="学习GAMES101课程时记录的笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220111151358713.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220112121004069.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220112122248910.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220112151908323.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220112152516378.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220113100646330.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220113100836907.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220113102039971.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220113102421608.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220113102505824.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220113103933151.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220113104419361.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220114195034047.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220217133115318.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220217133142577.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220213074232375.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220213105858831.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220213113410974.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220213113706200.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220213223643583.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214133608595.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214133954352.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214155259275.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214155617928.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214200603608.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214203327120.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214203600907.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214204403412.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214205120397.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220215082729122.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220215083238522.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220222114821749.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220215120339918.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220215125415525.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220215131314587.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220218214231011.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220219151539492.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220219152037164.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220219152327527.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220219152224645.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220219153533705.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220219154642400.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220219160125149.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220219211046136.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220220152548486.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220220152810150.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220220153435763.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220220170538961.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220220183931335.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220220185347747.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220220185933827.png">
+<meta property="og:image" content="c:\Users\Zg\AppData\Roaming\Typora\typora-user-images\image-20220221101459812.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220221101732985.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220221102606985.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220221105906914.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220221110422581.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220221111251223.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220221112217688.png">
+<meta property="article:published_time" content="2021-07-20T02:00:00.000Z">
+<meta property="article:modified_time" content="2024-03-04T06:09:24.681Z">
+<meta property="article:author" content="JointHex">
+<meta property="article:tag" content="长篇笔记">
+<meta property="article:tag" content="图形学">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220111151358713.png">
+  
+  
+  
+  <title>GAMES101笔记 - JointHex的技术分享站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>JointHex的技术分享站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/NPR.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="GAMES101笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-07-20 10:00" pubdate>
+          2021年7月20日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          102 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">GAMES101笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="计算机图形学">计算机图形学</h1>
+<h2 id="变换transformation">变换（Transformation）</h2>
+<p><strong>MVP</strong></p>
+<ul>
+<li>Model transformation （placing objects）</li>
+<li>View transformation（placing camera）</li>
+<li>Projection transformation</li>
+</ul>
+<h3 id="二维变换">二维变换</h3>
+<h4 id="线性变换">线性变换</h4>
+<h5 id="定义">定义</h5>
+<p>对于变换后的x‘、y’，如果满足以下关系 <span class="math display">\[
+x&#39;=ax+bx\\
+y&#39;=cx+dy
+\]</span></p>
+<p>则称这种变换为线性变换。线性变换可以用矩阵方式表示为 <span
+class="math display">\[
+\left[
+\begin{matrix}
+x&#39;\\
+y&#39;
+\end{matrix}
+\right]
+=M \times
+\left[
+\begin{matrix}
+x\\
+y
+\end{matrix}
+\right]
+\]</span> 其中M称为变换矩阵，有 <span class="math display">\[
+M=
+\left[
+\begin{matrix}
+a &amp; b\\
+c &amp; d
+\end{matrix}
+\right]
+\]</span></p>
+<h5 id="常见变换矩阵">常见变换矩阵</h5>
+<h6 id="缩放矩阵scale-matrix">缩放矩阵（Scale Matrix）</h6>
+<p><span class="math display">\[
+S(s_x,s_y)=
+\left[
+\begin{matrix}
+s_x &amp; 0\\
+0 &amp; s_y
+\end{matrix}
+\right]
+\]</span></p>
+<h6 id="对称矩阵refletion-matrix">对称矩阵（Refletion Matrix）</h6>
+<p><span class="math display">\[
+关于y轴对称
+\left[
+\begin{matrix}
+-1 &amp; 0\\
+0 &amp; 1
+\end{matrix}
+\right]
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+关于x轴对称
+\left[
+\begin{matrix}
+1 &amp; 0\\
+0 &amp; -1
+\end{matrix}
+\right]
+\]</span></p>
+<h6 id="错切矩阵shear-matrix">错切矩阵（Shear Matrix）</h6>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220111105034614.png" srcset="/img/loading.gif" lazyload />
+<span class="math display">\[
+\left[
+\begin{matrix}
+1 &amp; \frac a b\\
+0 &amp; 1
+\end{matrix}
+\right]
+\]</span></p>
+<h6 id="旋转矩阵rotation-matrix">旋转矩阵（Rotation Matrix）</h6>
+<p><span class="math display">\[
+R_\theta=
+\left[
+\begin{matrix}
+cos\theta &amp; -sin\theta\\
+sin\theta &amp; cos\theta
+\end{matrix}
+\right]
+\]</span></p>
+<p><span class="math inline">\(R_\theta\)</span>是正交矩阵。</p>
+<ul>
+<li><p>由三角函数性质可知<span
+class="math inline">\(R_{-\theta}=R_\theta^T\)</span></p></li>
+<li><p>由定义知<span class="math inline">\(R_{-\theta}
+=R_\theta^{-1}\)</span></p></li>
+</ul>
+<h4 id="仿射变换affine-map">仿射变换（Affine Map）</h4>
+<p>当引入平移（Translation）时，图形的变换不再是简单的线性变换。对于以下关系
+<span class="math display">\[
+x&#39;=ax+by+t_x\\
+y&#39;=cx+dy+t_y
+\]</span> 不能简单地用矩阵乘法表示，而需要引入加法。 <span
+class="math display">\[
+\left[
+\begin{matrix}
+x&#39;\\
+y&#39;
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}
+a &amp; b\\
+c &amp; d
+\end{matrix}
+\right]
+\times
+\left[
+\begin{matrix}
+x\\
+y
+\end{matrix}
+\right]
++
+\left[
+\begin{matrix}
+t_x\\
+t_y
+\end{matrix}
+\right]
+\]</span> 称以上变换为仿射变换。</p>
+<h4 id="齐次坐标">齐次坐标</h4>
+<blockquote>
+<p>为消除平移的特例，引入齐次坐标的概念。</p>
+</blockquote>
+<p>令2D point <span class="math inline">\(= (x,y,1)^T\)</span>，2D
+vector<span class="math inline">\(=(x,y,0)\)</span></p>
+<p>此时，矩阵的平移可以表示为 <span class="math display">\[
+\left[
+\begin{matrix}
+x&#39;\\
+y&#39;\\
+w&#39;
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}
+1 &amp; 0 &amp; t_x\\
+0 &amp; 1 &amp; t_y\\
+0 &amp; 0 &amp; 1
+\end{matrix}
+\right]
+\times
+\left[
+\begin{matrix}
+x\\
+y\\
+1
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}
+x + t_x\\
+y + t_y\\
+1
+\end{matrix}
+\right]
+\]</span> 对于point + point会出现的第三位非0、1的数，我们做以下规定
+<span class="math display">\[
+\left[
+\begin{matrix}
+x\\
+y\\
+w
+\end{matrix}
+\right]
+\ is\ the\ 2D\ point
+\left[
+\begin{matrix}
+x/w\\
+y/w\\
+1
+\end{matrix}
+\right]
+,w\neq0
+\]</span> 由此，可以发现两个点的和其实是它们的中点。</p>
+<p>可以将仿射变换用齐次坐标写作下面的形式： <span
+class="math display">\[
+\left[
+\begin{matrix}
+x&#39;\\
+y&#39;\\
+1
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}
+a &amp; b &amp; t_x\\
+c &amp; d &amp; t_y\\
+0 &amp; 0 &amp; 1
+\end{matrix}
+\right]
+\times
+\left[
+\begin{matrix}
+x\\
+y\\
+1
+\end{matrix}
+\right]
+\]</span></p>
+<h4 id="复合变换composite-transforms">复合变换（Composite
+Transforms）</h4>
+<p><span class="math display">\[
+\left[
+\begin{matrix}
+x&#39;\\
+y&#39;\\
+1
+\end{matrix}
+\right]
+=
+A_nA_{n-1}A_{n-2}...A_1
+\left[
+\begin{matrix}
+x\\
+y\\
+1
+\end{matrix}
+\right]
+\]</span></p>
+<p>观察仿射变换公式可以发现，进行仿射变换时先进行线性变换后进行平移，所以
+<span class="math display">\[
+T_{(t_x,t_y)}\times
+\left[
+\begin{matrix}
+a &amp; b &amp; 0\\
+c &amp; d &amp; 0\\
+0 &amp; 0 &amp; 1
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}
+a &amp; b &amp; t_x\\
+c &amp; d &amp; t_y\\
+0 &amp; 0 &amp; 1
+\end{matrix}
+\right]
+\]</span></p>
+<h3 id="三维变换">三维变换</h3>
+<h4 id="线性变换-1">线性变换</h4>
+<h5 id="缩放矩阵">缩放矩阵</h5>
+<p><span class="math display">\[
+S(s_x,s_y,s_z)=
+\left[
+\begin{matrix}
+s_x &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; s_y &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; s_z &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}
+\right]
+\]</span></p>
+<h5 id="平移矩阵">平移矩阵</h5>
+<p><span class="math display">\[
+T(t_x,t_y,t_z)=
+\left[
+\begin{matrix}
+1 &amp; 0 &amp; 0 &amp; t_x\\
+0 &amp; 1 &amp; 0 &amp; t_y\\
+0 &amp; 0 &amp; 1 &amp; t_z\\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}
+\right]
+\]</span></p>
+<h5 id="旋转矩阵">旋转矩阵</h5>
+<p><span class="math display">\[
+R_x(\alpha)=
+\left[
+\begin{matrix}
+1 &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; cos\alpha &amp; -sin\alpha &amp; 0\\
+0 &amp; sin\alpha &amp; cos\alpha &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}
+\right]\\
+R_y(\alpha)=
+\left[
+\begin{matrix}
+cos\alpha &amp; 0 &amp; sin\alpha &amp; 0\\
+0 &amp; 1 &amp; 0 &amp; 0\\
+-sin\alpha &amp; 0 &amp; cos\alpha &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}
+\right]\\
+R_z(\alpha)=
+\left[
+\begin{matrix}
+cos\alpha &amp; -sin\alpha &amp; 0 &amp; 0\\
+sin\alpha &amp; cos\alpha &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}
+\right]
+\]</span></p>
+<p>绕一通过原点的轴<span class="math inline">\(\vec
+n\)</span>转过，有如下矩阵 <span class="math display">\[
+R(n, \alpha)=cos(\alpha) + (1-cos(\alpha))\vec n\vec n^T + sin(\alpha)
+\left[
+\begin{matrix}
+0 &amp; -n_z &amp; n_y\\
+n_z &amp; 0 &amp; -n_x\\
+-n_y &amp; n_x &amp; 0
+\end{matrix}
+\right]
+\]</span> 其中，<strong>n</strong> <span class="math inline">\(= [n_x,
+n_y, n_z]^T\)</span></p>
+<h4 id="仿射变换">仿射变换</h4>
+<p>对二维变换直接增加一个维度，基本性质保持不变。 <span
+class="math display">\[
+\left[
+\begin{matrix}
+x&#39;\\
+y&#39;\\
+z&#39;\\
+1
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}
+a &amp; b &amp; c &amp; t_x\\
+d &amp; e &amp; f &amp; t_y\\
+g &amp; h &amp; i &amp; t_z\\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}
+\right]
+\times
+\left[
+\begin{matrix}
+x\\
+y\\
+z\\
+1
+\end{matrix}
+\right]
+\]</span></p>
+<h4 id="观测变换viewing-transformation">观测变换（Viewing
+Transformation）</h4>
+<h5 id="视图变换viewcamera-transformation">视图变换（View/Camera
+Transformation）</h5>
+<p>假设有这样一个相机</p>
+<ul>
+<li>位置Posion <span class="math inline">\(\vec e\)</span></li>
+<li>Look-at / gaze direction <span class="math inline">\(\hat
+g\)</span></li>
+<li>Up direction <span class="math inline">\(\hat t\)</span></li>
+</ul>
+<p>现将相机移动到原点，使其面向-Z方向，向上为Y方向（约定俗成的相机）。</p>
+<p><span class="math inline">\(M_{view} = R_{view}T_{view}\)</span>
+<span class="math display">\[
+T_{view}=
+\left[
+\begin{matrix}
+1 &amp; 0 &amp; 0 &amp; -x_e\\
+0 &amp; 1 &amp; 0 &amp; -y_e\\
+0 &amp; 0 &amp; 1 &amp; -z_e\\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}
+\right]
+\]</span> 直接考虑旋转<span class="math inline">\(\hat g\)</span>
+到-Z和<span class="math inline">\(\hat
+t\)</span>到Y并不方便，由于旋转矩阵是正交矩阵，不妨考虑它的逆。</p>
+<p>由 <span class="math display">\[
+\hat t = R_{view}^{-1} \times
+\left[
+\begin{matrix}
+0\\
+1\\
+0\\
+0
+\end{matrix}
+\right],
+-\hat g = R_{view}^{-1} \times
+\left[
+\begin{matrix}
+0\\
+0\\
+1\\
+0
+\end{matrix}
+\right]
+\]</span> 可以得到 <span class="math display">\[
+R_{view}^{-1}=
+\left[
+\begin{matrix}
+x_{\hat g \times \hat t} &amp; x_{\hat t} &amp; x_{-\hat g} &amp; 0\\
+y_{\hat g \times \hat t} &amp; y_{\hat t} &amp; y_{-\hat g} &amp; 0\\
+z_{\hat g \times \hat t} &amp; z_{\hat t} &amp; z_{-\hat g} &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}
+\right]
+\]</span> 由此 <span class="math display">\[
+R_{view}=
+\left[
+\begin{matrix}
+x_{\hat g \times \hat t} &amp; y_{\hat g \times \hat t} &amp; z_{\hat g
+\times \hat t} &amp; 0\\
+x_{\hat t} &amp; y_{\hat t} &amp; z_{\hat t} &amp; 0\\
+x_{-\hat g} &amp; y_{-\hat g} &amp; z_{-\hat g} &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}
+\right]
+\]</span>
+至此，就得到了视图转换的矩阵。再将对模型进行同样的转换，即完成了视图转换。由于视图转换也涉及到模型的转换，因此也被称为模型视图转换（ModelView
+Transformation）。</p>
+<h5 id="投影变换projection-transformation">投影变换（Projection
+Transformation）</h5>
+<h6 id="正交投影orthographic-projection">正交投影（Orthographic
+Projection）</h6>
+<p>我们将一个中心在原点的边长为2的且各边分别与x、y、z、轴平行的正方体成为标准立方体（canonical
+cube）。</p>
+<p>进行正交投影时，定义一个长方体<span class="math inline">\([l,
+r]\times [b,t]\times
+[f,n]\)</span>：（注意由于摄像机朝着-Z，远处的值更小）</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220111151358713.png" srcset="/img/loading.gif" lazyload alt="image-20220111151358713" style="zoom:50%;" /></p>
+<p>对它进行变换使之成为标准立方体，变换的矩阵为： <span
+class="math display">\[
+M_{ortho}=
+\left[
+\begin{matrix}
+\frac 2 {r-l} &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; \frac 2 {t-b} &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; \frac 2 {n - f} &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}
+\right]
+\left[
+\begin{matrix}
+1 &amp; 0 &amp; 0 &amp; -\frac {r+l} 2\\
+0 &amp; 1 &amp; 0 &amp; -\frac {t+b} 2\\
+0 &amp; 0 &amp; 1 &amp; -\frac {n+f} 2\\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}
+\right]
+\]</span></p>
+<blockquote>
+<p>OpenGL采用左手系是为了让远处的值更大</p>
+</blockquote>
+<h6 id="透视投影perspective-projection">透视投影（Perspective
+Projection）</h6>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220112121004069.png" srcset="/img/loading.gif" lazyload alt="image-20220112121004069" style="zoom:50%;" /></p>
+<p>先对透视投影进行处理使其转变为正交投影，再进行正交投影。</p>
+<p>如图所示，为将透视投影转变为正交投影，将透视的光线形成的立体图进行挤压，变成一个长方体。记变换前的点坐标为<span
+class="math inline">\([x,y,z]^T\)</span>，变换后的点坐标为<span
+class="math inline">\([x&#39;,y&#39;,z&#39;]^T\)</span>。 <span
+class="math display">\[
+\left[
+\begin{matrix}
+x&#39;\\
+y&#39;\\
+z&#39;\\
+1
+\end{matrix}
+\right]
+=
+M_{persp-&gt;ortho}
+\left[
+\begin{matrix}
+x\\
+y\\
+z\\
+1
+\end{matrix}
+\right]
+\]</span></p>
+<ul>
+<li>推导过程</li>
+</ul>
+<p>从侧面观察可以得到如下关系。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220112122248910.png" srcset="/img/loading.gif" lazyload alt="image-20220112122248910" style="zoom:50%;" /></p>
+<p>由相似关系易得，<span class="math inline">\(x&#39;=\frac n z
+x\)</span>，<span class="math inline">\(y&#39;=\frac n z
+y\)</span>。</p>
+<p>易知，对于近平面n上的任一点，变换后的点位置不变。对于远平面上的任一点，变换后的z'=z。</p>
+<p>需要注意的是，对于夹在两平面之间的点，它的<span
+class="math inline">\(z&#39;\neq z\)</span>。 <span
+class="math display">\[
+\left[
+\begin{matrix}
+x&#39;\\
+y&#39;\\
+z&#39;\\
+1
+\end{matrix}
+\right]
+&lt;=&gt;
+\left[
+\begin{matrix}
+\frac n z x\\
+\frac n z y\\
+unknown\\
+1
+\end{matrix}
+\right]
+&lt;=&gt;
+\left[
+\begin{matrix}
+nx\\
+ny\\
+unknown\\
+z
+\end{matrix}
+\right]
+\]</span></p>
+<p><span class="math display">\[
+\left[
+\begin{matrix}
+nx\\
+ny\\
+unknown\\
+z
+\end{matrix}
+\right]
+=M_{persp-&gt;ortho}
+\left[
+\begin{matrix}
+x\\
+y\\
+z\\
+1
+\end{matrix}
+\right]
+\]</span></p>
+<p>由此可得 <span class="math display">\[
+M_{persp-&gt;ortho}=
+\left[
+\begin{matrix}
+n &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; n &amp; 0 &amp; 0\\
+? &amp; ? &amp; ? &amp; ?\\
+0 &amp; 0 &amp; 1 &amp; 0
+\end{matrix}
+\right]
+\]</span> 而由近平面上点位置变化关系，可得 <span class="math display">\[
+M_{persp-&gt;ortho}
+\left[
+\begin{matrix}
+x\\
+y\\
+n\\
+1
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}
+nx\\
+ny\\
+n^2\\
+n
+\end{matrix}
+\right]
+\]</span> 所以<span
+class="math inline">\(M_{persp-&gt;ortho}\)</span>的第三行为（0 0 A B）,
+且有 <span class="math display">\[
+An + B = n^2\tag 1
+\]</span> 由远平面上中心点的位置变化关系可得 <span
+class="math display">\[
+M_{persp-&gt;ortho}
+\left[
+\begin{matrix}
+0\\
+0\\
+f\\
+1
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}
+0\\
+0\\
+f^2\\
+f
+\end{matrix}
+\right]
+\]</span> 于是有 <span class="math display">\[
+Af + B=f^2\tag 2
+\]</span> 联立（1）式、（2）式可得 <span class="math display">\[
+A=n+f\\
+B=-nf
+\]</span> 所以</p>
+<ul>
+<li>结论</li>
+</ul>
+<p><span class="math display">\[
+M_{persp-&gt;ortho}=
+\left[
+\begin{matrix}
+n &amp; 0 &amp; 0 &amp; 0\\
+0 &amp; n &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; n+f &amp; -nf\\
+0 &amp; 0 &amp; 1 &amp; 0
+\end{matrix}
+\right]
+\]</span></p>
+<p><span class="math display">\[
+M_{persp}=M_{ortho}M_{persp-&gt;ortho}
+\]</span></p>
+<blockquote>
+<p>带入两平面中点的坐标<span class="math inline">\([0, 0, \frac {n+f} 2
+, 1]\)</span>可以发现经变换后该点的z'更接近远平面。</p>
+</blockquote>
+<h5 id="视口变换viewport-transformation">视口变换（Viewport
+Transformation）</h5>
+<p>对于压缩成标准立方体之前的投影面，定义如下量</p>
+<ul>
+<li>Aspect ratio = width / height</li>
+<li>vertical field-of-view（fovY）</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220112151908323.png" srcset="/img/loading.gif" lazyload alt="image-20220112151908323" style="zoom:50%;" /></p>
+<p>有 <span class="math display">\[
+tan\frac {fovY}2 = \frac t {|n|}\\
+aspect = \frac r t
+\]</span> 通过视口变换将标准立方体变换到屏幕上。</p>
+<p>定义屏幕如下</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220112152516378.png" srcset="/img/loading.gif" lazyload alt="image-20220112152516378" style="zoom:50%;" /></p>
+<ul>
+<li><p>屏幕坐标从（0, 0）到（width -1, height - 1）</p></li>
+<li><p>像素点的中心为（x + 0.5, y + 0.5）</p></li>
+<li><p>屏幕覆盖范围为（0, 0）到（width, height）</p></li>
+</ul>
+<p>则视口变换矩阵为 <span class="math display">\[
+M_{viewport}=
+\left[
+\begin{matrix}
+\frac {width}2 &amp; 0 &amp; 0 &amp; \frac {width}2\\
+0 &amp; \frac{height}2 &amp; 0 &amp; \frac {height}2\\
+0 &amp; 0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{matrix}
+\right]
+\]</span></p>
+<h3 id="坐标变换">坐标变换</h3>
+<h4 id="切线空间世界空间">切线空间=&gt;世界空间</h4>
+<p><span class="math display">\[
+\left[
+\begin {matrix}
+x&#39;\\
+y&#39;\\
+z&#39;
+\end {matrix}
+\right]_{3\times1}=
+\left[
+\begin {matrix}
+T_x &amp; B_x &amp; N_x\\
+T_y &amp; B_y &amp; N_y\\
+T_z &amp; B_z &amp; N_z
+\end {matrix}
+\right]
+\times
+\left[
+\begin {matrix}
+x\\
+y\\
+z
+\end {matrix}
+\right]_{3\times1}
+\]</span></p>
+<ul>
+<li>其中<span class="math inline">\(M_{TBN}=\left[
+\begin {matrix}
+T_x &amp; B_x &amp; N_x\\
+T_y &amp; B_y &amp; N_y\\
+T_z &amp; B_z &amp; N_z
+\end {matrix}
+\right]\)</span>被称为TBN矩阵，N为法向量</li>
+<li><span class="math inline">\(T=\left[
+\begin {matrix}
+N_xN_y/\sqrt{(N_x^2+N_z^2)}\\
+\sqrt{N_x^2+N_z^2}\\
+N_zN_y/\sqrt{N_x^2+N_z^2}
+\end {matrix}
+\right]\)</span></li>
+<li><span class="math inline">\(B=N\times T\)</span></li>
+</ul>
+<h2 id="光栅化rasterize">光栅化（Rasterize）</h2>
+<p>光栅化：将图形绘制在屏幕上。</p>
+<ul>
+<li>对图形进行采样（Sampling），像素中心点在图形内部的绘上颜色。
+<ul>
+<li>对所有像素进行遍历</li>
+<li>生成Bounding Box，对Box内的像素点进行遍历。</li>
+<li>找到最底下的顶点后一层一层沿着边扫描上去。</li>
+</ul></li>
+<li>基于三角形的良好性质</li>
+<li>采样频率过低会导致走样（Aliasing），产生锯齿（Jaggies）</li>
+</ul>
+<h3 id="反走样antialiasing">反走样（Antialiasing）</h3>
+<p>对图形先进行模糊处理，再采样。</p>
+<h4 id="模糊处理">模糊处理</h4>
+<p><span class="math display">\[
+时域f(x)（Spatial\ domain)
+\begin{matrix}
+傅里叶变换\\
+----&gt;\\
+&lt;----\\
+傅里叶逆变换
+\end{matrix}
+频域F(x)（Frequency\ domain）
+\]</span></p>
+<p>时域</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220113100646330.png" srcset="/img/loading.gif" lazyload alt="image-20220113100646330" style="zoom: 33%;" /></p>
+<p>转换为频域</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220113100836907.png" srcset="/img/loading.gif" lazyload alt="image-20220113100836907" style="zoom:33%;" /></p>
+<blockquote>
+<p>频域图中心表示低频，周围表示高频，亮度表示信息的量</p>
+<p>十字线是由于做变换时图形四方延拓导致的</p>
+</blockquote>
+<h5 id="滤波">滤波</h5>
+<ul>
+<li>过滤掉特定的频率信息。</li>
+<li>高通滤波（High-pass filter）：只留下边界信息。</li>
+<li>低通滤波（Low-pass filter）：抹去边界信息，起到模糊的效果。</li>
+<li>卷积（Convolution）：用一个滤波盒，滤波盒与图像对应部分进行点乘，计算结果写回该部分中心，即取了一个区域的加权平均，能够起到模糊的作用。</li>
+<li>定理：<strong>时域的卷积等于频域的乘积</strong>，时域上的乘积意味着频域上的卷积。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220113102039971.png" srcset="/img/loading.gif" lazyload alt="image-20220113102039971" style="zoom: 50%;" /></p>
+<ul>
+<li>滤波盒时域与频域的对应关系：
+<ul>
+<li>滤波盒越大，留下的频率的范围越小</li>
+<li><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220113102421608.png" srcset="/img/loading.gif" lazyload alt="image-20220113102421608" style="zoom:50%;" /></li>
+<li><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220113102505824.png" srcset="/img/loading.gif" lazyload alt="image-20220113102505824" style="zoom:50%;" /></li>
+</ul></li>
+</ul>
+<blockquote>
+<p>走样在频域下的解释：</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220113103933151.png" srcset="/img/loading.gif" lazyload alt="image-20220113103933151" style="zoom: 67%;" /></p>
+<p>采样间隔太长会导致fs太小，频域的波形图发生混叠。</p>
+<p>由此，当我们将高频信号去掉时，就不会发生混叠，那么就能够达到反走样的目的。这也就是为什么先模糊后采样可以达到反走样的效果。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220113104419361.png" srcset="/img/loading.gif" lazyload alt="image-20220113104419361" style="zoom:50%;" /></p>
+</blockquote>
+<p>实际的操作中，用一个像素大小作为滤波盒，作卷积操作。</p>
+<p>对于一个像素，三角形可能覆盖部分，根据覆盖的面积进行求平均。</p>
+<p>一种近似方法：MSAA（Multiple Sample Antialiasing）。</p>
+<ul>
+<li>将一个像素划分成多个小的像素，判断小像素是否在三角形内，取平均值</li>
+</ul>
+<h4 id="其它的抗锯齿方案">其它的抗锯齿方案：</h4>
+<ul>
+<li>FXAA（Fast Approximate AA）
+<ul>
+<li>先得到一个有锯齿的图，再通过图像匹配找到边界并替换成没有锯齿的边界。</li>
+</ul></li>
+<li>TAA（Temporal AA）
+<ul>
+<li>根据上一帧的信息。</li>
+</ul></li>
+</ul>
+<h4 id="超分辨率">超分辨率</h4>
+<p>DLSS（Deep Learning Super Sampling）</p>
+<h3
+id="可见性与遮挡visibilityocclusion">可见性与遮挡（Visibility/Occlusion）</h3>
+<blockquote>
+<p>（油）画家算法（Painter's Algorithm）</p>
+<p>先画远的事物，再画近的事物。</p>
+<p>但这种算法无法解决循环遮挡等问题。</p>
+</blockquote>
+<h4 id="深度缓存z-buffer">深度缓存（Z-Buffer）</h4>
+<ul>
+<li>为了简单起见，在这里假定z都为正数，则z越小说明越近，越大说明与越远。</li>
+<li>维护一个光栅化图形信息和一个深度缓存信息。</li>
+<li>对于每一个要绘制的三角形，比较三角形上的每一个像素的深度与当前已绘制的图上该像素点的深度，如果较小，则覆盖绘制并更新深度记录。</li>
+</ul>
+<h2 id="着色shading">着色（Shading）</h2>
+<h3
+id="一种简单的着色模型冯氏反射blinn-phong-reflectance-model">一种简单的着色模型：冯氏反射（Blinn-Phong
+Reflectance Model）</h3>
+<ul>
+<li>Viewer direction <span class="math inline">\(\hat v\)</span></li>
+<li>Surface normal, <span class="math inline">\(\hat n\)</span></li>
+<li>Light direction, <span class="math inline">\(\hat l\)</span></li>
+<li>Surface parameters（color, shininess（非亮度））</li>
+<li><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220114195034047.png" srcset="/img/loading.gif" lazyload alt="image-20220114195034047" style="zoom:50%;" /></li>
+<li>漫反射（Diffuse Reflection）
+<ul>
+<li>光线被均匀地散射到各个方向。</li>
+<li>散射光的强度<span class="math inline">\(L_d=k_d(I/r^2)max(0, \hat n
+\cdot \hat l)\)</span>, <span
+class="math inline">\(k_d\)</span>为散射系数，用vector3时可以表示颜色</li>
+</ul></li>
+<li>高光（Specular Highlights）
+<ul>
+<li>当观察方向<span class="math inline">\(\hat
+v\)</span>与镜面反射光线方向<span class="math inline">\(\hat
+R\)</span>比较接近时会出现高光，此时<span class="math inline">\(\hat
+v\)</span>和<span class="math inline">\(\hat l\)</span>的半程向量<span
+class="math inline">\(\hat h=besector(\hat v, \hat l)=\frac {\hat v
++\hat l}{||\hat v + \hat l||}\)</span>与法线<span
+class="math inline">\(\hat n\)</span>非常接近。</li>
+<li><span class="math inline">\(L_s=k_s(I/r^2)max(0, cos\alpha)^p\\\ \ \
+\ \ =k_s(I/r^2)max(0, \hat n \cdot \hat h)^p\)</span></li>
+<li>此处忽略了<span class="math inline">\(\hat l\)</span>和<span
+class="math inline">\(\hat
+n\)</span>的夹角的影响，指数p是为了使角度分布更小更集中。</li>
+</ul></li>
+<li>环境光照（Ambient Lighting）
+<ul>
+<li>大胆假设物体各个部分收到的环境光照相同。</li>
+<li><span class="math inline">\(L_a=k_aI_a\)</span></li>
+<li>给物体增加一个常数光照，使它不会完全处于黑色。</li>
+</ul></li>
+<li><span class="math inline">\(L=L_d+L_s+L_a\)</span></li>
+</ul>
+<h3 id="着色频率shading-frequency">着色频率（Shading Frequency）</h3>
+<ul>
+<li><p>平面着色（Flat shading）</p></li>
+<li><p>顶点着色（Gouraud shading）</p>
+<ul>
+<li>顶点的法向量：对与顶点相关的面的法向量求平均（或按面积加权平均）</li>
+<li>用插值法构建顶点之间平滑过渡的法线</li>
+</ul></li>
+<li><p>像素着色（Phong shading）</p></li>
+</ul>
+<h3 id="插值interpolation">插值（Interpolation）</h3>
+<h4 id="重心坐标barycentric-coordinates">重心坐标（Barycentric
+Coordinates）</h4>
+<ul>
+<li>对于与A、B、C共面的任一点（x, y），若满足<span
+class="math inline">\((x, y) = \alpha A + \beta B + \gamma
+C\)</span>,<span class="math inline">\((\alpha + \beta + \gamma =
+1)\)</span> ,则称<span class="math inline">\((\alpha , \beta ,
+\gamma)\)</span>为点（x, y）的重心坐标。其中<span
+class="math inline">\(\alpha + \beta + \gamma =
+1\)</span>是为了确保在同一平面。</li>
+<li><span class="math inline">\(\alpha、\beta、\gamma\)</span>满足<span
+class="math inline">\(\alpha = \frac {S_A} {S_A + S_B + S_C}，\beta =
+\frac {S_B} {S_A + S_B + S_C}，\gamma = \frac {S_C} {S_A + S_B +
+S_C}\)</span></li>
+<li><span
+class="math inline">\(\alpha、\beta、\gamma\)</span>可以通过下式算得</li>
+</ul>
+<p><span class="math display">\[
+\alpha=\frac {-(x-x_B)(y_C-y_B) + (y-y_B)(x_C-x_B)} {-(x_A-x_B)(y_C-y_B)
++ (y_A - y_B)(x_C-x_B)}\\
+\beta = \frac {-(x-x_C)(y_A-y_C) + (y-y_C)(x_A-x_C)}
+{-(x_B-x_C)(y_A-y_C)+(y_B-y_C)(x_A-x_C)}\\
+\gamma = 1 - \alpha - \beta
+\]</span></p>
+<h4 id="插值的应用">插值的应用</h4>
+<ul>
+<li>与A、B、C共面的任一点的属性<span class="math inline">\(V = \alpha
+V_A + \beta V_B + \gamma V_C\)</span></li>
+<li>对于三维坐标下的物体，应先进行插值再进行投影变换，因为插值在投影变换下不具有不变性。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220217133115318.png" srcset="/img/loading.gif" lazyload alt="image-20220217133115318" style="zoom:50%;" /></p>
+<ul>
+<li><p>透视矫正插值</p>
+<p>​
+<img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220217133142577.png" srcset="/img/loading.gif" lazyload alt="image-20220217133142577" style="zoom:50%;" /></p>
+<ul>
+<li><span class="math inline">\(Z_t=\frac {1} {\frac {s}{Z_2}+\frac
+{(1-s)} {Z_1}}\)</span>，对于重心坐标有<span
+class="math inline">\(Z_t=\frac {1} {\frac {\alpha} {\Z_A} + \frac
+{\beta} {Z_B}+\frac {\gamma} {Z_C}}\)</span></li>
+<li>对于任意属性I,<span class="math inline">\(I_t=(\frac
+{I_1}{Z_1}+s(\frac {I_2} {Z_2}-\frac {I_1} {Z_1}))/\frac {1}
+{Z_t}\)</span>，对于重心坐标有<span
+class="math inline">\(I_t=(\alpha\frac{I_A}{Z_A}+\beta
+\frac{I_B}{Z_B}+\gamma\frac{I_C}{Z_C})/\frac{1}{Z_t}\)</span></li>
+<li>详细推导过程见<a href="透视矫正插值.jpeg">透视矫正插值</a></li>
+</ul></li>
+</ul>
+<h4 id="双线性插值bilinear-interpolation">双线性插值（Bilinear
+Interpolation）</h4>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220213074232375.png" srcset="/img/loading.gif" lazyload alt="image-20220213074232375" style="zoom: 33%;" /></p>
+<ul>
+<li>Linear interpolation（1D）:<span class="math inline">\(lerp(x, v_0,
+v_1) = v_0 + x(v_1-v_0)\)</span></li>
+<li>实际运用时<span
+class="math inline">\(lerp(x,v_0,v_1)=(1-x)v_0+xv_1\)</span>效果更好</li>
+</ul>
+<p><span class="math inline">\(u_0=lerp(s,u_{00},u_{10})\)</span></p>
+<p><span class="math inline">\(u_1=lerp(s,u_{01},u_{11})\)</span></p>
+<p><span class="math inline">\(f(x, y) = lerp(t,u_0,u_1)\)</span></p>
+<h3 id="纹理texture">纹理（Texture）</h3>
+<ul>
+<li><p>纹理元素（纹素, texel）：A pixel on texture</p></li>
+<li><p>找到物体上一像素点（x, y, z）与纹素（u, v）的映射关系</p>
+<ul>
+<li>当纹理过小时
+<ul>
+<li>为了应用到整个物体，纹理会被拉大，出现锯齿。可以用双线性插值去锯齿，双三次（Bicubic）线性插值的视觉效果更好，但开销更大，具体操作为取像素点附近16进行插值</li>
+</ul></li>
+<li>当纹理过大时
+<ul>
+<li>因物体的采样频率过低，会出现走样的情况。屏幕上越小的物体的一个像素点对应的纹理的范围越大。因此需要一种能够快速得到范围内的纹理的平均的方法（Range
+Query）——Mipmap。</li>
+</ul></li>
+</ul></li>
+</ul>
+<h4 id="mipmap">Mipmap</h4>
+<ul>
+<li>快速、近似、正方形的范围查询。</li>
+<li>由一张图生成一系列图。</li>
+<li>原始图为Level0，分辨率每缩小一倍就是下一个level，直到图片变为1*1，存储开销是原本的<span
+class="math inline">\(\frac 4 3\)</span></li>
+<li>在计算机视觉中Mipmap被称为image pyramid</li>
+</ul>
+<p>为计算应采用的level D，需要得到屏幕上一像素点（x,
+y）对应的纹理上的范围。范围可以近似为以相邻像素点对应的纹素的距离的较长边作为边长形成的正方形。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220213105858831.png" srcset="/img/loading.gif" lazyload alt="image-20220213105858831" style="zoom: 50%;" /></p>
+<p><span class="math inline">\(\delta u = \frac {du} {dx} \delta x,
+\delta x = 1\therefore \delta u = \frac {du} {dx},同理\delta v = \frac
+{dv} {dy}\)</span></p>
+<p><span class="math inline">\(L = max(\sqrt {(\frac {du} {dx})^2+(\frac
+{dv} {dx})^2}, \sqrt {(\frac {du} {dy})^2 + (\frac {dv}
+{dy})^2})\)</span></p>
+<p>要得到L*L范围纹理的平均，level 0 每个纹素都是它自身的平均, level 1
+每个纹素都是原图2 * 2纹素的平均，因此L * L范围的平均应在<span
+class="math inline">\(level\ D = log_2L\)</span> 中寻找。</p>
+<p>但这种方法得到的纹理存在着不连续的问题，为此，我们引入Trilinear
+interpolation。</p>
+<p>对于（x, y），在Mipmap Level D 中进行插值，在Mipmap Level
+D+1中进行插值，这两个插值的结果再次进行插值，就可以得到非整数的连续的level。</p>
+<h4 id="各向异性过滤anisotropic-filtering">各向异性过滤（Anisotropic
+Filtering）</h4>
+<h4 id="ripmap">Ripmap</h4>
+<p>Mipmap由于采用正方形各向同性的特点，难以较好地处理对应纹理上细长（axis-aligned
+rectangular）或倾斜（diagonal
+footprint）的情况，可能会出现Overblur的现象。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220213113410974.png" srcset="/img/loading.gif" lazyload alt="image-20220213113410974" style="zoom:50%;" /></p>
+<p>引入矩形可以较好地解决对应的细长纹理，但不能解决倾斜的纹理。该方法称为Ripmap。存储开销为原本的四倍。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220213113706200.png" srcset="/img/loading.gif" lazyload alt="image-20220213113706200" style="zoom:50%;" /></p>
+<h5 id="ewa-filtering">EWA filtering</h5>
+<p>用椭圆加权平均（Elliptically Weighted
+Average）进行过滤，能够较好地解决对应纹理呈对角线形的情况，但开销较大。</p>
+<h4 id="纹理的其它应用">纹理的其它应用</h4>
+<h5 id="存储环境光">存储环境光</h5>
+<ul>
+<li>Spherical Environment Map
+<ul>
+<li>可以将环境光信息储存在球体上，通过球体展开还原环境光，但是球的两极展开会存在较大失真，显得偏大</li>
+</ul></li>
+<li>Cube Map
+<ul>
+<li>将环境光信息储存在立方体上，失真较小，但需要知道方向。</li>
+</ul></li>
+</ul>
+<h5 id="伪造物体表明凹凸情况">伪造物体表明凹凸情况</h5>
+<ul>
+<li>凹凸贴图（Bump Mapping）
+<ul>
+<li>通过纹理定义高度差，实现扰动（perturb）表面法线的效果，从而产生凹凸感。</li>
+<li>普通平面的法线在切线空间中为（0, 0,
+1），而经过扰动的纹理的法线在切线空间中为<span
+class="math inline">\((-\frac {dp} {du}, -\frac {dp} {dv},
+1).normalized()\)</span></li>
+<li><span class="math inline">\(\frac
+{dp}{du}=c_1[height(u+1)-height(u)],\frac
+{dp}{dv}=c_2[height(v+1)-height(v)]\)</span></li>
+<li>切线空间中扰动后的法线左乘TBN矩阵转化为世界空间中的法线</li>
+<li>通过该方法实现的凹凸在图形边缘以及凹凸形成的阴影有瑕疵</li>
+</ul></li>
+<li>法线贴图（Normal Mapping）:与凹凸贴图比较相近</li>
+<li>位移贴图（Displacement Mapping）
+<ul>
+<li>同样通过纹理定义高度差，但移动了顶点。</li>
+</ul></li>
+</ul>
+<h5 id="补充">补充</h5>
+<ul>
+<li>纹理也可以是三维的，通过噪声函数的一系列处理计算出纹理。</li>
+</ul>
+<h2 id="几何geometry">几何（Geometry）</h2>
+<h3 id="表达几何的方式">表达几何的方式</h3>
+<h4 id="隐式几何implicit-geometry">隐式几何（Implicit Geometry）</h4>
+<ul>
+<li>给定点需要满足的关系的几何体，如<span
+class="math inline">\(x^2+y^2+z^2=1\)</span>。</li>
+<li>标准形式为<span class="math inline">\(f(x,y,z) = 0\)</span></li>
+<li>优点：易于判断点是否在几何体内部，若<span
+class="math inline">\(f(x_1,y_1,z_1)\)</span> &lt; 0，则<span
+class="math inline">\((x_1,y_1,z_1)\)</span>在几何体内部，若等于0则在几何体表面，若大于0则在几何体外部。</li>
+<li>缺点：不够直观</li>
+</ul>
+<h5 id="constructive-solid-geometry">Constructive Solid Geometry</h5>
+<p>通过对简单集合体的布尔运算（交并差）形成复杂集合体。</p>
+<h5 id="signed-distance-functions距离场">Signed Distance
+Functions（距离场）</h5>
+<ul>
+<li><p>距离函数：描述任何一个点到这个几何体表面的最小距离（外正内负）。</p></li>
+<li><p>可以通过找函数值为0的点由函数复原几何体。</p></li>
+<li><p>已知两个几何体的距离函数，对它们进行blend操作，可以得到融合的中间过程的几何图形对应的距离函数，从而还原融合过程的几何图形。</p></li>
+<li><p>Level Set Methods（水平集）表述的距离函数</p>
+<ul>
+<li>通过双线性插值还原<span class="math inline">\(f(x) =
+0\)</span>的函数，从而得到几何体的表面</li>
+</ul></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220213223643583.png" srcset="/img/loading.gif" lazyload alt="image-20220213223643583" style="zoom: 67%;" /></p>
+<h4 id="显式几何explicit-geometry">显式几何（Explicit Geometry）</h4>
+<ul>
+<li>所有点都直接给出或通过映射关系给出。</li>
+<li><span class="math inline">\(f:R^2\rightarrow R^3;(u, v)\rightarrow
+(x, y, z)\)</span></li>
+<li>优点：直观</li>
+<li>缺点：不宜判断点和几何体的位置关系</li>
+</ul>
+<h5 id="point-cloud点云">Point Cloud（点云）</h5>
+<ul>
+<li>直接给出一系列点</li>
+</ul>
+<h5 id="polygon-mesh">Polygon Mesh</h5>
+<ul>
+<li>often triangles or quads</li>
+</ul>
+<h5 id="the-wavefront-object-file-.obj-format">The Wavefront Object file
+（.obj） Format</h5>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214111230745.png" srcset="/img/loading.gif" lazyload /></p>
+<p>按照顶点（v）、纹理坐标（vt）、法线（vn）、平面（f）的顺序进行描述，会存在冗余。其中f的格式为第几个v/第几个纹理坐标（vt）/第几个法线（vn）。</p>
+<h5 id="曲线curve">曲线（Curve）</h5>
+<h6 id="贝塞尔曲线bezier-curve">贝塞尔曲线（Bezier Curve）</h6>
+<ul>
+<li>几何定义：给定0~n个点，，对相邻两个点取插值t（<span
+class="math inline">\(0 \le t \le
+1\)</span>），连接形成的相邻的点，对新生成的点重复操作，直到只生成一个点，这个点即为贝塞尔曲线上的一点。遍历t形成的曲线即贝塞尔曲线。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214133608595.png" srcset="/img/loading.gif" lazyload alt="image-20220214133608595" style="zoom: 33%;" /></p>
+<ul>
+<li><p>代数定义：</p>
+<ul>
+<li>对于二次贝塞尔曲线（两轮插值）：</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214133954352.png" srcset="/img/loading.gif" lazyload alt="image-20220214133954352" style="zoom:33%;" /></p>
+<ul>
+<li>扩展到n轮插值（Bezier curve order n）：</li>
+</ul>
+<p><span
+class="math inline">\(b(t)=b^n(t)=b_0^n(t)=\sum_{j=0}^nb_jB_j^n(t)\)</span>，其中<span
+class="math inline">\(B_i^n(t)=(^n_i)t^i(1-t)^{n-i}\)</span>，为伯恩施坦多项式</p></li>
+<li><p>贝塞尔曲线性质</p>
+<ul>
+<li>对于三次贝塞尔曲线（Cubic Bezier）
+<ul>
+<li><span class="math inline">\(b(0) = b_0;b(1)=b_3\)</span></li>
+<li><span
+class="math inline">\(b&#39;(0)=3(b_1-b_0);b&#39;(1)=3(b_3-b_2)\)</span></li>
+</ul></li>
+<li>仿射变换不变性：仿射变换前后曲线和控制点（derivative）都对应，可以通过变换控制点得到变换后的曲线。</li>
+<li>投影变换下没有不变性</li>
+<li>曲线在控制点形成的凸包内（Convex
+hull，控制点形成的最大的凸多边形）</li>
+</ul></li>
+<li><p>逐段的贝塞尔曲线（Piecewise Bezier Curve）</p>
+<ul>
+<li>当n较大时曲线较难控制，且动一个点会影响整条曲线。</li>
+<li>将曲线分段，通常每段曲线都由四个控制点控制。</li>
+<li>曲线连续
+<ul>
+<li><span
+class="math inline">\(C^0\)</span>连续（continuity）即两端曲线相接，<span
+class="math inline">\(C^1\)</span>连续在相接处的一阶导数相等</li>
+<li><span
+class="math inline">\(C^1\)</span>连续条件：a段曲线与b段曲线满足：<span
+class="math inline">\(a_n=b_0=\frac {1} {2}(a_{n-1}+b_1)\)</span></li>
+</ul></li>
+</ul></li>
+<li><p>样条（spline）</p>
+<ul>
+<li>由一系列控制点控制的连续曲线</li>
+<li>贝塞尔曲线属于spline中的一种曲线</li>
+<li>B-spline（basis spline）
+<ul>
+<li>基函数由伯恩施坦多项式扩展为其他多项式</li>
+<li>相比贝塞尔曲线需要更多的信息</li>
+<li>满足贝塞尔曲线的所有重要性质</li>
+<li>更多详见https://www.bilibili.com/video/av66548502?from=search&amp;seid=65256805876131485</li>
+</ul></li>
+</ul></li>
+</ul>
+<h5 id="曲面surface">曲面（Surface）</h5>
+<h6 id="贝塞尔曲面">贝塞尔曲面</h6>
+<ul>
+<li>取多条贝塞尔曲线上的点u作为控制点构建贝塞尔曲线，贝塞尔曲线上取点u，遍历（u,v）即可得到曲面，<span
+class="math inline">\(u，v\in[0, 1]\)</span>。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214155259275.png" srcset="/img/loading.gif" lazyload alt="image-20220214155259275" style="zoom: 33%;" /></p>
+<h6 id="曲面处理">曲面处理</h6>
+<ul>
+<li>Mesh subdivision、Mesh simplification、Mesh regularization</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214155617928.png" srcset="/img/loading.gif" lazyload alt="image-20220214155617928" style="zoom:50%;" /></p>
+<h6 id="mesh-subdivision">Mesh Subdivision</h6>
+<ul>
+<li>Loop Subdivision（只试用Triangle Mesh）
+<ol type="1">
+<li>细分规则：将一个三角形各边中点相连拆分成四个，这些中点作为新的顶点。</li>
+<li>新顶点更新规则：对新的顶点E，E受原本的顶点的影响，应是它们的加权平均。<span
+class="math inline">\(E=\frac {3} {8}*(A+B)+\frac {1}
+{8}*(C+D)\)</span><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214200603608.png" srcset="/img/loading.gif" lazyload alt="image-20220214200603608" style="zoom: 33%;" /></li>
+<li>原顶点更新规则：对于原有的顶点，它的位置与该顶点本身以及顶点周围的原来的顶点有关，所以新的顶点<span
+class="math inline">\(E=(1-n*u)*original\_position+u*neighbor\_position\_sum\)</span>，其中n是该顶点的度，<span
+class="math inline">\(u= (n==3\ ?\ \frac {3} {16} : \frac {3}
+{8n})\)</span></li>
+</ol></li>
+<li>Catmull-Clark Subdivision（General Mesh）
+<ul>
+<li>奇异点（Extraordinary vertex）：degree != 4</li>
+<li>细分的步骤
+<ol type="1">
+<li>给每个面添加顶点</li>
+<li>给每条边添加中点</li>
+<li>连接面的新增的顶点与边的中点</li>
+</ol></li>
+<li>第一次细分的结果：非四边形面消失，奇异点增加，非四边形面等量转化为奇异点个数</li>
+<li>之后的细分不会再增加奇异点个数</li>
+<li>顶点更新规则Catmull-Clark Vertex Update Rules（Quad Mesh）
+<ul>
+<li>面上的中点（Face point）<span class="math inline">\(f=\frac {v_1 +
+v_2+v_3+v_4}
+{4}\)</span><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214203327120.png" srcset="/img/loading.gif" lazyload alt="image-20220214203327120" style="zoom:33%;" /></li>
+<li>边的中点（Edge point） <span class="math inline">\(e=\frac
+{v_1+v_2+f_1+f_2}{4}\)</span><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214203600907.png" srcset="/img/loading.gif" lazyload alt="image-20220214203600907" style="zoom:33%;" /></li>
+<li>原顶点（Vertex point）<span class="math inline">\(v =
+\frac{f_1+f_2+f_3+f_4+2(m_1+m_2+m_3+m_4)+4p}{16}\)</span>,p为原定点更新前<img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214204403412.png" srcset="/img/loading.gif" lazyload alt="image-20220214204403412" style="zoom:33%;" /></li>
+</ul></li>
+</ul></li>
+</ul>
+<h6 id="mesh-simplification">Mesh Simplification</h6>
+<ul>
+<li>边坍缩（Edge collapsing）
+<ul>
+<li>二次误差度量（Quadric Error Metrics）
+<ul>
+<li>找一个新的顶点，使其到原本各个面距离的平方和最小</li>
+<li><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220214205120397.png" srcset="/img/loading.gif" lazyload alt="image-20220214205120397" style="zoom: 33%;" /></li>
+<li>将坍缩各边算出的二次度量误差进行排序，坍缩最小的并更新受影响而变化的二次度量误差值（用优先队列实现）</li>
+</ul></li>
+</ul></li>
+</ul>
+<h3 id="阴影">阴影</h3>
+<h4 id="点光源的阴影shadow-mapping">点光源的阴影（Shadow Mapping）</h4>
+<ol type="1">
+<li>将虚拟相机放在点光源处，记录看到的各个像素点的深度z，这一系列深度构成shadow
+map。</li>
+<li>从真实的相机位置出发，观察各个物体，检测观测点到光源的深度z'，与观测点投影变换到光源视角处的像素点的深度z，若z'
+&gt; z，则光线无法照射到，应形成阴影</li>
+</ol>
+<ul>
+<li>这种方法形成的阴影为硬阴影，分界线十分鲜明。</li>
+<li>点光源形成的为硬阴影，有体积的光源才能形成软阴影（如太阳光的本影、半影）</li>
+<li>造成shadow mapping效果较脏的原因有：浮点数比较相等不精确，shadow
+map的分辨率太低。</li>
+</ul>
+<h2 id="光线追踪ray-tracing">光线追踪（Ray Tracing）</h2>
+<ul>
+<li>使用光线追踪的原因：光栅化难以很好地处理全局效果（软阴影、光线多次反弹）</li>
+<li>光线沿直线传播、光线间不发生碰撞、光路具有可逆性（path
+reversal-reciprocity）</li>
+</ul>
+<h3 id="pinhole-camera-model">Pinhole camera Model</h3>
+<ol type="1">
+<li>从相机出发向投影面的每个像素投射一条eye ray。</li>
+<li>每条eye
+ray碰到的最近的点与光源进行连线，如果之间没有阻挡，则可以计算出光源在此点反射回相机的光线强度。</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220215082729122.png" srcset="/img/loading.gif" lazyload alt="image-20220215082729122" style="zoom:50%;" /></p>
+<h3 id="recursivewhitted-styleray-tracing">Recursive（Whitted-Style）Ray
+Tracing</h3>
+<ul>
+<li>对eye
+ray经过反射、折射后的光线进行同样操作，像素点最终的着色结果为各光线之和，反射、折射的光线有能量衰减。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220215083238522.png" srcset="/img/loading.gif" lazyload alt="image-20220215083238522" style="zoom:50%;" /></p>
+<h3 id="光线与物体表面的交点">光线与物体表面的交点</h3>
+<ul>
+<li>光线传播方向上的点<span class="math inline">\(\vec {r(t)}=\vec o +
+t\vec d\)</span>，<span class="math inline">\(\vec
+o\)</span>为光线起点（origin），<span class="math inline">\(\vec
+d\)</span>为光线传播方向（normalized）,<span class="math inline">\(0\le
+t \lt d\)</span></li>
+</ul>
+<h4 id="光线与隐式表面的交点">光线与隐式表面的交点</h4>
+<ul>
+<li>对于隐式曲面上的点<span class="math inline">\(\vec
+p\)</span>，有<span class="math inline">\(f(\vec p) =
+0\)</span>，所以有<span class="math inline">\(f(\vec o + t\vec
+d)=0\)</span></li>
+</ul>
+<h4 id="光线与显式表面的交点">光线与显式表面的交点</h4>
+<h5 id="triangle-mesh">Triangle Mesh</h5>
+<p>一种较为简单但是计算量很大的思路是光线与每一个三角形求交点。</p>
+<ul>
+<li><p>经过p‘的平面方程为<span class="math inline">\((\vec p -\vec
+p&#39;)\cdot \vec N =
+0\)</span>，先计算与平面的交点再判断是否在三角形内。</p></li>
+<li><p>直接利用重心坐标。<span class="math inline">\(\vec o +t\vec
+d=(1-b_1-b_2)\vec P_0 + b_1\vec P_1 +b_2\vec P_2\)</span>，（<span
+class="math inline">\(b_1,b_2,b_1+b_2\in
+(0,1)且t\ge0\)</span>）三维的点刚好可以解出三个未知量。<span
+class="math inline">\(\tag {Moller Trumbore Algorithm}\)</span></p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220222114821749.png" srcset="/img/loading.gif" lazyload alt="image-20220222114821749" style="zoom:50%;" /></p></li>
+</ul>
+<p>为加速计算，引入包围盒（Bounding Volume）</p>
+<ul>
+<li><p>当光线与包围盒没有交点时，不可能与三角形有交点。</p></li>
+<li><p>包围盒通常是轴对齐的（Axis-Aligned Bounding
+Box，AABB），轴对齐的包围盒可以有效降低解光线与包围盒的交点时的维度。</p></li>
+<li><p>任意一条光线所在直线与包围盒的两个对面都有交点<span
+class="math inline">\(t_{min},t_{max}\)</span>。</p></li>
+<li><p>光线进入包围盒的时刻应是光线进入所有对平面之间，光线离开包围盒应是光线离开任一对平面之间。</p></li>
+<li><p><span
+class="math inline">\(t_{enter}=max\{t_{min}\},t_{exit}=min\{t_{max}\}\)</span></p></li>
+<li><p>当且仅当<span class="math inline">\(t_{enter}&lt;t_{exit}
+\&amp;\&amp; t_{exit}\ge 0\)</span>时光线与AABB盒有交点。</p></li>
+</ul>
+<h5 id="uniform-spatial-partitionsgrids">Uniform Spatial
+Partitions（Grids）</h5>
+<ol type="1">
+<li>找到包围盒，将其细分为小格子（grid），在每一个与物体相交的格子中存储物体的信息。</li>
+<li>发射光线，对于与光线相交的格子，若各自内有物体，就对光线和该物体检测相交。</li>
+</ol>
+<ul>
+<li>为保证效率，拆成的格子个数=27*objs</li>
+</ul>
+<p>当场景内的物体分布不均匀时，该方法的效率并不高。</p>
+<h5 id="spatial-partitions">Spatial Partitions</h5>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220215120339918.png" srcset="/img/loading.gif" lazyload alt="image-20220215120339918" style="zoom: 33%;" /></p>
+<h6 id="oct-tree">Oct-Tree</h6>
+<ul>
+<li>对于每一块区域沿着各个轴方向各切一刀，在三维情况下就是八等分，分割出的区域递归分割，当区域购小或含的物体够少则停止递归。</li>
+<li>缺点：当维度变高时，分割出的区域数增大很快</li>
+</ul>
+<h6 id="bsp-tree">BSP-Tree</h6>
+<ul>
+<li>对每一块区域一次切一刀，尽可能使一个物体不出现在多个区域内</li>
+<li>优点：分割出的区域数与维度无关</li>
+<li>缺点：计算复杂</li>
+</ul>
+<h6 id="kd-tree">KD-Tree</h6>
+<ul>
+<li>对每一块区域沿轴方向切一刀，方向在轴方向之间轮换，能够较好地保证空间切割得较均匀</li>
+<li>分割方向与轴对齐计算量小</li>
+<li>缺点：一个物体可能存在于多个包围盒内，且判断包围盒与物体相交是一件相当困难的事情。</li>
+</ul>
+<p>KD-Tree的建立</p>
+<ul>
+<li>将区域作为一个节点，判断是否要再分割，分割成的区域作为它的孩子节点</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220215125415525.png" srcset="/img/loading.gif" lazyload alt="image-20220215125415525" style="zoom:50%;" /></p>
+<ul>
+<li>对于每个内部节点，记录分割的轴方向、分割的点以及它的孩子节点</li>
+<li>对于叶子节点，记录区域内的所有的物体</li>
+</ul>
+<p>Traversing a KD-Tree</p>
+<ul>
+<li>检测光线与节点的空间是否有交点（包围盒交点检测的充要条件），如果有，递归检测与两个孩子是否有交点，直到节点为叶子节点。检测光线与叶子节点内所有物体的交点。</li>
+</ul>
+<h5 id="object-partitions-bounding-volume-hierarchybvh">Object
+Partitions &amp; Bounding Volume Hierarchy（BVH）</h5>
+<ul>
+<li>解决了KD-Tree存在的显著问题，得到了广泛应用</li>
+<li>不再对空间进行划分，而是将物体进行划分，对划分完成的物体求包围盒，这样子物体只会出现在一个包围盒内，虽然包围盒之间会存在部分相交</li>
+<li>划分物体时：
+<ul>
+<li>总是选择对最长的轴进行划分</li>
+<li>划分时以中间的物体（中位数）为分界线划分开，使空间尽可能均匀（运用快速选择算法，时间复杂度为O（n））</li>
+</ul></li>
+<li>BVH Traversal</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220215131314587.png" srcset="/img/loading.gif" lazyload alt="image-20220215131314587" style="zoom:50%;" /></p>
+<h3 id="辐射度量学basic-radiometry">辐射度量学（Basic radiometry）</h3>
+<ul>
+<li><p>Radiant energy <span class="math inline">\(Q[ J = Joule
+]\)</span></p></li>
+<li><p>Radiant flux <span class="math inline">\(\phi =\frac {dQ}
+{dt}[W=Watt][lm=lumen]\)</span> 单位时间辐射的能量（Power）</p></li>
+<li><p>Radiant Intensity:<span class="math inline">\(I(\omega)=\frac
+{d\phi} {d\omega}[\frac {W} {sr}][\frac {lm}
+{sr}=cd=candela]\)</span>光源单位时间向单位立体角（solid
+angle）辐射的能量</p></li>
+<li><p>Irradiance:<span class="math inline">\(E(x)=\frac
+{d\phi(x)}{dA}[\frac {W}{m^2}][\frac{lm}{m^2}=lux]\)</span>
+物体表面单位面积在单位时间内接收到的能量，<span
+class="math inline">\(\phi\)</span>应与面法向量进行点乘</p></li>
+<li><p>Radiance: <span class="math inline">\(L(p,
+\omega)=\frac{d^2\phi(p,\omega)}{d\omega dAcos\theta}[\frac{W}{sr\cdot
+m^2}][\frac {cd}{m^2}=\frac{lm}{sr\cdot m^2}=nit]\)</span>
+物体表面单位投影面积单位时间内发射、或接收的单位立体角的光的能量</p>
+<blockquote>
+<p>立体角：角度在三维空间中的表示。立体角的大小可用球体进行衡量。<span
+class="math inline">\(\Omega=\frac {A} {r^2}\)</span>
+sr[steradians]，球有4<span class="math inline">\(\pi\)</span> sr</p>
+<p>孤立点光源（Isotropic Point Source）的<span
+class="math inline">\(I=\frac {\phi} {4\pi}\)</span></p>
+</blockquote></li>
+<li><p>Incident Radiance <span class="math inline">\(L(p,
+\omega)=\frac{dE(p)}{d\omega cos\theta}\)</span>
+到达物体表面的单位立体角的Irradiance</p></li>
+<li><p>Exiting Radiance <span class="math inline">\(L(p,
+\omega)=\frac{dI(p,\omega)}{dAcos\theta}\)</span>
+物体表面发射单位投影面积发射出的Intensity</p></li>
+<li><p>Irradiance &amp;&amp; Radiance</p>
+<ul>
+<li><span class="math inline">\(E(p)=\int_{H^2}L_i(p,\omega)cos\theta
+d\omega\)</span>，<span
+class="math inline">\(H^2\)</span>代表半球（Hemisphere）</li>
+</ul></li>
+</ul>
+<h4
+id="双向反射分布函数bidirectional-reflectance-distribution-functionbrdf">双向反射分布函数Bidirectional
+Reflectance Distribution Function（BRDF）</h4>
+<p>光线在一个点上的反射（散射……）过程就是Radiance转化为点的Irradiance，Irradiance再将能量发射出去作为Radiance的过程。</p>
+<p>为描述光线由Irradiance转化为Radiance的过程，定义BRDF <span
+class="math inline">\(f_r(\omega_i\rightarrow
+\omega_r)=\frac{dL_r(\omega_r)}{dE_i(\omega_i)}=\frac{dL_r(\omega_r)}{L_i(\omega_i)cos\theta_id\omega_i}[\frac{1}{sr}]\)</span>用于表征朝各立体角发出的光的能量的比例，则有
+<span class="math display">\[
+L_r(p,\omega_r)=\int_{H^2}f_r(p,\omega_i\rightarrow
+\omega_r)L_i(p,\omega_i)cos\theta_id\omega_i\tag {The Reflection
+Equation}
+\]</span> 推广上式到会发光物体同样适用，有 <span class="math display">\[
+L_r(p,\omega_r)=L_e(p,\omega_o)+\int_{H^2}f_r(p,\omega_i\rightarrow
+\omega_r)L_i(p,\omega_i)(n\cdot \omega_i)d\omega_i\tag {The Rendering
+Equation}
+\]</span> 上式中的<span
+class="math inline">\(\omega_i\)</span>方向都由点指向平面外。</p>
+<p>经数学方法可化作 <span class="math display">\[
+L=E+KL
+\]</span> 即 <span class="math display">\[
+L=(I-k)^{-1}E
+\]</span> 展开可得 <span class="math display">\[
+L=(I+K+K^2+K^3+...)E
+\]</span></p>
+<p><span class="math display">\[
+L=E+KE+K^2E+K^3E+...\tag{全局光照}
+\]</span></p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220218214231011.png" srcset="/img/loading.gif" lazyload alt="image-20220218214231011" style="zoom: 33%;" /></p>
+<h4 id="蒙特卡洛积分monte-carlo-integration">蒙特卡洛积分（Monte Carlo
+Integration）</h4>
+<p><span
+class="math inline">\(F_N=\frac{1}{N}\sum^N_{i=1}\frac{f(X_i)}{p(X_i)}\)</span>，推导过程如下：
+<span class="math display">\[
+由E[f(x)]=\int f(x)p(x)dx，\\
+得E[\frac{1}{N}\sum^N_{i=1}\frac{f(X_i)}{p(X_i)}]=\frac{1}{N}E[\sum^N_{i=1}\frac{f(X_i)}{p(X_i)}]=\frac{1}{N}N\int
+\frac{f(x)}{p(x)}p(x)dx=\int f(x)dx=F_N
+\]</span></p>
+<h4 id="路径追踪path-tracing">路径追踪（Path Tracing）</h4>
+<p>路径追踪的过程，其实就是解渲染方程的过程。</p>
+<h5 id="一种简单的处理策略">一种简单的处理策略</h5>
+<p>取<span
+class="math inline">\(p(\omega_i)=\frac{1}{2\pi}\)</span>，对半球内的各个方向均匀采样。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220219151539492.png" srcset="/img/loading.gif" lazyload alt="image-20220219151539492" style="zoom: 50%;" /></p>
+<p>但是由于各个点都要考虑来自各个方向的光线，多次弹射的光线会直接爆炸增长，不具有实用意义。</p>
+<h5 id="解决光线数量爆炸增长的策略">解决光线数量爆炸增长的策略</h5>
+<p>由于1的指数次依然是1，每个点需要考虑的光线只随机取一个方向。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220219152037164.png" srcset="/img/loading.gif" lazyload alt="image-20220219152037164" style="zoom:50%;" /></p>
+<p>但这样采样存在非常大的噪声，为减小噪声，必须多次采样。</p>
+<p>对通过一个像素范围内的多条光线均作路径追踪然后取平均值。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220219152327527.png" srcset="/img/loading.gif" lazyload alt="image-20220219152327527" style="zoom:33%;" /></p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220219152224645.png" srcset="/img/loading.gif" lazyload alt="image-20220219152224645" style="zoom:50%;" /></p>
+<p>但shade函数仍有可能无限递归，需要对光线弹射进行一定限制。</p>
+<h5 id="限制光线弹射">限制光线弹射</h5>
+<blockquote>
+<p>俄罗斯轮盘赌（Russian Roulette，RR）：
+左轮手枪的轮盘内装有部分子弹，转动左轮手枪的轮盘并开枪，若没子弹则没事。</p>
+</blockquote>
+<p>利用俄罗斯轮盘赌的思想，让光线有一定概率不再反弹。</p>
+<p>着色结果为<span
+class="math inline">\(L_o\)</span>，指定概率P，让函数以概率P返回值<span
+class="math inline">\(L_o/p\)</span>，以概率（1-P）直接返回0。可以求得返回值的期望<span
+class="math inline">\(E=P\cdot (L_o/P)+(1-P)\cdot0=L_o\)</span></p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220219153533705.png" srcset="/img/loading.gif" lazyload alt="image-20220219153533705" style="zoom:50%;" /></p>
+<h5 id="提高效率对较小光源精确采样">提高效率，对较小光源精确采样</h5>
+<p>当光源非常小时，对于半球积分实际上是非常低效的，需要进行非常多次的采样才能取得好的效果。</p>
+<p>可以将积分区域由半球转为光源所在面。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220219154642400.png" srcset="/img/loading.gif" lazyload alt="image-20220219154642400" style="zoom: 33%;" />
+<span class="math display">\[
+L_o(x,\omega_o)=\int_{\Omega+}L_i(x,\omega_i)f_r(x,\omega_i,\omega_o)cos\theta
+d\omega_i\\
+=\int_AL_i(x,\omega_i)f_r(x,\omega_i,\omega_o)\frac{cos\theta
+cos\theta&#39;}{||x&#39;-x||^2}dA
+\]</span> 用蒙特卡洛积分法求解时，<span
+class="math inline">\(p(x)=\frac{1}{A}\)</span>。</p>
+<p>除了对光源的采样外，还需要对其它环境光进行采样，由于已经对最明显的光源进行精确采样，对其它环境光的采样不用再像采取这种方法之前一样高频，从而提升了效率。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220219160125149.png" srcset="/img/loading.gif" lazyload alt="image-20220219160125149" style="zoom: 50%;" /></p>
+<h5 id="更多">更多</h5>
+<ul>
+<li>蒙特卡洛积分的重点采样（importance sampling）</li>
+<li>结合半球和光线采样（multiple imp. sampling，MIS）</li>
+<li>pixel reconstruction filter（相较于像素内各点直接取平均）</li>
+<li>radiance到color的转化（gamma correction, curves, color space）</li>
+</ul>
+<h3 id="其它的现代光线追踪技术">其它的现代光线追踪技术</h3>
+<ul>
+<li>Photon mapping</li>
+<li>Metropolis light transpot</li>
+<li>VCM/UPBP</li>
+</ul>
+<h2 id="材质materials">材质（Materials）</h2>
+<p>物体的不同材质表现为它与光的不同作用，实际上就是渲染方程中的BRDF。</p>
+<ul>
+<li>漫反射（diffuse）</li>
+</ul>
+<p>漫反射各方向反射的radiance都相等，所以有 <span
+class="math display">\[
+L_o(\omega_o)=f_rL_i\int_{H^2}cos\theta_id\omega_i=\pi f_rL_i\\
+\therefore f_r=\frac{\rho}{\pi}
+\]</span> <span
+class="math inline">\(\rho\)</span>为反照率（albedo，可多维、可含颜色信息），表征光线能量损失。</p>
+<ul>
+<li>Glossy material（金属类）</li>
+<li>Ideal reflective / refractive material</li>
+</ul>
+<p>此处的BRDF更准确地应描述为BSDF（散射）（BRDF+BTDF（折射）=BSDF），但通常不要紧。</p>
+<h3 id="反射与折射">反射与折射</h3>
+<h4 id="反射">反射</h4>
+<p>给定入射光的入射方向角<span
+class="math inline">\(\omega_i\)</span>和法线<span
+class="math inline">\(\vec n\)</span>，可以解得出射光出射方向角<span
+class="math inline">\(\omega_o=-\omega_i+2(\omega_i\cdot \vec n)\vec
+n\)</span>。</p>
+<p>给定入射光的方位角<span
+class="math inline">\(\phi_i\)</span>，可得出射光方位角<span
+class="math inline">\(\phi_o=(\phi_i + \pi)\ mod\ 2\pi\)</span>。</p>
+<h4 id="折射">折射</h4>
+<ul>
+<li>Snell's Law: <span
+class="math inline">\(n_isin\theta_i=n_tsin\theta_t\)</span></li>
+</ul>
+<h4 id="菲涅尔项fresnel-term">菲涅尔项（Fresnel Term）</h4>
+<p>当视角与物体表面法线呈不同角度时，反射和折射的光线的比例不同。</p>
+<p>对于绝缘体而言，当光线与物体表面接近垂直时反射的光线很少，当光线与物体表面接近平行时反射的光线很多。</p>
+<p>对导体而言，反射的光线占大部分且随光线与物体表面角度变化不明显。</p>
+<p>菲涅尔项的表达式非常复杂，通常可以用下式近似。 <span
+class="math display">\[
+R(\theta)=R_0+(1-R_0)(1-cos\theta)^5,\\
+其中R_0=(\frac{n_1-n_2}{n_1+n_2})^2
+\]</span></p>
+<h3 id="微表面材质microfacet-material">微表面材质（Microfacet
+Material）</h3>
+<p>对于微观上凹凸不平的材质，从远处宏观上看看到的是粗糙的平面。</p>
+<p><strong>远处看到的是材质，近处看到的是几何。</strong></p>
+<h4 id="microfacet-brdf">Microfacet BRDF</h4>
+<p>微表面法线完全集中于同一个方向时，表现为mirror。</p>
+<p>微表面的法线较集中于同一个方向时，表现为glossy。</p>
+<p>微表面的法线发散到各个方向时，表现为diffuse。</p>
+<ul>
+<li>BRDF在微表面下的表达式</li>
+</ul>
+<p><span
+class="math inline">\(f(i,o)=\frac{F(i,h)G(i,o,h)D(h)}{4(n,i)(n,o)}\)</span>，其中F为菲涅尔项，G为shadowing-masking
+term，D为distribution of normals</p>
+<p>微表面的自遮挡、自投影（在入射光线的入射角非常大时较多，grazing
+angle）</p>
+<p>D=使入射光线沿出射方向的half vector <span class="math inline">\(\vec
+h\)</span>的占比，即微表面上半程向量与法向量相同的比例</p>
+<p><span
+class="math inline">\(D(h)=\frac{e^{-\frac{tan^2\theta_h}{\alpha^2}}}{\pi\alpha^2cos^4\theta_h}\)</span></p>
+<h4
+id="各向同性isotropic与各向异性anisotropic">各向同性（isotropic）与各向异性（anisotropic）</h4>
+<p>当<span class="math inline">\(f_r(\theta_i,\phi_i;\theta_r,\phi_r)\ne
+f_r(\theta_i,\theta_r,\phi_r-\phi_i)\)</span>时，称该种材质为各项异性。</p>
+<p>一种各向异性的材质——<img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220219211046136.png" srcset="/img/loading.gif" lazyload alt="image-20220219211046136" style="zoom:33%;" /></p>
+<p>各向异性的材质会呈现一些奇怪的现象，如单向打磨的电梯门光线扭曲、圆周擦洗的锅底呈辐射状。</p>
+<h4 id="brdf的性质">BRDF的性质</h4>
+<ul>
+<li>非负性</li>
+<li>线性可加性</li>
+<li>可逆性 <span class="math inline">\(f_r(\omega_r\rightarrow
+\omega_i)=f_r(\omega_i\rightarrow \omega_r)\)</span></li>
+<li>能量守恒 <span
+class="math inline">\(\int_{H^2}f_r(\omega_i\rightarrow\omega_r)cos\theta_id\omega_i\le1\)</span></li>
+</ul>
+<h4 id="测量brdf">测量BRDF</h4>
+<ul>
+<li><p>物理上推导得到的菲涅尔项与实际仍存在较大出入，因而近似得到的方程也不可靠，因此直接测量BRDF并记录可以得到更真实的效果。</p></li>
+<li><p>对于各向异性的材质，BRDF有四个参数（维度），对于各向同性的材质，BRDF有三个参数并且由可逆性可以减少一半数据量。</p></li>
+<li><p>MERL BRDF Database存储了大量材质的测量数据。</p></li>
+<li><p>存储BRDF数据也是一个研究重点。</p></li>
+</ul>
+<h2 id="advanced-technology">Advanced Technology</h2>
+<h3 id="advanced-light-transport">Advanced Light Transport</h3>
+<h4
+id="双向路径追踪bidirectional-path-tracing-bdpt">双向路径追踪（Bidirectional
+Path Tracing， BDPT）</h4>
+<p>思想：从光源和摄像机各生成一系列半路径，将半路径合成为一条路径。</p>
+<p>无偏估计</p>
+<p>适用：从光源出发的光线传播路径较为复杂时。</p>
+<p>缺点：难实现、渲染慢。</p>
+<h4 id="metropolis-light-transportmlt">Metropolis Light
+Transport（MLT）</h4>
+<p>思想：若给定一个路径，可以通过马尔可夫链（Markov Chain Monte
+Carlo，MCMC）在周围产生一系列相似的路径。蒙特卡洛积分的p的函数与待积分的函数越接近，采样效率越高，而通过马尔科夫链可以生成与待积分函数非常一致的函数。</p>
+<p>无偏估计</p>
+<p>适用：光路复杂、焦散（caustics）（先经过specular、再经过diffuse，再经过speculr，SDS）</p>
+<p>缺点：</p>
+<ul>
+<li>无法估计渲染的速度</li>
+<li>是一种局部的方法，得出的结果可能整体上很脏，前后帧图像收敛可能不一致导致动画抖动厉害</li>
+</ul>
+<h4 id="光子映射photon-mapping">光子映射（Photon Mapping）</h4>
+<p>有偏估计但一致</p>
+<p>适用：特别适合用于解决Specular-Diffuse-Specular（SDS）路径和产生caustics</p>
+<p>有许多种实现方法，下面是一种。</p>
+<ol type="1">
+<li>photon
+tracing：从光源出来的光线不断做反射、折射直到遇到diffuse表面。</li>
+<li>photon
+collection：从摄像机发射光线不断做反射、折射直到遇到diffuse表面</li>
+<li>calculation local density
+estimation：对任一个着色点，找到最近的N个的光子，计算占的面积，得到光子的密度</li>
+</ol>
+<p>N取越大图的效果越好。但因为<span class="math inline">\(\frac{\Delta
+N}{\Delta A} \ne
+\frac{dN}{dA}\)</span>，所以光子映射是有偏估计，最后得出的结果是糊的。<span
+class="math inline">\(\Delta A\)</span>越小，这两者就会越接近，当<span
+class="math inline">\(\Delta
+A\)</span>无穷接近0时，结果会是无偏的。只需要增大发射出的光子数，就可以使<span
+class="math inline">\(\Delta A\)</span>变小，当<span
+class="math inline">\(\Delta
+A\)</span>足够小时，图片就不会糊。这也是为什么是找最近的N个光子而不是找固定面积内的光子的数量，因为固定面积内光子的数量是有偏的且<span
+class="math inline">\(\frac{\Delta N}{\Delta A}\)</span>不会收敛于<span
+class="math inline">\(\frac{dN}{dA}\)</span>。</p>
+<h4 id="vertex-connection-and-merging">Vertex Connection and
+Merging</h4>
+<p>思想：结合双向路径追踪和光子映射。对于BDPT形成的不能相连但能够合并（处于非常接近的一个面内）的子路径端点，用光子映射合并这些端点。</p>
+<h4 id="实时辐射度instant-radiosityir">实时辐射度（Instant
+Radiosity，IR）</h4>
+<p>思想：从光源形成一系列路径，将路径的端点作为虚拟点光源（Virtual Point
+Light，VPL），再用虚拟点光源渲染场景。（many-light rendering）</p>
+<p>优点：快速并且在漫反射场景中有较好效果</p>
+<p>缺点：无法处理glossy材质，且当虚拟点光源间太过靠近（如在角落）会出现一些异常的亮点。</p>
+<h3 id="advanced-appearance-modeling">Advanced Appearance Modeling</h3>
+<h4 id="非表面模型non-surface-models">非表面模型（Non-surface
+models）</h4>
+<h5 id="participating-media-散射参与介质">Participating media
+散射（参与）介质</h5>
+<ul>
+<li>云、雾</li>
+<li>Phase Function描述了光线如何散射</li>
+<li>从相机触发，随机弹向一个方向，沿直线前进随机一段距离形成一个着色点，着色点与光源连接进行着色。</li>
+</ul>
+<h5 id="hairfurfiber">Hair/fur/fiber</h5>
+<h6 id="hair">Hair</h6>
+<ul>
+<li>Marschner Model</li>
+</ul>
+<p>将头发丝视作圆柱（cuticle和cortex组成），光线与头发丝有三种互动——在表面直接反射（R），从头发一侧进入另一侧穿出（TT），从头发一侧进入在内部经反射再穿出（TRT），其中进入头发的光线会被cortex部分吸收。</p>
+<h6 id="fur">Fur</h6>
+<p>头发模型并不能直接用于毛发模型。</p>
+<p>毛发由cuticle、cortex和medulla（髓质）组成（头发其实也由他们组成，但在头发中髓质非常小，可以忽略）。</p>
+<p>由此有一种双层圆柱模型（double cylinder
+model），cortex在外，medulla在内，cortex吸收部分光线，medulla负责散射。光线与头发的交互有五种——TT、R、TRT、TTS、TRTS（S为散射）。</p>
+<h5 id="颗粒材质granular-material">颗粒材质（Granular Material）</h5>
+<h5 id="translucent-material">Translucent Material</h5>
+<p>Translucent：形容光线从一个点进入物体，在内部经过一系列反射、折射从其他地方出去而形成的半透明的感觉，实际上并不是半透明。</p>
+<p>玉石（Jade）、人的皮肤等。</p>
+<p>这种光线传播被称为Subsurface Scattering。</p>
+<p>对于这种传播，需将BRDF推广到BSSRDF。</p>
+<p><span
+class="math inline">\(L_(x_o,\omega_o)=\int_A\int_{H^2}S(x_i,\omega_i,x_o,\omega_o)L_i(x_i,\omega_i)cos\theta_id\omega_idA\)</span></p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220220152548486.png" srcset="/img/loading.gif" lazyload alt="image-20220220152548486" style="zoom: 50%;" /></p>
+<p>为模拟这种光线传播，人们提出来Dipole
+Approximation，即在物体表面虚拟一个光源，与原本的真实光源共同作用。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220220152810150.png" srcset="/img/loading.gif" lazyload alt="image-20220220152810150" style="zoom: 50%;" /></p>
+<p>这种模型渲染的大理石、人脸效果相比BRDF很好。</p>
+<p>布料的渲染：BRDF、participating media</p>
+<h4 id="表面模型surface-models">表面模型（Surface models）</h4>
+<p>对Distribution of normals进行处理可以得到更真实的结果。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220220153435763.png" srcset="/img/loading.gif" lazyload alt="image-20220220153435763" style="zoom:50%;" /></p>
+<h4 id="程序化生成procedural-appearance">程序化生成（Procedural
+appearance）</h4>
+<h2 id="相机">相机</h2>
+<h3 id="fov">FOV</h3>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220220170538961.png" srcset="/img/loading.gif" lazyload alt="image-20220220170538961" style="zoom:50%;" /></p>
+<p><span class="math inline">\(FOV=2arctan(\frac{h}{2f})\)</span></p>
+<p>人们描述FOV时往往假定胶片为35mm格式（36*24mm），给出焦距f。事实上胶片未必为35mm格式，所以实际焦距应等比例缩放。</p>
+<h3 id="曝光exposure">曝光（Exposure）</h3>
+<p>Exposure H = T * E， T为曝光时间，E为irradiance。</p>
+<p>曝光时间由快门（shutter）决定，irradiance由光圈（aperture）和焦距（focal
+length）决定。</p>
+<h4 id="光圈aperture">光圈（Aperture）</h4>
+<p>f数（f-stop）:表征光圈的大小，定义为<span
+class="math inline">\(\frac{f}{d}\)</span>，d为光圈直径，f为焦距，f数越小表面光圈越大。通常写作FN或F/N，N为f-number。</p>
+<h4 id="快门shutter">快门（Shutter）</h4>
+<p>快门速度会影响曝光的时间，往往以曝光时间表征，单位通常为ms。</p>
+<p>机械快门打开有一个过程，这会导致不同点采样实际上不同时，对于高速运动的物体会出现扭曲。</p>
+<p>长时间开启会有运动模糊（motion
+blur），运动模糊可以体现快，也可以抗锯齿。</p>
+<ul>
+<li>f数和快门时间在摄影中往往相互制约，f数变为原来两倍时，光圈大小变为原来二分之一，曝光面积变为原来的四分之一，为保证曝光的量不变，曝光时间应变为原来的四倍。</li>
+</ul>
+<h4 id="感光度iso-gain">感光度（ISO gain）</h4>
+<p>硬件或数学方法直接放大传感器得到的值。</p>
+<p>这是一个线性的值，实际上就是直接对传感器得到结果做一个乘法，当它过大时会出现明显的噪点。</p>
+<h3 id="薄透镜近似thin-lens-approximation">薄透镜近似（Thin Lens
+Approximation）</h3>
+<ul>
+<li>薄凸透镜的性质
+<ul>
+<li>所有平行于光轴入射透镜的光线折射后必经过焦点</li>
+<li>所有经过焦点入射的光线经薄凸透镜折射后必平行光轴出射</li>
+<li>经过凸透镜中心的光线折射前后方向不变</li>
+</ul></li>
+</ul>
+<p>由上述性质可以在几何上推出<span
+class="math inline">\(\frac{1}{f}=\frac{1}{z_i}+\frac{1}{z_o}\tag{The
+Thin Lens Equation}\)</span></p>
+<h4 id="circle-of-confusioncoc">Circle of Confusion（CoC）</h4>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220220183931335.png" srcset="/img/loading.gif" lazyload alt="image-20220220183931335" style="zoom: 33%;" /></p>
+<p>对于非焦平面上的点，它的光线会在传感器的平面上投出一个弥散圆，这就是图片变糊的原因，也就是景深出现的原因。</p>
+<p>由几何关系可得<span
+class="math inline">\(\frac{C}{A}=\frac{d&#39;}{z_i}=\frac{|z_s-z_i|}{z_i}\)</span>。</p>
+<p>由此可以得到光圈（A）越大，弥散圆越大，图片上不在焦平面上的图像越糊。</p>
+<h4 id="ray-tracing-for-defocus-blurthin-lens">Ray Tracing for Defocus
+Blur（Thin Lens）</h4>
+<p>设定好透镜的焦距、像距，从传感器出发向透镜发射一系列光线，折射的光线用透镜公式得出。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220220185347747.png" srcset="/img/loading.gif" lazyload alt="image-20220220185347747" style="zoom: 50%;" /></p>
+<h3 id="景深depth-of-field">景深（depth of field）</h3>
+<p>场景中使对应CoC很小（小于或与像素差不多大小）的深度范围。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220220185933827.png" srcset="/img/loading.gif" lazyload alt="image-20220220185933827" style="zoom: 50%;" /></p>
+<h2 id="光场light-field-lumigraph">光场（Light Field / Lumigraph）</h2>
+<h2 id="光场的引入">光场的引入</h2>
+<ul>
+<li>全光函数（The Plenoptic Function） <span
+class="math inline">\(P(\theta,\phi,\lambda,t,V_x,V_y,V_z)\)</span>可以用于表述在任何时间任何时刻任何角度看到的任意波长的光强度。</li>
+</ul>
+<p>为了描述一个物体，只需要从它外部任何一个角度观察它，记录观察到的每一个点。如果有一个平面能提供相同的信息，则能让我们视觉上得到相同的观察结果。由此，可以引入一个包围盒，包围盒上记录了各个观察方向观察到的各点的样子（plenoptic
+surface）。</p>
+<p><img src="C:\Users\Zg\AppData\Roaming\Typora\typora-user-images\image-20220221101459812.png" srcset="/img/loading.gif" lazyload alt="image-20220221101459812" style="zoom: 40%;" /><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220221101732985.png" srcset="/img/loading.gif" lazyload alt="image-20220221101732985" style="zoom: 40%;" /></p>
+<p>光场记录了任何一个位置往任何一个方向去的光的强度。</p>
+<p>光的描述可以采用点的位置加上方向，同样可以用两个点的位置进行。为了更好地描述光场，我们在我们关心的物体两侧引入两个平面。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220221102606985.png" srcset="/img/loading.gif" lazyload alt="image-20220221102606985" style="zoom:50%;" /></p>
+<p>两个平面上的点s,u就可以表述光线。若点s的坐标为（s,t），点u的坐标为（u,v），光就可以用s,t,u,v进行描述。</p>
+<h3 id="光场的应用">光场的应用</h3>
+<ul>
+<li>光照照相机</li>
+</ul>
+<p>运用光场的原理，可以做到先拍照，后进行动态变焦的操作。</p>
+<h2 id="色彩color">色彩（Color）</h2>
+<ul>
+<li>谱功率密度（Spectral Power Distribution，SPD）
+<ul>
+<li>描述一束光中各波长光线的相对强度。</li>
+<li>具有线性可加性。</li>
+</ul></li>
+<li>颜色的生物学原理</li>
+</ul>
+<p>人眼内有视锥细胞，它们负责识别光的颜色。视锥细胞有三种S、M、L，不同人眼中的比例不一样。</p>
+<p>三种不同的细胞对不同波长的光的响应不同，有不同的响应曲线，响应函数分别记作<span
+class="math inline">\(r_S(\lambda),r_M(\lambda),r_L(\lambda)\)</span>。</p>
+<p>人们看到的颜色实际上是它们的响应与光的SPD积分的结果，即 <span
+class="math display">\[
+S=\int r_S(\lambda)s(\lambda)d\lambda\\
+M=\int r_M(\lambda)s(\lambda)d\lambda\\
+L=\int r_L(\lambda)s(\lambda)d\lambda
+\]</span> 人在接收到（S, M, L）后会产生颜色的感觉。</p>
+<ul>
+<li>同色异谱现象（Metamerism）</li>
+</ul>
+<p>不同的SPD可能对应同一种颜色。因此匹配一种颜色时只需要任意调节SPD，直到想要的颜色出现。</p>
+<h3 id="颜色空间color-space">颜色空间（Color Space）</h3>
+<h4 id="srgb-color-space">（s）RGB Color Space</h4>
+<p>用R、G、B三种颜色去调节得到各种波长对应的颜色。</p>
+<p>人们在实验中发现有些颜色并不能通过直接混合得到，而可以通过目标颜色上加颜色（R）得到我们能直接配出的颜色。这种在目标颜色上加颜色的比例记作负数。实验结果如下：</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220221105906914.png" srcset="/img/loading.gif" lazyload alt="image-20220221105906914" style="zoom:50%;" /></p>
+<p>同样地可以计算得到RGB分量 <span class="math display">\[
+R=\int_\lambda s(\lambda)\overline r(\lambda)d\lambda\\
+G=\int_\lambda s(\lambda)\overline g(\lambda)d\lambda\\
+B=\int_\lambda s(\lambda)\overline b(\lambda)d\lambda
+\]</span></p>
+<ul>
+<li>RGB系统并不能定义所有颜色。</li>
+</ul>
+<h4 id="xyz-color-space">XYZ Color Space</h4>
+<p>直接定义各个颜色匹配函数如下图：</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220221110422581.png" srcset="/img/loading.gif" lazyload alt="image-20220221110422581" style="zoom:33%;" /></p>
+<p>其中Y分量代表颜色的亮度（luminance）。</p>
+<p>颜色匹配函数满足以下性质：</p>
+<ul>
+<li>匹配函数都严格非负。</li>
+<li>覆盖了所有可以观察到的颜色。</li>
+</ul>
+<p>为了将该色域可视化，对各分量作归一化处理，定义归一化后的变量为<strong>色度（Chromaticity）</strong>。
+<span class="math display">\[
+x= \frac{X}{X+Y+Z}\\
+y= \frac{Y}{X+Y+Z}\\
+z= \frac{Z}{X+Y+Z}
+\]</span> 因为x+y+z=1，所以只需要记录两个参数（通常是x, y）。</p>
+<p>实际上，该图仍然受三个参数X、Y、Z控制，为了改变x、y，人们往往固定Y，改变X和Z，因为Y控制的只是亮度。所以最终可视化的色域图实际上是一固定亮度下的图。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220221111251223.png" srcset="/img/loading.gif" lazyload alt="image-20220221111251223" style="zoom:50%;" /></p>
+<p>色域图边缘的颜色最纯净，最中心的白色最不纯净。</p>
+<h4 id="hsv-color-spacehue-saturation-valuebrightnesslightness">HSV
+Color Space（Hue-Saturation-Value/Brightness/Lightness）</h4>
+<p>色调-饱和度-亮度</p>
+<p>大量运用于取色器。</p>
+<h4 id="lab-color-space">LAB Color Space</h4>
+<p>L是亮度，a、b是两对互补色，其中a为红绿互补色对，b为黄蓝互补色对。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220221112217688.png" srcset="/img/loading.gif" lazyload alt="image-20220221112217688" style="zoom:50%;" /></p>
+<h4 id="减色系统">减色系统</h4>
+<p>CMYK（Cyan、Megenta、Yellow and blacK）</p>
+<h4 id="色域gamut">色域（Gamut）</h4>
+<p>一个颜色空间所有可能显示的颜色。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/" class="category-chain-item">长篇笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" class="category-chain-item">图形学</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/" class="print-no-link">#长篇笔记</a>
+      
+        <a href="/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" class="print-no-link">#图形学</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>GAMES101笔记</div>
+      <div>http://example.com/2021/07/20/长篇笔记/图形学/GAMES101/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JointHex</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年7月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/29/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/d2l/" title="动手学深度学习">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">动手学深度学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

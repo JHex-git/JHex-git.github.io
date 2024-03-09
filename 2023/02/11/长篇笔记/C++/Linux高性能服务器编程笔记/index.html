@@ -1,0 +1,1434 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JointHex">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="阅读《Linux高性能服务器编程》时记录下的笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux高性能服务器编程笔记">
+<meta property="og:url" content="http://example.com/2023/02/11/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/C++/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="JointHex的技术分享站">
+<meta property="og:description" content="阅读《Linux高性能服务器编程》时记录下的笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-02-11T08:41:00.000Z">
+<meta property="article:modified_time" content="2024-03-04T06:15:03.027Z">
+<meta property="article:author" content="JointHex">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="长篇笔记">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="后端">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Linux高性能服务器编程笔记 - JointHex的技术分享站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>JointHex的技术分享站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/NPR.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Linux高性能服务器编程笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-11 16:41" pubdate>
+          2023年2月11日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          22k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          183 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Linux高性能服务器编程笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>阅读《Linux高性能服务器编程》时记录下的笔记</p>
+</blockquote>
+<span id="more"></span>
+<p>/proc/sys/net/ipv4/下定义了大量tcp连接相关的内核变量。</p>
+<p>一些常用的工具：tcpdump、iptables、telnet、nc、netstat、iperf、squid</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">nc -p client_port server_ip server_port # 建立连接<br>nc -l port # 监听port<br></code></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">tcpdump -n -i 网卡名 port 端口号 # -t会关闭时间戳<br></code></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">netstat -nat # 查看连接状态<br></code></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">iperf -s # 测量网络状况的工具，-s将其作为服务器运行，默认监听5001端口，并丢弃收到的所有数据<br></code></pre></td></tr></table></figure>
+<p>squid是代理服务器，支持正向代理、反向代理</p>
+<p>/etc/init.d/目录下有众多服务器程序，如httpd、vsftpd、sshd、mysqld，由脚本程序service(/usr/sbin/service)提供统一管理(start,
+stop, restart)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">arp -d target_ip # 删除ARP高速缓存中target_ip的MAC地址<br></code></pre></td></tr></table></figure>
+<p>tcp状态转移：</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/11/image-20230211164629980.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/11/image-20230211173213744.png" srcset="/img/loading.gif" lazyload /></p>
+<p>客户端执行半关闭后（FIN_WAIT_2），未等服务器关闭连接就强行退出，此时客户端连接由内核来接管，称为孤儿连接。Linux内核变量定义了最大孤儿连接数(tcp_max_orphans)和最长停留时间(tcp_fin_timeout)</p>
+<p>主动断开连接的服务器会由于处于TIME_WAIT状态而不能在原端口（服务器往往运行在知名端口）立即重启，可以通过socket选项SO_REUSEADDR来强制进程立即使用处于TIME_WAIT状态的连接占用的端口。</p>
+<p>TCP传输的紧急数据往往又称带外数据(Out Of Band,
+OOB)，紧急指针只会指向紧急数据的下一字节，所以只有带外数据的最后一个字节会作为紧急数据。通常情况下，带外数据存储在特殊的缓存中，带外缓存只有1字节，如果设置SO_OOBINLINE则带外数据将和普通数据一样被存放在TCP接收缓冲区。</p>
+<p>Linux中两个TCP超时重传的内核参数tcp_retries1(最少重传次数)、tcp_retries2(最多重传次数)</p>
+<h4 id="拥塞控制">拥塞控制</h4>
+<p>接收方通过发送窗口(SWND)控制发送方发送的报文段数量，发送方通过接收通告窗口(RWND)控制发送方的SWND。发送方还有拥塞窗口(CWND)，SWND=min(RWND,
+CWND)，这些都以字节为单位。</p>
+<p>在使用DNS服务之前，Linux会先进行本地查询，在/etc/hosts配置文件中查找主机名对应的IP地址。</p>
+<p>/etc/host.conf文件可以自定义系统解析主机名的方法和顺序</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">order hosts,bind # hosts表示/etc/hosts,bind表示DNS服务<br>multi on<br></code></pre></td></tr></table></figure>
+<h2 id="linux网络编程">Linux网络编程</h2>
+<p>现代PC大多采用小端字节序，所以小端字节序又称为主机字节序。发送端总是将数据转为大端字节序，所以大端字节序也称为网络字节序。</p>
+<p>linux提供一系列主机字节序和网络字节序间转换的函数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;netinet/in.h&gt;</span></span><br><span class="hljs-comment">// h: host, n: net, l: long, s: short</span><br><span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">int</span> <span class="hljs-title function_">htonl</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">int</span> hostlong)</span>;<br><span class="hljs-type">unsigned</span> <span class="hljs-type">short</span> <span class="hljs-type">int</span> <span class="hljs-title function_">htons</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">short</span> <span class="hljs-type">int</span> hostshort)</span>;<br><span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">int</span> <span class="hljs-title function_">ntohl</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">int</span> netlong)</span>;<br><span class="hljs-type">unsigned</span> <span class="hljs-type">short</span> <span class="hljs-type">int</span> <span class="hljs-title function_">ntohs</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">short</span> <span class="hljs-type">int</span> netshort)</span>;<br></code></pre></td></tr></table></figure>
+<p>Linux将许多东西都看作文件进行处理，socket也是如此。</p>
+<h3 id="socket">Socket</h3>
+<p>socket网络编程中通用biao'ssocket地址的是结构体sockaddr</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/socket.h&gt;</span></span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">sa_family_t</span> sa_family; <span class="hljs-comment">// 所属地址族，如AF_UNIX、AF_INET、AF_INET6</span><br>    						<span class="hljs-comment">// 协议族PF_*和地址族完全对应，可以混用</span><br>    <span class="hljs-type">char</span> sa_data[<span class="hljs-number">14</span>]; <span class="hljs-comment">// 地址，根据地址族类型有不同含义</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/11/image-20230211232419525.png" srcset="/img/loading.gif" lazyload /></p>
+<p>由于14字节的sa_data无法满足多数需求，Linux定义了新的socket地址结构体。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_storage</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">sa_family_t</span> sa_family;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">int</span> __ss_align; <span class="hljs-comment">// 仅用作地址对齐</span><br>    <span class="hljs-type">char</span> __ss_padding[<span class="hljs-number">128</span>-<span class="hljs-keyword">sizeof</span>(__ss_align)];<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>为方便使用，Linux提供了协议族的专用socket地址——sockaddr_un(UNIX本地协议族),
+sockaddr_in(IPv4，#include &lt;netinet/in.h&gt;),
+sockaddr_in6(IPv6)，它们的port应用大端格式(n)</p>
+<h4 id="ip地址转换函数">IP地址转换函数</h4>
+<p>ipv4有以下函数(a表示字符串，n表示二进制数)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;arpa/inet.h&gt;</span></span><br><span class="hljs-type">in_addr_t</span> <span class="hljs-title function_">inet_addr</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* strptr)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">inet_aton</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* cp, <span class="hljs-keyword">struct</span> in_addr* inp)</span>;<br><span class="hljs-type">char</span>* <span class="hljs-title function_">inet_ntoa</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> in_addr in)</span>;<br></code></pre></td></tr></table></figure>
+<p>需要注意的是inet_ntoa返回的是其内部静态变量的指针，所以是不可重入的。</p>
+<p>有同时支持IPv4,IPv6的函数(p表示字符串地址，n表示二进制数，af为地址族)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;arpa/inet.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">inet_pton</span><span class="hljs-params">(<span class="hljs-type">int</span> af, <span class="hljs-type">const</span> <span class="hljs-type">char</span>* src, <span class="hljs-type">void</span>* dst)</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">char</span>* <span class="hljs-title function_">inet_ntop</span><span class="hljs-params">(<span class="hljs-type">int</span> af, <span class="hljs-type">const</span> <span class="hljs-type">void</span>* src, <span class="hljs-type">char</span>* dst, <span class="hljs-type">socklen_t</span> cnt)</span>;<br></code></pre></td></tr></table></figure>
+<p>inet_pton成功时返回1，失败返回0并设置errno。</p>
+<p>inet_ntop成功时返回dst地址，失败则返回NULL并设置errno。cnt用于指定dst的大小，这里往往使用以下宏</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;netinet/in.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> INET_ADDRSTRLEN 16</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> INET6_ADDRSTRLEN 46</span><br></code></pre></td></tr></table></figure>
+<h4 id="创建socket">创建socket</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">socket</span><span class="hljs-params">(<span class="hljs-type">int</span> domain, <span class="hljs-type">int</span> type, <span class="hljs-type">int</span> protocol)</span>;<br><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * domain: 地址族</span><br><span class="hljs-comment"> * type: 是服务类型，如SOCK_STREAM,SOCK_UGRAM，对于TCP/IP协议族，SOCK_STREAM表示传输层使用TCP，SOCK_UGRAM表示传输层使用UTP，可以与SOCK_NONBLOCK, SOCK_CLOEXEC相与控制是否阻塞以及fork创建子进程时子进程是否关闭该socket</span><br><span class="hljs-comment"> * protocol: 在前两个参数构成的协议集合下，再选择一个具体的协议。由于前两个基本已经确定了具体的协议，所以几乎都用0(表默认)</span><br><span class="hljs-comment"> * return: 文件描述符。失败则返回-1并设置errno</span><br><span class="hljs-comment"> */</span><br></code></pre></td></tr></table></figure>
+<h4 id="命名socket">命名socket</h4>
+<p>将socket与socket地址绑定称为给socket命名。通常只有服务器需要命名socket，而客户端采用匿名方式，由操作系统自动分配。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">bind</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> sockaddr* my_addr, <span class="hljs-type">socklen_t</span> addrlen)</span>;<br><span class="hljs-comment">// 成功时返回0，失败则返回-1并设置errno</span><br><span class="hljs-comment">// 常见errno有EACCES(被绑定地址是受保护地址，比如知名服务端口), EADDRINUSE(被绑定地址正在使用中，比如处于TIME_WAIT)</span><br></code></pre></td></tr></table></figure>
+<h4 id="监听socket">监听socket</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">listen</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, <span class="hljs-type">int</span> backlog)</span>;<br><span class="hljs-comment">// backlog指定内核监听队列的最大长度。如果监听队列长度超过backlog，服务器将不受理新的客户连接，客户端也将受到ECONNREFUSED错误信息。在内核版本2.2之前，backlog指的是所有处于半连接(SYN_RCVD)和完全连接的socket上限，之后则表示处于完全连接的socket上限，处于半连接的socket上限由/proc/sys/net/ipv4/tcp_max_syn_backlog定义。backlog的典型值为5。返回值同上。</span><br><span class="hljs-comment">// 实际实现中，监听队列的最大长度会略大于backlog</span><br></code></pre></td></tr></table></figure>
+<p>服务端开始监听后，客户端就可以与服务端建立TCP连接。</p>
+<h4 id="接收连接">接收连接</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">accept</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, <span class="hljs-keyword">struct</span> sockaddr *addr, <span class="hljs-type">socklen_t</span> *addrlen)</span>;<br><span class="hljs-comment">// 用于获取客户端socket地址。实际工作过程是从监听队列中取出连接，并不涉及到网络</span><br><span class="hljs-comment">// 返回值同上</span><br></code></pre></td></tr></table></figure>
+<h4 id="发起连接">发起连接</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">connect</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, constr <span class="hljs-keyword">struct</span> sockaddr *serv_addr, <span class="hljs-type">socklen_t</span> addrlen)</span>;<br><span class="hljs-comment">// 常见errno有ECONNREFUSED(目标端口不存在，连接被拒绝)、ETIMEDOUT(连接超时)</span><br></code></pre></td></tr></table></figure>
+<h4 id="关闭连接">关闭连接</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">close</span><span class="hljs-params">(<span class="hljs-type">int</span> fd)</span>;<br><span class="hljs-comment">// 将fd的引用-1，如果为0则关闭socket</span><br><br><span class="hljs-comment">// 如果无论如何都要立即关闭socket，应使用shutdown</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">shutdown</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, <span class="hljs-type">int</span> howto)</span>;<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/12/image-20230212110434692.png" srcset="/img/loading.gif" lazyload /></p>
+<h4 id="数据读写">数据读写</h4>
+<h5 id="tcp">TCP</h5>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">recv</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, <span class="hljs-type">void</span> *buf, <span class="hljs-type">size_t</span> len, <span class="hljs-type">int</span> flags)</span>;<br><span class="hljs-comment">// 读取sockfd上的数据，返回实际读取数据长度(&lt;=len)</span><br><span class="hljs-comment">// len通常为buf大小-1</span><br><span class="hljs-comment">// 返回0表面通信对方已经关闭连接</span><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">send</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, <span class="hljs-type">const</span> <span class="hljs-type">void</span> *buf, <span class="hljs-type">size_t</span> len, <span class="hljs-type">int</span> flags)</span>;<br><span class="hljs-comment">// 往sockfd上写入数据，返回实际写入数据长度</span><br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/12/image-20230212114708920.png" srcset="/img/loading.gif" lazyload /></p>
+<p>没有特殊要求就用0</p>
+<p>MSG_OOB发送的数据仅有最后一字节会作为OOB数据被接收，且对正常数据的接收会被OOB数据截断，中间夹杂着OOB数据的数据需要多次recv才能读出。</p>
+<h5 id="udp">UDP</h5>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">recvfrom</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, <span class="hljs-type">void</span>* buf, <span class="hljs-type">size_t</span> len, <span class="hljs-type">int</span> flags, <span class="hljs-keyword">struct</span> sockaddr* src_addr, <span class="hljs-type">socklen_t</span> addrlen)</span>;<br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">sendto</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, <span class="hljs-type">const</span> <span class="hljs-type">void</span>* buf, <span class="hljs-type">size_t</span> len, <span class="hljs-type">int</span> fags, <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> sockaddr* dest_addr, <span class="hljs-type">socklen_t</span> addrlen)</span>;<br></code></pre></td></tr></table></figure>
+<p>这两个函数同样可以用于面向连接的数据读写，只需要将最后两个参数设置为NULL。</p>
+<h5 id="通用数据读写">通用数据读写</h5>
+<p>可以用于TCP、UDP</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">recvmsg</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, <span class="hljs-keyword">struct</span> msghdr* msg, <span class="hljs-type">int</span> flags)</span>;<br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">sendmsg</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, <span class="hljs-keyword">struct</span> msghdr* msg, <span class="hljs-type">int</span> flags)</span>;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">msghdr</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">void</span>* msg_name; <span class="hljs-comment">// socket地址，TCP则为NULL</span><br>    <span class="hljs-type">socklen_t</span> msg_namelen; <span class="hljs-comment">// socket地址的长度</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">iovec</span>* <span class="hljs-title">msg_iov</span>;</span> <span class="hljs-comment">// 分散的内存块，iovec数组</span><br>    <span class="hljs-type">int</span> msg_iovlen; <span class="hljs-comment">// 分散内存块的数量，数组元素数</span><br>    <span class="hljs-type">void</span>* msg_control; <span class="hljs-comment">// 指向辅助数据的起始位置，往往是cmsghdr</span><br>    <span class="hljs-type">socklen_t</span> msg_controllen; <span class="hljs-comment">// 辅助数据的大小</span><br>    <span class="hljs-type">int</span> msg_flags; <span class="hljs-comment">// 复制函数中的flags参数，并在调用过程中更新，所以调用函数前无需设置</span><br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">iovec</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">void</span>* iov_base; <span class="hljs-comment">// 内存起始地址</span><br>    <span class="hljs-type">size_t</span> iov_len; <span class="hljs-comment">// 这块内存的长度</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>数据存在分散的内存块中，需要分散读(scatter
+read)，发送时一并发送，称为集中写(gather write)</p>
+<h4 id="带外标记">带外标记</h4>
+<p>由于实际应用中程序不知道什么时候OOB数据到来，Linux提供了函数用于判断下一个被读取的数据是否是带外数据。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">sockatmark</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd)</span>;<br><span class="hljs-comment">// 如果下一个被读取的数据是OOB，则返回1</span><br></code></pre></td></tr></table></figure>
+<h4 id="地址信息函数">地址信息函数</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">getsockname</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, <span class="hljs-keyword">struct</span> sockaddr* address, <span class="hljs-type">socklen_t</span>* address_len)</span>;<br><span class="hljs-comment">// 获取本地sockfd对应的socket address</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">getpeername</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, <span class="hljs-keyword">struct</span> sockaddr* address, <span class="hljs-type">socklen_t</span>* address_len)</span>;<br><span class="hljs-comment">// 获取远端与sockfd连接的socket address，与accept几乎一致</span><br></code></pre></td></tr></table></figure>
+<h4 id="socket选项">socket选项</h4>
+<p>socket文件描述符属性读取和修改</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">getsockopt</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, <span class="hljs-type">int</span> level, <span class="hljs-type">int</span> option_name, <span class="hljs-type">void</span>* option_value, </span><br><span class="hljs-params">               <span class="hljs-type">socklen_t</span>* <span class="hljs-keyword">restrict</span> option_len)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">setsockopt</span><span class="hljs-params">(<span class="hljs-type">int</span> sockfd, <span class="hljs-type">int</span> level, <span class="hljs-type">int</span> option_name, <span class="hljs-type">const</span> <span class="hljs-type">void</span>* option_value,</span><br><span class="hljs-params">               <span class="hljs-type">socklen_t</span> option_len)</span>;<br><span class="hljs-comment">// level指定要操作的协议(IPv4、IPv6、TCP等)，option_name指定选项</span><br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/12/image-20230212140412656.png" srcset="/img/loading.gif" lazyload /></p>
+<p>部分选项仅在listen、connect前设置有效：SO_DEBUG、SO_DONTROUTE、SO_KEEPALIVE、SO_LINGER、SO_OOBINLINE、SO_RCVBUF、SO_RCVLOWAT、SO_SNDBUF、SO_SNDLOWAT、TCP_MAXSEG、TCP_NODELAY。</p>
+<p>SO_REUSEADDR可以使得sock即使处于TIME_WAIT状态，与之绑定的socket地址也可以立即被重用，也可以通过/proc/sys/net/ipv4/tcp_tw_recycle来快速回收被关闭的socket，从而使得TCP连接根本就不进入TIME_WAIT状态。</p>
+<p>SO_RCVBUF、SO_SNDBUF用来控制接收缓冲区和发送缓冲区，setsockopt时实际上是将缓冲区设为max(2*value,
+min_value)。可以通过/proc/sys/net/ipv4/tcp_rmem和/proc/sys/net/ipv4/tcp_wmem来强制接收缓冲区和发送缓冲区没有最小值限制。</p>
+<p>SO_RCVLOWAT和SO_SNDLOWAT是低水位标记，当接收缓冲区的可读数据总数大于其低水位标记时，I/O复用系统调用将通知应用程序可以从对应的socket上读取数据，当发送缓冲区中的空闲空间大于低水位标记时，I/O复用系统调用将通知应用程序可以往对应的socket上写入数据。默认情况下，低水位标记都为1字节。</p>
+<p>SO_LINGER用于控制close系统调用的行为。默认情况下，close将立即返回，TCP会把发送缓冲区中残留的数据发送给对方。SO_LINGER选项需要linger结构体。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">linger</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">int</span> l_onoff; <span class="hljs-comment">// 0表示off，非0表示on</span><br>    <span class="hljs-type">int</span> l_linger;<span class="hljs-comment">// 滞留时间</span><br>&#125;;<br><span class="hljs-comment">// 如果是off，则close为默认行为</span><br><span class="hljs-comment">// 如果是on，l_linger等于0，则close立即返回，发送缓冲区残留的数据被丢弃，同时给对方发送一个复位报文段，即一种异常终止连接的方法。</span><br><span class="hljs-comment">// 如果是on且l_linger非0，</span><br><span class="hljs-comment">// 		如果是阻塞的socket，则会尝试在l_linger时间内发完所有残留数据并得到对方确认，</span><br><span class="hljs-comment">//			如果没有成功则返回-1并设置errno为EWOULDBLOCK</span><br><span class="hljs-comment">//		如果是非阻塞的socket，则close立即返回，可以根据返回值和errno判断残留数据是否发送完毕。</span><br></code></pre></td></tr></table></figure>
+<h4 id="网络信息api">网络信息API</h4>
+<h5 id="host">host</h5>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;netdb.h&gt;</span></span><br><span class="hljs-keyword">struct</span> hostent* <span class="hljs-title function_">gethostbyname</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* name)</span>;<br><span class="hljs-comment">// 先在/etc/hosts中查找，再去访问DNS服务器</span><br><span class="hljs-keyword">struct</span> hostent* <span class="hljs-title function_">gethostbyaddr</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">void</span>* addr, <span class="hljs-type">size_t</span> len, <span class="hljs-type">int</span> type)</span>;<br><span class="hljs-comment">// type为地址族</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">hostent</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">char</span>* h_name;		<span class="hljs-comment">// 主机名</span><br>    <span class="hljs-type">char</span>** h_aliases;	<span class="hljs-comment">// 主机别名列表</span><br>    <span class="hljs-type">int</span> h_addrtype;		<span class="hljs-comment">// 地址族</span><br>    <span class="hljs-type">int</span> h_length;		<span class="hljs-comment">// 地址长度</span><br>    <span class="hljs-type">char</span>** h_addr_list;	<span class="hljs-comment">// 按网络字节序列出的主机IP地址列表</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<h5 id="service">service</h5>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;netdb.h&gt;</span></span><br><span class="hljs-keyword">struct</span> servent* <span class="hljs-title function_">getservbyname</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* name, <span class="hljs-type">const</span> <span class="hljs-type">char</span>* proto)</span>;<br><span class="hljs-keyword">struct</span> servent* <span class="hljs-title function_">getservbyport</span><span class="hljs-params">(<span class="hljs-type">int</span> port, <span class="hljs-type">const</span> <span class="hljs-type">char</span>* proto)</span>;<br><span class="hljs-comment">// 通过读取/etc/services</span><br><span class="hljs-comment">// name指定服务名字，tcp表示流服务，udp表示数据报服务，NULL表示所有类型服务</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">servent</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">char</span>* s_name;<br>    <span class="hljs-type">char</span>** s_aliases;<br>    <span class="hljs-type">int</span> s_port;<br>    <span class="hljs-type">char</span>* s_proto;		<span class="hljs-comment">// 服务类型，如tcp、udp</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>需要注意的是以上四个host和service的函数都是不可重入的。可重入版本是函数_r。</p>
+<hr />
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;netdb.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">getaddrinfo</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* hostname, <span class="hljs-type">const</span> <span class="hljs-type">char</span>* service, <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> addrinfo* hints, <span class="hljs-keyword">struct</span> addrinfo** result)</span>;<br><span class="hljs-comment">// 该函数可以用于同时获取IP地址(根据主机名)和端口号(根据服务名)结果存在result中，result指向一个链表</span><br><span class="hljs-comment">// hints用于实现对输出更精确的控制，可以被设置为NULL。可以设置ai_flags,ai_family, ai_socktype,ai_protocol，其他字段必须设为NULL</span><br><span class="hljs-comment">// 可重入性取决于内部实现</span><br><span class="hljs-comment">// 该函数会动态分配内存</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">addrinfo</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">int</span> ai_flags;<br>    <span class="hljs-type">int</span> ai_family;				<span class="hljs-comment">// 地址族</span><br>    <span class="hljs-type">int</span> ai_socktype;			<span class="hljs-comment">// 服务类型，如SOCK_STREAM、SOCK_DGRAM</span><br>    <span class="hljs-type">int</span> ai_protocol;			<span class="hljs-comment">// 具体的网络协议，与socket的第三个参数类似，由于地址族和服务类型基本已经确定了网络协议，所以通常为0</span><br>    <span class="hljs-type">socklen_t</span> ai_addrlen;<br>    <span class="hljs-type">char</span>* ai_canonname;			<span class="hljs-comment">// 主机的别名</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr</span>* <span class="hljs-title">ai_addr</span>;</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">addrinfo</span>* <span class="hljs-title">ai_next</span>;</span><br>&#125;;<br><span class="hljs-type">void</span> <span class="hljs-title function_">freeaddrinfo</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> addrinfo* res)</span>; <span class="hljs-comment">// 用于释放空间</span><br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/12/image-20230212155534220.png" srcset="/img/loading.gif" lazyload /></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;netdb.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">getnameinfo</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> sockaddr* sockaddr, <span class="hljs-type">socklen_t</span> addrlen, <span class="hljs-type">char</span>* host,</span><br><span class="hljs-params">               <span class="hljs-type">socklen_t</span> hostlen, <span class="hljs-type">char</span>* serv, <span class="hljs-type">socklen_t</span> servlen, <span class="hljs-type">int</span> flags)</span>;<br><span class="hljs-comment">// 用于同时获取主机名和服务名</span><br><span class="hljs-comment">// flags控制它的行为</span><br><span class="hljs-comment">// 可重入性取决于内部实现</span><br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/12/image-20230212160149921.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/12/image-20230212160211863.png" srcset="/img/loading.gif" lazyload /></p>
+<p>Linux提供了将errno转换成易读字符串形式的函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;netdb.h&gt;</span></span><br><span class="hljs-type">const</span> <span class="hljs-type">char</span>* <span class="hljs-title function_">gai_strerror</span><span class="hljs-params">(<span class="hljs-type">int</span> error)</span>;<br></code></pre></td></tr></table></figure>
+<h2 id="高级io函数">高级I/O函数</h2>
+<h3 id="pipe">pipe</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pipe</span><span class="hljs-params">(<span class="hljs-type">int</span> fd[<span class="hljs-number">2</span>])</span>;<br><span class="hljs-comment">// 将两个文件描述符用管道连接，fd[0]能从管道读出数据，fd[1]能向管道写入数据</span><br><span class="hljs-comment">// 默认情况下，这一对文件操作符都是阻塞的。</span><br><span class="hljs-comment">// 如果管道的写端文件描述符fd[1]的引用计数减少至0，则fd[0]的read会返回0，即读取到了EOF。</span><br><span class="hljs-comment">// 如果管道的读端文件描述符fd[0]的引用计数减少至0，则fd[1]的write会引发SIGPIPE信号</span><br></code></pre></td></tr></table></figure>
+<p>管道容量默认是65536字节，可以通过fcntl函数来修改。</p>
+<p>可以通过socketpair方便地创建双向管道</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/socket.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">socketpair</span><span class="hljs-params">(<span class="hljs-type">int</span> domain, <span class="hljs-type">int</span> type, <span class="hljs-type">int</span> protocol, <span class="hljs-type">int</span> fd[<span class="hljs-number">2</span>])</span>;<br><span class="hljs-comment">// domain只能使用AF_UNIX，因为仅能在本地使用双向管道</span><br></code></pre></td></tr></table></figure>
+<h3 id="dup和dup2">dup和dup2</h3>
+<p>当我们希望将标准输入重定向到一个文件，或者把标准输出重定向到一个网络连接(比如CGI编程)时，可以用该函数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">dup</span><span class="hljs-params">(<span class="hljs-type">int</span> file_descriptor)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">dup2</span><span class="hljs-params">(<span class="hljs-type">int</span> file_descriptor_one, <span class="hljs-type">int</span> file_descriptor_two)</span>;<br><span class="hljs-comment">// 创建一个新的与file_descriptor指向相同文件、管道或网络连接的文件描述符(属性不复制)</span><br><span class="hljs-comment">// dup返回的文件描述符总是取系统当前可用的最小文件描述符整数值</span><br><span class="hljs-comment">// dup2返回第一个不小于file_descriptor_two的整数值</span><br></code></pre></td></tr></table></figure>
+<p>可以通过close原本的文件(比如标准输入、输出)，再dup要重定向到的文件，使得新的文件描述符的值恰好与close的相同从而达到重定向的作用。</p>
+<h3 id="分散度和集中写">分散度和集中写</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/uio.h&gt;</span></span><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">readv</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> iovec* <span class="hljs-built_in">vector</span>, <span class="hljs-type">int</span> count)</span>;<br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">writev</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> iovec* <span class="hljs-built_in">vector</span>, <span class="hljs-type">int</span> count)</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="sendfile">sendfile</h3>
+<p>sendfile用于在两个文件描述符之间直接传递数据(完全在内核中操作，效率很高，零拷贝)，通常用于将文件通过网络发送。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/sendfile.h&gt;</span></span><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">sendfile</span><span class="hljs-params">(<span class="hljs-type">int</span> out_fd, <span class="hljs-type">int</span> in_fd, <span class="hljs-type">off_t</span>* offset, <span class="hljs-type">size_t</span> count)</span>;<br><span class="hljs-comment">// in_fd必须是支持类似mmap函数的文件描述符，即它必须指向真实的文件，不能是socket和管道</span><br><span class="hljs-comment">// out_fd必须是socket</span><br></code></pre></td></tr></table></figure>
+<h3 id="mmap和munmap">mmap和munmap</h3>
+<p>mmap用于申请一段内存空间，可用于进程间通信的共享内存，也可以将文件直接映射到其中</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/mman.h&gt;</span></span><br><span class="hljs-type">void</span>* <span class="hljs-title function_">mmap</span><span class="hljs-params">(<span class="hljs-type">void</span>* start, <span class="hljs-type">size_t</span> length, <span class="hljs-type">int</span> prot, <span class="hljs-type">int</span> flags, <span class="hljs-type">int</span> fd, <span class="hljs-type">off_t</span> offset)</span>;<br><span class="hljs-comment">// start允许用户自行指定内存的起始地址，如果为NULL则系统分配，prot用于设置内存段的访问权限</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">munmap</span><span class="hljs-params">(<span class="hljs-type">void</span>* start, <span class="hljs-type">size_t</span> length)</span>;<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/12/image-20230212234249278.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/12/image-20230212234408327.png" srcset="/img/loading.gif" lazyload /></p>
+<p>其中MAP_SHARED和MAP_PRIVATE互斥。</p>
+<p>mmap失败返回MAP_FAILED((void*)-1)并设置errno</p>
+<h3 id="splice">splice</h3>
+<p>用于在两个文件描述符之间移动数据，同样是零拷贝操作</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> _GNU_SOURCE</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">splice</span><span class="hljs-params">(<span class="hljs-type">int</span> fd_in, <span class="hljs-type">loff_t</span>* off_in, <span class="hljs-type">int</span> fd_out, <span class="hljs-type">loff_t</span>* off_out,</span><br><span class="hljs-params">              <span class="hljs-type">size_t</span> len, <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> flags)</span>;<br><span class="hljs-comment">// 如果fd_in是管道，那么off_in必须为NULL</span><br><span class="hljs-comment">// fd_in和fd_out必须至少有一个是管道文件描述符，返回移动字节数量。失败时返回-1并设置errno</span><br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/13/image-20230213000202267.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/13/image-20230213000427938.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="tee">tee</h3>
+<p>用于在两个管道文件描述符之间复制数据，也是零拷贝，且不消耗数据，原文件描述符上的数据仍然可以用于后续的读操作</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span><br><span class="hljs-type">ssize_t</span> <span class="hljs-title function_">tee</span><span class="hljs-params">(<span class="hljs-type">int</span> fd_in, <span class="hljs-type">int</span> fd_out, <span class="hljs-type">size_t</span> len, <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> flags)</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="fcntl">fcntl</h3>
+<p>对文件描述符进行各种操作</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">fcntl</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, <span class="hljs-type">int</span> cmd, ...)</span>;<br></code></pre></td></tr></table></figure>
+<p>常用cmd如下</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/13/image-20230213104855588.png" srcset="/img/loading.gif" lazyload /></p>
+<p>在网络编程中，往往可以用来将文件描述符设置为非阻塞的</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">setnonblocking</span><span class="hljs-params">(<span class="hljs-type">int</span> fd)</span><br>&#123;<br>    <span class="hljs-type">int</span> old_option = fcntl(fd, F_GETFL);<br>    <span class="hljs-type">int</span> new_option = old_option | O_NONBLOCK;<br>    fcntl(fd, F_SETFL, new_option);<br>    <span class="hljs-keyword">return</span> old_option; <span class="hljs-comment">// 以便日后恢复该状态标志</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>此外，SIGIO、SIGURG信号必须与某个文件描述符通过fcntl关联后才可使用。</p>
+<p>当被关联的文件描述符可读或可写时，系统将触发SIGIO信号，当被关联的文件描述符(必须是一个socket)上有带外数据可读时，系统将触发SIGURG信号。</p>
+<h2 id="linux服务器程序规范">Linux服务器程序规范</h2>
+<ul>
+<li><p>Linux服务器程序一般以后台进程形式运行。后台进程又称守护进程(daemon)。它没有控制终端，因而也不会意外接收到用户输入。守护进程的父进程通常是init进程(PID为1的进程)。</p></li>
+<li><p>Linux服务器程序通常有一套日志系统，它至少能输出日志到文件，有的高级服务器还能输出日志到专门的UDP服务器。大部分后台进程都在/var/log目录下拥有自己的日志目录。</p></li>
+<li><p>Linux服务器程序一般以某个专门的非root身份运行。比如
+mysqld、httpd、syslogd等后台进程，分别拥有自己的运行账户mysql、 apache和
+syslog。</p></li>
+<li><p>Linux服务器程序通常是可配置的。服务器程序通常能处理很多命令行选项，如果一次运行的选项太多，则可以用配置文件来管理。绝大多数服务器程序都有配置文件，并存放在/etc目录下</p></li>
+<li><p>Linux服务器进程通常会在启动的时候生成一个PID文件并存入/var/run目录中，以记录该后台进程的PID。比如
+syslogd 的PID文件是/var/run/syslogd.pid.</p></li>
+<li><p>Linux服务器程序通常需要考虑系统资源和限制，以预测自身能承受多大负荷，比如进程可用文件描述符总数和内存总量等。</p></li>
+</ul>
+<h3 id="日志">日志</h3>
+<p>Linux用一个守护进程(daemon)syslogd来处理系统日志，不过现在的Linux系统上使用的都是它的升级版rsyslogd。</p>
+<p>rsyslogd可以接受用户进程和内核的日志。用户进程通过syslog函数生成系统日志，该函数将日志输出到一个AF_UNIX的socket的文件/dev/log中，rsyslogd则监听该文件以获取用户进程的输出。内核日志在老的Linux系统上是通过另一个守护进程rklogd来管理的，rsyslogd则是利用额外的模块实现了相同的功能。内核日志由printk等函数打印至内核的ring
+buffer中，ring
+buffer的内容则直接映射到/proc/kmsg文件中。rsyslogd通过读取该文件获得内核日志。</p>
+<p>rsyslogd会对收到的日志进行分发。默认情况下，调试信息会保存至/var/log/debug，普通信息保存至/var/log/messages，内核消息保存至/var/log/kern.log。可以在/etc/rsyslog.conf文件进行配置(主配置文件，子配置文件通常为/etc/rsyslog.d/*.conf)。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;syslog.h&gt;</span></span><br><span class="hljs-type">void</span> <span class="hljs-title function_">syslog</span><span class="hljs-params">(<span class="hljs-type">int</span> priority, <span class="hljs-type">const</span> <span class="hljs-type">char</span>* message, ...)</span>;<br><span class="hljs-comment">// priority: 设施值 | 日志级别</span><br><span class="hljs-comment">// 设施值的默认值是LOG_USER</span><br><span class="hljs-comment">// 常见日志级别：</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LOG_EMERG		0 <span class="hljs-comment">// 系统不可用</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LOG_ALERT		1 <span class="hljs-comment">// 报警，需要立即采取动作</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LOG_CRIT		2 <span class="hljs-comment">// 非常严重的情况</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LOG_ERR			3 <span class="hljs-comment">// 错误</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LOG_WARNING		4 <span class="hljs-comment">// 警告</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LOG_NOTICE		5 <span class="hljs-comment">// 通知</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LOG_INFO		6 <span class="hljs-comment">// 信息</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LOG_DEBUG		7 <span class="hljs-comment">// 调试</span></span><br></code></pre></td></tr></table></figure>
+<p>为了修改日志的格式，可以使用openlog函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;syslog.h&gt;</span></span><br><span class="hljs-type">void</span> <span class="hljs-title function_">openlog</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* ident, <span class="hljs-type">int</span> logopt, <span class="hljs-type">int</span> facility)</span>;<br><span class="hljs-comment">// 并不是用于打开日志，而是为了改变syslog的输出格式，实际上是打开一个文件描述符与syslog进行通信</span><br><span class="hljs-comment">// ident字符串会被添加到之后syslog的每条日志消息的日期和时间之后，往往用于标识程序</span><br><span class="hljs-comment">// logopt有</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LOG_PID		0x01	<span class="hljs-comment">// 在日志消息中包含PID</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LOG_CONS	0x02	<span class="hljs-comment">// 如果消息不能记录到日志文件，则打印至终端</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LOG_ODELAY	0x04	<span class="hljs-comment">// 延迟openlog直到第一次调用syslog</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LOG_NDELAY	0x08	<span class="hljs-comment">// 不延迟openlog</span></span><br><span class="hljs-comment">// facility用于修改syslog的默认设施值</span><br></code></pre></td></tr></table></figure>
+<p>为过滤日志</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;syslog.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">setlogmask</span><span class="hljs-params">(<span class="hljs-type">int</span> maskpri)</span>;<br><span class="hljs-comment">// maskpri为日志掩码，日志级别大于日志掩码的会被忽略</span><br><span class="hljs-comment">// 返回修改之前的日志掩码</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;syslog.h&gt;</span></span><br><span class="hljs-type">void</span> <span class="hljs-title function_">closelog</span><span class="hljs-params">()</span>; <span class="hljs-comment">// 关闭打开的用于与syslog通信的文件描述符</span><br></code></pre></td></tr></table></figure>
+<h3 id="用户">用户</h3>
+<p>进程拥有两个用户ID:
+UID、EUID。用户运行某程序的代码时拥有该程序的EUID权限。同样组也有类似的EGID。EUID为root的进程称为特权进程。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-type">uid_t</span> <span class="hljs-title function_">getuid</span><span class="hljs-params">()</span>;<br><span class="hljs-type">uid_t</span> <span class="hljs-title function_">geteuid</span><span class="hljs-params">()</span>;<br><span class="hljs-type">gid_t</span> <span class="hljs-title function_">getgid</span><span class="hljs-params">()</span>;<br><span class="hljs-type">gid_t</span> <span class="hljs-title function_">getegid</span><span class="hljs-params">()</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">setuid</span><span class="hljs-params">(<span class="hljs-type">uid_t</span> uid)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">seteuid</span><span class="hljs-params">(<span class="hljs-type">uid_t</span> uid)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">setgid</span><span class="hljs-params">(<span class="hljs-type">gid_t</span> gid)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">setegid</span><span class="hljs-params">(<span class="hljs-type">gid_t</span> gid)</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="进程间关系">进程间关系</h3>
+<p>Linux下每个进程都隶属于一个进程组，因此它们除了PID外还有PGID。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-type">pid_t</span> <span class="hljs-title function_">getpgid</span><span class="hljs-params">(<span class="hljs-type">pid_t</span> pid)</span>;<br></code></pre></td></tr></table></figure>
+<p>每个进程组都有一个首领进程，其PGID和PID相同。进程组将一直存在，直到其中所有进程都退出，或者加入到其他进程组。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">setpgid</span><span class="hljs-params">(<span class="hljs-type">pid_t</span> pid, <span class="hljs-type">pid_t</span> pgid)</span>;<br><span class="hljs-comment">// 设置目标pid进程所属进程组</span><br><span class="hljs-comment">// 如果pid == pgid则该pid进程被设置为首领进程</span><br><span class="hljs-comment">// 如果pid为0则设置当前进程的PGID为pgid</span><br><span class="hljs-comment">// 如果pgid为0则使用pid作为目标PGID</span><br></code></pre></td></tr></table></figure>
+<p>一个进程只能设置自己或者其子进程的PGID，并且当子进程调用exec系列函数后不能再在父进程中对它设置PGID。</p>
+<p>非首领进程可以创建会话。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-type">pid_t</span> <span class="hljs-title function_">setsid</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br><span class="hljs-comment">// 调用进程成为会话的首领，此时该进程是新会话的唯一成员</span><br><span class="hljs-comment">// 新建一个进程组，其PGID就是调用进程的PID，即调用进程成为该组的首领</span><br><span class="hljs-comment">// 调用进程将甩开终端（如果有的话）</span><br><span class="hljs-type">pid_t</span> <span class="hljs-title function_">getsid</span><span class="hljs-params">(<span class="hljs-type">pid_t</span> pid)</span>; <span class="hljs-comment">// 返回PGID</span><br></code></pre></td></tr></table></figure>
+<h3 id="系统资源限制">系统资源限制</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/resource.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">getrlimit</span><span class="hljs-params">(<span class="hljs-type">int</span> resource, <span class="hljs-keyword">struct</span> rlimit* rlim)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">setrlimit</span><span class="hljs-params">(<span class="hljs-type">int</span> resource, <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> rlimit* rlim)</span>;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">rlimit</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">rlim_t</span> rlim_cur; <span class="hljs-comment">// 软限制，是建议性的、最好不要超越的，超越可能系统会向进程发送信号以终止其运行</span><br>    <span class="hljs-type">rlim_t</span> rlim_max; <span class="hljs-comment">// 硬限制一般是软限制的上限</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>普通程序可以减小硬限制，只有root身份运行的程序才能增加硬限制。</p>
+<p>可以使用ulimit命令修改当前shell环境下的资源限制，这种修改对该shell启动的所有后续程序有效。也可以通过修改配置文件来修改，这种修改永久生效。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/14/image-20230214205905882.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="改变工作目录和根目录">改变工作目录和根目录</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-type">char</span>* <span class="hljs-title function_">getcwd</span><span class="hljs-params">(<span class="hljs-type">char</span>* buf, <span class="hljs-type">size_t</span> size)</span>;<br><span class="hljs-comment">// 返回绝对路径，如果大于size，则返回NULL并设置errno为ERANGE</span><br><span class="hljs-comment">// 如果buf为NULL且size非0则会动态分配内存</span><br><span class="hljs-comment">// 成功时返回指针，失败则返回NULL并设置errno</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">chdir</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* path)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">chroot</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>*path)</span>;<br><span class="hljs-comment">// 改变进程根目录</span><br><span class="hljs-comment">// 不改变进程的当前工作目录，所以在chroot之后还需要chdir(&quot;/&quot;)切换至新的根目录</span><br><span class="hljs-comment">// 在调用chroot之后，进程原先打开的文件描述符依然生效</span><br><span class="hljs-comment">// 只有特权进程才能改变根目录</span><br></code></pre></td></tr></table></figure>
+<h3 id="服务器程序后台化">服务器程序后台化</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 内部实现逻辑</span><br><span class="hljs-type">bool</span> <span class="hljs-title function_">daemonize</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-comment">// 创建子进程，关闭父进程，这样可以使程序在后台运行</span><br>    <span class="hljs-type">pid_t</span> pid = fork();<br>    <span class="hljs-keyword">if</span> (pid &lt; <span class="hljs-number">0</span>) <span class="hljs-comment">// fork fail</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (pid &gt; <span class="hljs-number">0</span>) <span class="hljs-comment">// 父进程</span><br>    &#123;<br>        <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);<br>    &#125;<br>    <br>    <span class="hljs-comment">// 设置文件权限掩码，当进程创建新文件时文件的权限将是mode &amp; 0777</span><br>    umask(<span class="hljs-number">0</span>);<br>    <br>    <span class="hljs-comment">//创建新的会话，设置本进程为进程组的首领</span><br>    <span class="hljs-type">pid_t</span> sid = setsid();<br>    <span class="hljs-keyword">if</span> (sid &lt; <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    <br>    <span class="hljs-comment">// 切换工作目录</span><br>    <span class="hljs-keyword">if</span> (chdir(<span class="hljs-string">&quot;/&quot;</span>) &lt; <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    <br>    <span class="hljs-comment">// 关闭标准输入、输出、错误输出设备</span><br>    close(STDIN_FILENO);<br>    close(STDOUT_FILENO);<br>    close(STDERR_FILENO);<br>    <br>    <span class="hljs-comment">// 关闭其他已经打开的文件描述符，略</span><br>    <br>    <span class="hljs-comment">// 将标准输入、输出、错误输出都重定向到/dev/null文件</span><br>    open(<span class="hljs-string">&quot;/dev/null&quot;</span>, O_RDONLY); <span class="hljs-comment">// 因为此时open返回的fd是0，恰好是标准输入</span><br>    open(<span class="hljs-string">&quot;/dev/null&quot;</span>, O_RDWR); <span class="hljs-comment">// fd是1</span><br>    open(<span class="hljs-string">&quot;/dev/null&quot;</span>, O_RWWR); <span class="hljs-comment">// fd是2</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>实际上，Linux提供了完成同样功能的库函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#included <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">daemon</span><span class="hljs-params">(<span class="hljs-type">int</span> nochdir, <span class="hljs-type">int</span> noclose)</span>;<br><span class="hljs-comment">// 如果nochdir为0则工作目录被改为&quot;/&quot;，否则继续使用当前工作目录</span><br><span class="hljs-comment">// 如果noclose为0，则标准输入、输出、错误输出都被重定向到/dev/null，否则依然使用原来的设备</span><br></code></pre></td></tr></table></figure>
+<h2 id="高性能服务器程序框架">高性能服务器程序框架</h2>
+<h3 id="io模型">I/O模型</h3>
+<p>socket创建时默认阻塞，可以通过socket系统调用的第二个参数传递SOCK_NONBLOCK或通过fcntl的F_SETFL设置非阻塞。</p>
+<p>socket的基本API中，可能被阻塞的系统调用包括accept、send、recv、connect。</p>
+<p>针对非阻塞的I/O执行的系统调用总是立即返回，如果事件没有立即发生，则这些系统调用返回-1.对于非阻塞的accept、send、recv，事件未发生时errno通常被设置成EAGAIN或EWOULDBLOCK，对于connect则是EINPROGRESS。</p>
+<p>非阻塞I/O通常要与其他I/O通知机制一起使用，比如I/O复用和SIGIO信号。</p>
+<p>I/O复用是最常用的I/O通知机制，应用程序通过I/O服用函数向内核注册一组事件，内核通过I/O复用函数把其中就绪的事件通知给应用程序，如select、poll、epoll_wait。I/O复用函数本身是阻塞的，它们能提高程序效率的原因在于它们能同时监听多个I/O事件。</p>
+<p>SIGIO信号也可以用来报告I/O事件。可以为一个文件描述符指定宿主进程，当该文件描述符上有事件发生时，宿主进程将捕获到SIGIO信号，SIGIO信号的信号处理函数将被触发。</p>
+<p>异步I/O的读写操作总是立即返回，而不论I/O是否阻塞，I/O读写由内核接管，内核通知I/O完成事件。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/15/image-20230215101637318.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="两种高效的事件处理模式">两种高效的事件处理模式</h3>
+<h4 id="reactor">Reactor</h4>
+<p>主线程(I/O处理单元)只负责监听文件描述上是否有事件发生，有的话立即将该事件通知工作线程(逻辑单元)。除此之外，主线程不做任何其他实质性的工作。读写数据，接收新的连接，以及处理客户请求均在工作线程中完成。</p>
+<p>使用同步I/O模型（以epoll_wait为例）实现的Reactor模式的工作流程是：</p>
+<ol type="1">
+<li>主线程往epoll内核事件表中注册socket上的读就绪事件</li>
+<li>主线程调用epoll_wait等待socket上有数据可读</li>
+<li>当socket上有数据可读时，epoll_wait通知主线程。主线程则将socket可读事件放入请求队列</li>
+<li>睡眠在请求队列上的某个工作线程被唤醒，它从socket读取数据，并处理客户请求，然后往epoll内核事件表中注册该socket上的写就绪事件</li>
+<li>主线程调用epoll_wait等待socket可写</li>
+<li>当socket可写时，epoll_wait通知主线程。主线程将socket可写事件放入请求队列</li>
+<li>睡眠在请求队列上的某个工作线程被唤醒，它往socket上写入服务器处理客户请求的结果</li>
+</ol>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/15/image-20230215105136707.png" srcset="/img/loading.gif" lazyload /></p>
+<h4 id="proactor">Proactor</h4>
+<p>所有I/O操作都交给主线程和内核来处理，工作线程仅仅负责业务逻辑。</p>
+<p>使用异步I/O模型（以aio_read和aio_write为例）实现的Proactor模式的工作流程是：</p>
+<ol type="1">
+<li>主线程调用aio_read函数向内核注册socket上的读完成事件，并告诉内核用户读缓冲区的位置，以及读操作完成时如何通知应用程序（这里以信号为例，详情请参考sigevent的man手册）</li>
+<li>主线程继续处理其他逻辑</li>
+<li>当socket上的数据被读入用户缓冲区后，内核将向应用程序发送一个信号，以通知应用程序数据已经可用</li>
+<li>应用程序预先定义好的信号处理函数选择一个工作线程来处理客户请求。工作线程处理完客户请求之后，调用aio_write函数向内核注册socket上的写完成事件，并告诉内核用户写缓冲区的位置，以及写操作完成时如何通知应用程序（仍然以信号为例）</li>
+<li>主线程继续处理其他逻辑</li>
+<li>当用户缓冲区的数据被写入socket之后，内核将向应用程序发送一个信号，以通知应用程序数据已经发送完毕</li>
+<li>应用程序预先定义好的信号处理函数选择一个工作线程来做善后处理，比如决定是否关闭socket。</li>
+</ol>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/15/image-20230215110002602.png" srcset="/img/loading.gif" lazyload /></p>
+<h4 id="用同步io模拟proactor">用同步I/O模拟Proactor</h4>
+<p>以epoll_wait为例</p>
+<ol type="1">
+<li>主线程往epoll内核事件表中注册socket上的读就绪事件</li>
+<li>主线程调用epoll_wait等待socket上有数据可读</li>
+<li>当socket上有数据可读时，epoll_wait通知主线程。主线程从socket循环读取数据，直到没有更多数据可读，然后将读取到的数据封装成一个请求对象并插入请求队列</li>
+<li>睡眠在请求队列上的某个工作线程被唤醒，它获得请求对象并处理客户请求，然后往epoll内核时事件中注册socket上的写就绪事件</li>
+<li>主线程调用epoll_wait等待socket可写</li>
+<li>当socket可写时，epoll_wait通知主线程，主线程往socket上写入服务器处理客户请求的结果</li>
+</ol>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/15/image-20230215111053991.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="两种高效的并发模式">两种高效的并发模式</h3>
+<h4
+id="半同步半异步half-synchalf-async模式">半同步/半异步(half-sync/half-async)模式</h4>
+<p>同步线程用于处理客户逻辑，异步线程用于处理I/O事件。</p>
+<p>一种变体成为半同步/半反应堆(half-sync/half-reactive)模式</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/15/image-20230215111941790.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/15/image-20230215112002602.png" srcset="/img/loading.gif" lazyload /></p>
+<h4
+id="领导者追随者leaderfollowers模式">领导者/追随者(Leader/Followers)模式</h4>
+<p>多个工作线程轮流获得事件源集合，轮流监听、分发并处理事件的一种模式</p>
+<p>在任意时间点，程序都仅有一个领导者线程，它负责监听I/O事件，而其他线程都是追随者，他们休眠在线程池中等待成为新的领导者。当前的领导者如果检测到I/O事件，首先要从线程池中推选出新的领导者线程，然后处理I/O事件。此时，新的领导者等待新的I/O事件，而原来的领导者则处理I/O事件。</p>
+<p>包含组件：HandleSet、ThreadSet、EventHandler、ConcreteEvetHandler</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/15/image-20230215113831016.png" srcset="/img/loading.gif" lazyload /></p>
+<p>HandleSet</p>
+<ul>
+<li>Handle用于表示I/O资源</li>
+<li>wait_for_event监听句柄上的I/O事件，将就绪事件通知给领导者线程</li>
+<li>领导者线程调用绑定到Handle上的事件处理器处理事件(绑定由register_handle实现)</li>
+</ul>
+<p>ThreadSet</p>
+<ul>
+<li>线程集中的线程必定处于三种状态之一
+<ul>
+<li>Leader: 当前处于领导者身份，负责等待句柄集上的I/O事件</li>
+<li>Processing:
+正在处理事件。领导者检测到I/O事件后可以转移到Processing状态进行处理，并调用promote_new_leader推选新的领导，也可以指定其他追随者来处理事件(Event
+Handoff)，此时领导者的身份不变。当处于Processing状态的线程处理完事件之后，如果当前线程集中没有领导者，则它成为新的领导者，否则它就直接转变为追随者</li>
+<li>Follower:
+当前处于追随者身份，通过调用线程集的join方法等待成为新的领导者，也可能被当前的领导者指定来处理新的任务</li>
+</ul></li>
+</ul>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/15/image-20230215114703096.png" srcset="/img/loading.gif" lazyload /></p>
+<p>ConcreteEventHandler</p>
+<ul>
+<li>是事件处理器的派生类，必须重新实现基类的handle_event方法</li>
+</ul>
+<h3 id="有限状态机">有限状态机</h3>
+<h3 id="池">池</h3>
+<p>内存池、进程池、线程池和连接池</p>
+<h2 id="io复用">I/O复用</h2>
+<h3 id="select">select</h3>
+<p>在一段指定时间内，监听用户感兴趣的文件描述符上的可读、可写和异常等事件。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/select.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">select</span><span class="hljs-params">(<span class="hljs-type">int</span> nfds, fd_set* readfds, fd_set* writefds, fd_set* exceptfds,</span><br><span class="hljs-params">           <span class="hljs-keyword">struct</span> timeval* timeout)</span>;<br><span class="hljs-comment">// nfds: 被监听的文件描述符的总数，通常被设置为select监听的所有文件描述符中的最大值加1，因为文件描述符是从0开始计数的</span><br><span class="hljs-comment">// readfds、writefds、exceptfds分别指向可读、可写、异常等事件对应的文件描述符集合，select返回时内核会通过修改它们来通知应用程序哪些文件描述符已经就绪</span><br><span class="hljs-comment">// timeout用来设置select函数的超时时间，内核会修改它来告诉应用程序select等待了多久。如果是NULL则select会一直阻塞，直到某个文件描述符就绪</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">timeval</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">long</span> tv_sec;	<span class="hljs-comment">// 秒</span><br>    <span class="hljs-type">long</span> tv_usec;	<span class="hljs-comment">// 微妙</span><br>&#125;;<br><span class="hljs-comment">// 成功时返回就绪文件描述符总数</span><br><span class="hljs-comment">// 如果select等待期间，程序接收到信号，则select立即返回-1，并设置errno为EINTR。</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// fd_set，本质是一个bitmap</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;typesizes.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> __FD_SETSIZE 1024</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/select.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> FD_SETSIZE __FD_SETSIZE</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">int</span> __fd_mask;<br><span class="hljs-meta">#<span class="hljs-keyword">undef</span> __NFDBITS</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> __NFDBITS (8 * (int) sizeof(__fd_mask))</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span></span><br><span class="hljs-class">&#123;</span><br><span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> __USE_XOPEN</span><br>   	__fd_mask fds_bits[__FD_SETSIZE / __NFDBITS];<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> __FDS_BITS(set) ((set)-&gt;fds_bits)</span><br><span class="hljs-meta">#<span class="hljs-keyword">else</span></span><br>    __fd_mask __fds_bits[__FD_SETSIZE / __NFDBITS];<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> __FDS_BITS(set) ((set)-&gt;__fds_bits)</span><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br>&#125; fd_set;<br><span class="hljs-comment">// fd_set仅包含一个整型数组，该数组的每个元素的每一位标记一个文件描述符。fd_set能容纳的文件描述符数量由FD_SETSIZE指定</span><br><span class="hljs-comment">// 在执行select前，1表示监听的文件描述符，在执行select后，1表示就绪的文件描述符</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// Linux提供了一系列宏来访问fd_set中的位</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/select.h&gt;</span></span><br>FD_ZERO(fd_set* fdset);					<span class="hljs-comment">// 清除fdset的所有位</span><br>FD_SET(<span class="hljs-type">int</span> fd, fd_set* fdset);			<span class="hljs-comment">// 设置fdset的位fd，即监听fd</span><br>FD_CLR(<span class="hljs-type">int</span> fd, fd_set* fdset);			<span class="hljs-comment">// 清除fdset的位fd</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">FD_ISSET</span><span class="hljs-params">(<span class="hljs-type">int</span> fd, fd_set* fdset)</span>;	<span class="hljs-comment">// 测试fdset的位fd是否被设置，即是否就绪</span><br><span class="hljs-comment">// 由于select会修改fd_set，所以每次调用select前都应重新FD_SET</span><br></code></pre></td></tr></table></figure>
+<p>网络编程中，socket可读就绪：</p>
+<ul>
+<li>socket内核接收缓存区中的字节数大于等于其低水位标记SO_RCVLOWAT</li>
+<li>socket通信对方关闭连接</li>
+<li>监听socket上有新的连接请求</li>
+<li>socket上有未处理的错误(此时可以使用getsockopt来读取和清除该错误)</li>
+</ul>
+<p>socket可写就绪:</p>
+<ul>
+<li>socket内核发送缓冲区中的可用字节数大于等于其低水位标记SO_SNDLOWAT</li>
+<li>socket的写操作被关闭。对写操作被关闭的socket执行写操作将触发一个SIGPIPE信号</li>
+<li>socket使用非阻塞connect连接成功或失败(超时)之后</li>
+<li>socket上有未处理的错误(此时可以使用getsockopt来读取和清除该错误)</li>
+</ul>
+<p>异常就绪:</p>
+<ul>
+<li>socket上接收到带外数据</li>
+</ul>
+<h3 id="poll">poll</h3>
+<p>与select类似，也是在指定时间内轮询一定数量的文件描述符，以测试其中是否有就绪者。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;poll.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">poll</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> pollfd* fds, <span class="hljs-type">nfds_t</span> nfds, <span class="hljs-type">int</span> timeout)</span>;<br><span class="hljs-comment">// fds是一个数组，nfds指定数组元素个数</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">pollfd</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">int</span> fd;<br>    <span class="hljs-type">short</span> events;	<span class="hljs-comment">// 注册的事件，一系列事件的按位或</span><br>    <span class="hljs-type">short</span> revents;	<span class="hljs-comment">// 实际发生的事件，由内核填充</span><br>&#125;;<br><span class="hljs-keyword">typedef</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">int</span> <span class="hljs-type">nfds_t</span>;<br><span class="hljs-comment">// timeout指定超时事件，单位是毫秒，timeout为-1时poll将阻塞直到某个事件发生</span><br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/15/image-20230215190240547.png" srcset="/img/loading.gif" lazyload /></p>
+<p>POLLRDNORM、POLLRDBAND、POLLWRNORM、POLLWRBAND由XOPEN规范定义，它们实际上是将POLLIN事件和POLLOUT事件分得更细致，以区别对待普通数据和优先数据，但Linux并不完全支持它们。</p>
+<p>使用POLLRDHUP事件时需要在代码最开始处定义_GNU_SOURCE。</p>
+<h3 id="epoll系列系统调用">epoll系列系统调用</h3>
+<p>epoll是Linux特有的I/O复用函数，使用一组函数完成任务。</p>
+<p>epoll把用户关心的文件描述符上的事件放在内核里的一个事件表中，从而无须像select和poll那样每次调用都要重复传入文件描述符集或事件集。</p>
+<p>epoll需要使用一个额外的文件描述符来标识内核中的事件表。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/epoll.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">epoll_create</span><span class="hljs-params">(<span class="hljs-type">int</span> size)</span>;<br><span class="hljs-comment">// size不起作用，只是给内核一个提示，告诉它事件表需要多大</span><br><span class="hljs-comment">// 返回值是其他所有epoll系统调用的第一个参数epfd</span><br></code></pre></td></tr></table></figure>
+<p>通过epoll_ctl对事件表进行修改。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/epoll.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">epoll_ctl</span><span class="hljs-params">(<span class="hljs-type">int</span> epfd, <span class="hljs-type">int</span> op, <span class="hljs-type">int</span> fd, <span class="hljs-keyword">struct</span> epoll_event* event)</span>;<br><span class="hljs-comment">// op有3种: EPOLL_CTL_ADD、EPOLL_CTL_MOD、EPOLL_CTL_DEL</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">epoll_event</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">__uint32_t</span> events; <span class="hljs-comment">// epoll事件</span><br>    <span class="hljs-type">epoll_data_t</span> data; <span class="hljs-comment">// 用户数据</span><br>&#125;;<br><span class="hljs-comment">// epoll支持的事件类型和poll基本相同，只需要在宏前加E就可以了</span><br><span class="hljs-comment">// epoll还有两个额外的事件类型EPOLLET和EPOLLONESHOT，它们对应epoll的高效运作非常关键</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">union</span> <span class="hljs-title">epoll_data</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">void</span>* ptr;<br>    <span class="hljs-type">int</span> fd;<br>    <span class="hljs-type">uint32_t</span> u32;<br>    <span class="hljs-type">uint64_t</span> u64;<br>&#125; <span class="hljs-type">epoll_data_t</span>;<br><span class="hljs-comment">// ptr可用来指向与fd相关的用户数据，但由于是union，使用ptr时一般将fd放到ptr指向的空间中</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/epoll.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">epoll_wait</span><span class="hljs-params">(<span class="hljs-type">int</span> epfd, <span class="hljs-keyword">struct</span> epoll_event* events, <span class="hljs-type">int</span> maxevents, <span class="hljs-type">int</span> timeout)</span>;<br><span class="hljs-comment">// events是该函数的输出，所有就绪的事件都会被复制到这个数组中</span><br><span class="hljs-comment">// timeout为-1将阻塞</span><br></code></pre></td></tr></table></figure>
+<p>epoll对文件描述符有两种操作模式：LT(电平触发)模式和ET(边沿触发)模式。LT是默认的工作模式，这种模式下epoll相当于一个效率较高的poll。当往epoll内核事件表中注册一个文件描述符上的EPOLLET事件时，epoll将以ET模式来操作该文件描述符。ET模式是epoll的高效工作模式。</p>
+<p>对于采用LT工作模式的文件描述符，当epoll_wait检测到其上有事件发生并将此事件通知应用程序后，应用程序可以不立即处理此事件。当应用程序下一次调用epoll_wait时，epoll_wait还会再次向应用程序通报该事件，直到事件被处理。</p>
+<p>对于采用ET模式的，通知后，应用程序必须立即处理该事件，后续的epoll_wait调用将不再向应用程序通知该事件。</p>
+<p>从实现上来看，ET和LT的区别在于事件就绪的判断。</p>
+<p>对于LT</p>
+<ul>
+<li>读操作：缓冲区不为空</li>
+<li>写操作：缓冲区不为满</li>
+</ul>
+<p>对于ET</p>
+<ul>
+<li>读操作
+<ul>
+<li>缓冲区内容变多</li>
+<li>缓冲区不为空且EPOLLIN事件 EPOLL_CTL_MOD</li>
+</ul></li>
+<li>读操作
+<ul>
+<li>缓冲区内容减少</li>
+<li>缓冲区不为满且EPOLLOUT事件 EPOLL_CTL_MOD</li>
+</ul></li>
+</ul>
+<p>即使使用ET模式，一个socket上的某个事件还是可能被触发多次。一个线程在读取完某个socket上的数据后开始处理这些数据，而数据处理过程中该socket上又有新的数据可读(EPOLLIN再次触发)，此时另一个线程又被唤醒来读取这些数据。于是就出现了两个线程同时操作一个socket的局面。为避免该问题，可以使用EPOLLONESHOT。</p>
+<p>对于注册了EPOLLONESHOT事件的文件描述符，操作系统最多触发其上注册的一个可读、可写或异常事件，且只触发一次，直到再次使用epoll_ctl函数重置该文件描述符上注册的EPOLLONESHOT事件(EPOLL_CTL_MOD)。</p>
+<h3 id="三种io复用函数比较">三种I/O复用函数比较</h3>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/16/image-20230216193744103.png" srcset="/img/loading.gif" lazyload /></p>
+<p>epoll直接将事件结果复制到数组中，避免了遍历，因而更适用连接数量多而活动连接较少的情况。</p>
+<p>select一般有最大值限制，虽然可以修改，但容易产生不可预期的错误。</p>
+<h3 id="io复用的高级应用">I/O复用的高级应用</h3>
+<p>非阻塞的socket进行connect，如果返回时连接还没有建立，将设置errno为EINPROGRESS。在这种情况下，我们应监听这个连接暂时失败的socket上的可写事件。当select、poll等函数返回后，利用getsockopt来读取错误码并清除该socket上的错误。如果错误码是0则连接成功建立，否则失败。但需要注意的是，这方法存在移植性问题。首先，非阻塞的socket可能导致connect始终失败。其次，select对处于EINPROGRESS状态下的socket可能不起作用。最后，对于出错的socket，getsockopt在不同系统上返回值不一样，Linux返回-1，伯克利的UNIX返回0。</p>
+<p>同一个端口可以创建多个socket用于处理不同服务如TCP、UDP。</p>
+<h3 id="超级服务xinetd">超级服务xinetd</h3>
+<p>Linux因特网服务inetd是超级服务，同时管理着多个子服务，即监听多个端口。现在Linux系统上使用的inetd服务程序通常是其升级版xinetd。它新增了一些控制选项，提高了安全性。</p>
+<p>主配置文件/etc/xinetd.conf，/etc/xinetd.d子配置文件夹</p>
+<p>它的子服务telnet的配置文件/etc/xinetd.d/telnet典型内容如下</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/18/image-20230218103740678.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/18/image-20230218103809851.png" srcset="/img/loading.gif" lazyload /></p>
+<p>对于其他更多配置，可以参考man。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/18/image-20230218104615208.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="信号">信号</h2>
+<p>信号的产生</p>
+<ol type="1">
+<li>对于前台进程，用户可以通过输入特殊的终端字符来给它发送信号。比如Ctrl+c通常会给进程发送一个中断信号</li>
+<li>系统异常。比如浮点异常和非法内存访问</li>
+<li>系统状态变化。比如alarm定时器到期将引起SIGALRM信号</li>
+<li>运行Kill命令或调用kill函数</li>
+</ol>
+<p>服务器程序必须处理（或至少忽略）一些常见的信号，以免异常终止。</p>
+<hr />
+<p>linux使用kill函数发送信号</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#included <span class="hljs-string">&lt;signal.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">kill</span><span class="hljs-params">(<span class="hljs-type">pid_t</span> pid, <span class="hljs-type">int</span> sig)</span>;<br><span class="hljs-comment">// 如果sig为0则不发生任何信号，但依然为检测目标进程或进程组是否存在</span><br><span class="hljs-comment">// 但这种检测方式是不可靠的，一方面这种检测方式不是原子操作，另一方面进程PID的回绕可能导致被检测的PID不是我们期望的进程的PID（回绕是因为linux系统是按顺序循环分配PID的）</span><br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/19/image-20230219221328859.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/19/image-20230219221438951.png" srcset="/img/loading.gif" lazyload /></p>
+<p>用户可以通过给信号绑定信号处理函数来实现对信号的响应。信号处理函数应该是可重入的，并且由于我们希望同一个信号在多次触发时能够不被屏蔽，信号处理函数应该能够迅速执行完，所以信号处理函数往往只是作为一个中介，将信号值通过管道传递给主循环。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><span class="hljs-keyword">typedef</span> <span class="hljs-title function_">void</span> <span class="hljs-params">(*<span class="hljs-type">__sighandler_t</span>)</span><span class="hljs-params">(<span class="hljs-type">int</span>)</span>;<span class="hljs-comment">// 信号处理函数的类型</span><br><span class="hljs-comment">// 由于往往是多个信号都绑定同一个信号处理函数，用一个int信号来说明是哪个信号是必要的</span><br><br><span class="hljs-comment">// 自定义信号处理函数</span><br><span class="hljs-comment">// 需要保存恢复errno</span><br><span class="hljs-type">void</span> <span class="hljs-title function_">handler</span><span class="hljs-params">(<span class="hljs-type">int</span> sig)</span><br>&#123;<br>    <span class="hljs-type">int</span> origin_errno = errno;<br>    <span class="hljs-comment">// handling process</span><br>    errno = origin_errno;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>除了自定义信号处理函数，Linux还提供了两个特殊的标识来进行其他处理</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/signum.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> SIG_DFL ((__sighandler_t) 0)</span><br><span class="hljs-comment">// 使用信号的默认处理方式</span><br><span class="hljs-comment">// 结束进程(Term)、忽略信号(Ign)、结束进程并生成核心转储文件(Core)、暂停进程(Stop)、继续进程(Cont)</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> SIG_IGN ((__sighandler_t) 1)</span><br><span class="hljs-comment">// 忽略目标信号</span><br></code></pre></td></tr></table></figure>
+<p>Linux将可用信号(标准信号+POSIX实时信号)都定义在bits/signum.h中</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/19/image-20230219225747499.png" srcset="/img/loading.gif" lazyload /></p>
+<p>如果程序在执行处于阻塞状态的系统调用时收到信号，并且该信号设置了信号处理函数，则默认情况下系统调用将被中断并且errno被设置为EINTR。可以使用sigaction函数为信号设置SA_RESTART标志以自动重启被该信号中断的系统调用。</p>
+<p>对默认行为是暂停进程的信号(比如SIGSTOP、SIGTTIN)，如果没有设置信号处理函数，它们也是可以中断某些系统调用的(比如connect、epoll_wait)。这是Linux独有的。</p>
+<p>绑定信号处理函数使用signal系统调用</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><span class="hljs-type">_sighandler_t</span> <span class="hljs-title function_">signal</span><span class="hljs-params">(<span class="hljs-type">int</span> sig, <span class="hljs-type">_sighandler_t</span> _handler)</span>;<br><span class="hljs-comment">// 返回之前这个sig注册的_handler，也即上一次调用这个sig时传入的_handler，第一次为sig调用是则为SIG_DFL</span><br><span class="hljs-comment">// 错误则返回SIG_ERR，并设置errno</span><br></code></pre></td></tr></table></figure>
+<p>但这个系统调用基本deprecated了，更常用的是sigaction。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">sigaction</span><span class="hljs-params">(<span class="hljs-type">int</span> sig, <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> sigaction* act, <span class="hljs-keyword">struct</span> sigaction* oact)</span>;<br><span class="hljs-comment">// act指定新的信号处理方式，oact则输出之前的信号处理方式</span><br><span class="hljs-comment">// sig不能是SIGKILL和SIGSTOP</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sigaction</span></span><br><span class="hljs-class">&#123;</span><br><span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> __USE_POSIX199309</span><br>    <span class="hljs-class"><span class="hljs-keyword">union</span></span><br><span class="hljs-class">    &#123;</span><br>        <span class="hljs-type">_sighandler_t</span> sa_handler;<br>        <span class="hljs-type">void</span> (*sa_sigaction) (<span class="hljs-type">int</span>, <span class="hljs-type">siginfo_t</span>*, <span class="hljs-type">void</span>*);<br>    &#125;_sigaction_handler;<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> sa_handler __sigaction_handler.sa_handler</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> sa_sigaction __sigaction_handler.sa_sigaction</span><br><span class="hljs-meta">#<span class="hljs-keyword">else</span></span><br>    <span class="hljs-type">_sighandler_t</span> sa_handler;<br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br>    <span class="hljs-type">_sigset_t</span> sa_mask; <span class="hljs-comment">// 实际上是一个bitmap，用于设置进程原有信号掩码基础上额外的信号掩码，以指定哪些信号在执行handler的时候应被挂起(没被mask的信号将会打断该信号处理过程)</span><br>    <span class="hljs-type">int</span> sa_flags; <span class="hljs-comment">// 用于设置程序收到信号时的行为</span><br>    <span class="hljs-type">void</span> (*sa_restorer)(<span class="hljs-type">void</span>); <span class="hljs-comment">// deprecated，最好不要使用</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/19/image-20230219234743231.png" srcset="/img/loading.gif" lazyload /></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/sigset.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> _SIGSET_NWORDS (1024 / (8 * sizeof(unsigned long int)))</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">int</span> __val[_SIGSET_NWORDS];<br>&#125;<span class="hljs-type">__sigset_t</span>;<br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">sigemptyset</span><span class="hljs-params">(<span class="hljs-type">sigset_t</span>* _set)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">sigfillset</span><span class="hljs-params">(<span class="hljs-type">sigset_t</span>* _set)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">sigaddset</span><span class="hljs-params">(<span class="hljs-type">sigset_t</span>* _set, <span class="hljs-type">int</span> _signo)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">sigdelset</span><span class="hljs-params">(<span class="hljs-type">sigset_t</span>* _set, <span class="hljs-type">int</span> _signo)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">sigismember</span><span class="hljs-params">(_const <span class="hljs-type">sigset_t</span>* _set, <span class="hljs-type">int</span> _signo)</span>;<br></code></pre></td></tr></table></figure>
+<p>如果只是想要设置/获得进程掩码，可以使用</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">sigprocmask</span><span class="hljs-params">(<span class="hljs-type">int</span> _how, _const <span class="hljs-type">sigset_t</span>* _set, <span class="hljs-type">sigset_t</span>* _oset)</span>;<br><span class="hljs-comment">// _set为NULL时_oset依然能获取进程当前的信号掩码</span><br></code></pre></td></tr></table></figure>
+<p>设置信号掩码后，被屏蔽的信号将不能被进程接收，但该信号会被暂时挂起。此时如果取消屏蔽，它依然能被进程接收到。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">sigpending</span><span class="hljs-params">(<span class="hljs-type">sigset_t</span>* <span class="hljs-built_in">set</span>)</span>;<span class="hljs-comment">// 获取进程当前被挂起的信号集</span><br></code></pre></td></tr></table></figure>
+<p>显然，即使该信号被多次触发，也只能被检测到一次。</p>
+<h3 id="网络编程相关信号">网络编程相关信号</h3>
+<h4 id="sighup">SIGHUP</h4>
+<p>当挂起进程的控制终端时，SIGHUP信号将被触发。对于没有控制终端的网络后台程序而言，这个信号往往是强制要求服务器重读配置文件。</p>
+<h4 id="sigpipe">SIGPIPE</h4>
+<p>默认情况下，往一个读端关闭的管道或者socket连接中写数据将引发SIGPIPE，程序接收到SIGPIPE信号的默认行为是结束进程，所以往往需要在代码中捕获并处理该信号，或者至少忽略它。引起SIGPIPE信号的写操作将设置errno为EPIPE。</p>
+<p>我们可以使用send函数的MSG_NOSIGNAL标志来禁止写操作触发SIGPIPE信号。在这种情况下应使用send函数反馈的errno来判断管道或socket连接的读端是否已经关闭。也可以用I/O复用系统调用来检测。管道的读端关闭时，写端文件描述符上的POLLHUP事件将被触发，socket连接被对方关闭时，socket上的POLLRDHUP事件将被触发。</p>
+<h4 id="sigurg">SIGURG</h4>
+<p>收到带外数据</p>
+<h2 id="定时器">定时器</h2>
+<p>Linux提供了三种定时方法</p>
+<ul>
+<li>socket选项SO_RCVTIMEO和SO_SNDTIMEO</li>
+<li>SIGALRM信号</li>
+<li>I/O复用系统调用的超时参数</li>
+</ul>
+<h3
+id="socket选项so_rcvtimeo和so_sndtimeo">socket选项SO_RCVTIMEO和SO_SNDTIMEO</h3>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/20/image-20230220131845521.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="sigalrm信号">SIGALRM信号</h3>
+<p>由alarm和setitimer函数设置的实时闹钟一旦超时，将触发SIGALRM信号。</p>
+<p>如果不需要非常精确，可以使用alarm</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> <span class="hljs-title function_">alarm</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> seconds)</span>;<br><span class="hljs-comment">// 取消之前设置的闹钟并设置新的闹钟，返回值为之前闹钟剩下的时间(之前没有设置过则为0)</span><br><span class="hljs-comment">// 如果sedonds为0，则之前设置的闹钟会取消，并将剩下的时间返回</span><br></code></pre></td></tr></table></figure>
+<p>getitimer/setitimer通过which参数提供了更精确的时间选项。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/time.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">getitimer</span><span class="hljs-params">(<span class="hljs-type">int</span> which, <span class="hljs-keyword">struct</span> itimerval* value)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">setitimer</span><span class="hljs-params">(<span class="hljs-type">int</span> which, <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> itimerval* <span class="hljs-keyword">restrict</span> value, <span class="hljs-keyword">struct</span> itimerval* <span class="hljs-keyword">restrict</span> ovalue)</span>;<br></code></pre></td></tr></table></figure>
+<table>
+
+<thead>
+<tr class="header">
+<th>which</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ITIMER_REAL</td>
+<td>以系统真实的时间来计算，它送出SIGALRM信号</td>
+</tr>
+<tr class="even">
+<td>ITIMER_VIRTUAL</td>
+<td>以该进程在用户态下花费的时间来计算，它送出SIGVTALRM信号</td>
+</tr>
+<tr class="odd">
+<td>ITIMER_PROF</td>
+<td>以该进程在用户态下和内核态下花费的时间来计算，它送出SIGPROF信号</td>
+</tr>
+</tbody>
+</table>
+<h3 id="io复用系统调用的超时参数">I/O复用系统调用的超时参数</h3>
+<p>如果epoll_wait的返回值等于0，则过去了timeout时间，否则经过了(end -
+start) * 1000ms。</p>
+<h3 id="高性能定时器">高性能定时器</h3>
+<h4 id="时间轮timingwheel">时间轮(TimingWheel)</h4>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/20/image-20230220144825625.png" srcset="/img/loading.gif" lazyload /></p>
+<p>指针指向当前所在的时间槽slot，每个tick(slot interval,
+si)移动到下一个槽。每个槽都是一个定时器链表。指针每指向一个槽，都要遍历该槽里的所有定时器。指针花费N*si走完一个round，不是所有定时器都在一个round内的，所以每个定时器还有个round变量记录还剩几个round才到时间，如果指针指向定时器所在的槽且定时器的round为0则表明时间到。</p>
+<p>若当前指针指向槽cs，要添加一个定时时间为ti的定时器，则该定时器应被插入槽ts的链表中，有
+ts = ( cs + ( ti / si ) ) % N
+如果想要提高定时精度，需要si够小；要提高执行效率，需要N购大。</p>
+<p>可以实现多层级的时间轮控制不同粒度的定时。</p>
+<h4 id="时间堆">时间堆</h4>
+<p>每次都以所有定时器中超时值最小的定时器的超时值发出SIGALRM，一旦SIGALRM，则最小的定时器必然到期。我们可以处理该定时器然后找出下一个超时时间最小的定时器并设置。最小堆非常适合于解决该问题。</p>
+<h2 id="高性能io框架库libevent">高性能I/O框架库Libevent</h2>
+<p>ACE、ASIO、Libevent都是开源的优秀的I/O框架库，其中Libevent相对轻量级。</p>
+<p>基于Reactor模式实现的I/O框架库包含组件：句柄、事件多路分发器(EventDemultiplexer)、事件处理器(EventHandler)和具体的事件处理器(ConcreteEventHandler)。</p>
+<p>事件源：I/O事件、信号和定时事件</p>
+<p>一个事件源通常和一个句柄绑定在一起。当内核检测到事件发生时，它将通过句柄来通知应用程序这一事件。Linux的I/O事件的句柄是文件描述符，信号事件的句柄是信号值。</p>
+<p>I/O框架库一般将系统支持的各种I/O复用系统调用封装成统一的接口，称为事件多路分发器。它的demultiplex方法是等待事件的核心函数。</p>
+<p>当事件多路分发器检测到有事件发生时，通过句柄通知应用程序。事件处理器需与句柄绑定。</p>
+<p>事件处理器一般提供一个get_handle方法，它返回与该事件处理器关联的句柄。</p>
+<p>Reactor提供几个主要方法</p>
+<ul>
+<li>handler_events:
+执行事件循环。重复如下过程：等待事件，然后依次处理所有就绪事件对应的事件处理器</li>
+<li>register_handler:
+调用事件多路分发器的register_event方法来往事件多路分发器中注册一个事件</li>
+<li>remove_handler:
+调用事件多路分发器的remove_event方法来删除事件多路分发器中的一个事件。</li>
+</ul>
+<p>Libevent跨平台支持、统一事件源、线程安全，基于Reactor模式实现。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;event2/event.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> evsignal_new(b, x, cb, arg) \</span><br><span class="hljs-meta">	event_new((b), (x),  EV_SIGNAL|EV_PERSIST, (cb), (arg))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> evtimer_new(b, cb, arg)		event_new((b), -1, 0, (cb), (arg))</span><br><span class="hljs-keyword">struct</span> event* <span class="hljs-title function_">event_new</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> event_base* base, <span class="hljs-type">evutil_socket_t</span> fd, <span class="hljs-type">short</span> events,</span><br><span class="hljs-params">                       	<span class="hljs-type">void</span> (*cb)(<span class="hljs-type">evutil_socket_t</span>, <span class="hljs-type">short</span>, <span class="hljs-type">void</span>*), <span class="hljs-type">void</span>* arg)</span>;<br><span class="hljs-comment">// fd是句柄</span><br><span class="hljs-comment">// events如下</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> EV_TIMEOUT		0x01 <span class="hljs-comment">// 定时</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> EV_READ			0x02 <span class="hljs-comment">// 可读</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> EV_WRITE		0x04 <span class="hljs-comment">// 可写</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> EV_SIGNAL		0x08 <span class="hljs-comment">// 信号</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> EV_PERSIST		0x10 <span class="hljs-comment">// 永久。事件被触发后，自动重新对这个event调用event_add</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> EV_ET			0x20 <span class="hljs-comment">// 边沿触发，需要I/O复用系统调用支持，比如epoll</span></span><br><span class="hljs-comment">// cb是回调函数，相当于事件处理器的handle_event，arg是传给它的参数</span><br><span class="hljs-comment">// 返回事件处理器对象</span><br></code></pre></td></tr></table></figure>
+<p>事件由事件多路分发器管理，事件处理器则由事件队列管理。</p>
+<hr />
+<p>总体流程</p>
+<ol type="1">
+<li>调用event_init创建event_base对象，相当于Reactor实例</li>
+<li>用event_new（evsignal_new、evtimer_new）创建事件处理器</li>
+<li>用event_add将事件处理器添加到注册事件队列中，并将该事件处理器对应的事件添加到事件多路分发器中，相当于register_handler</li>
+<li>调用event_base_dispatch执行事件循环</li>
+<li>使用*_free来释放系统资源</li>
+</ol>
+<hr />
+<p>struct event有许多指针，这些指针将多个struct
+event串成了多个尾队列。<code>ev_next</code>形成注册事件队列；<code>ev_active_next</code>形成活动事件队列（活动事件队列不止一个，不同优先级的事件处理器被激活后插入不同的活动事件队列。在事件循环中，Reactor将按优先级从高到低遍历所有活动事件队列）；联合体ev_timeout_pos在通用定时器（即简单链表实现的）中用<code>ev_next_with_common_timeout</code>形成通用定时器队列，在时间堆中用<code>min_heap_idx</code>指示位置。一个定时器是否要采用通用定时器取决于其超时值大小；联合体_ev用<code>ev_ioev_io_next</code>形成具有相同文件描述符的I/O事件队列，用<code>ev_signal.ev_signal_next</code>形成信号事件队列，<code>ev_signal.ev_ncalls</code>指定信号事件发生时Reactor需要执行多少次该事件对应的事件处理器的回调函数（在启用<code>ev_flags</code>的EV情况下），<code>ev_pncalls</code>要么NULL，要么指向它。</p>
+<p><code>ev_res</code>记录当前激活事件的类型。</p>
+<p><code>ev_flags</code>如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> EVLIST_TIMEOUT 	0x01 			<span class="hljs-comment">// 事件处理器从属于通用定时器队列或时间堆</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> EVLIST_INSERTED 0x02 			<span class="hljs-comment">// 事件处理器从属于事件队列</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> EVLIST_SIGNAL	0x04 			<span class="hljs-comment">// 没有使用</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> EVLIST_ACTIVE	0x08 			<span class="hljs-comment">// 事件处理器从属于活动事件队列</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> EVLIST_INTERNAL 0x10 			<span class="hljs-comment">// 内部使用</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> EVLIST_INIT		0x80 			<span class="hljs-comment">// 事件处理器已经被初始化</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> EVLIST_ALL		(0xf000 | 0x9f)	<span class="hljs-comment">// 定义所有标志</span></span><br></code></pre></td></tr></table></figure>
+<p><code>ev_pri</code>为优先级，越小优先级越高</p>
+<p><code>ev_closure</code>定义执行回调函数时的行为</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> EV_CLOSURE_NONE 	0 	<span class="hljs-comment">// 默认行为</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> EV_CLOSURE_SIGNAL	1	<span class="hljs-comment">// 执行信号事件处理器的回调函数时，调用ev_ncalls次回调函数</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> EV_CLOSURE_PERSIST 	2	<span class="hljs-comment">// 执行完回调函数后，再次将事件处理器加入注册事件队列中</span></span><br></code></pre></td></tr></table></figure>
+<p><code>ev_timeout</code>仅对定时器有效</p>
+<h2 id="多进程编程">多进程编程</h2>
+<h3 id="fork">fork</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-type">pid_t</span> <span class="hljs-title function_">fork</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br><span class="hljs-comment">// 在父进程中返回的是子进程的PID，在子进程中返回0</span><br><span class="hljs-comment">// 复制当前进程，在内核进程表中创建一个新的进程表项，新的进程表项有很多属性和原进程相同，如堆指针、栈指针和标志寄存器的值，但也有很多属性被赋予了新的值，比如PID，信号位图被清除</span><br><span class="hljs-comment">// 子进程代码和父进程完全相同，同时还会复制父进程的数据（堆数据、栈数据、静态数据），数据的复制采用的是copy on write</span><br><span class="hljs-comment">// 父进程中打开的文件描述符默认在子进程中也是打开的，且文件描述符的引用计数加一。父进程的用户根目录、当前工作目录等的引用计数也会加一</span><br></code></pre></td></tr></table></figure>
+<h3 id="exec系列系统调用">exec系列系统调用</h3>
+<p>替换当前进程映像</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-keyword">extern</span> <span class="hljs-type">char</span>** environ;<br><span class="hljs-type">int</span> <span class="hljs-title function_">execl</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* path, <span class="hljs-type">const</span> <span class="hljs-type">char</span>* arg, ...)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">execlp</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* file, <span class="hljs-type">const</span> <span class="hljs-type">char</span>* arg, ...)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">execle</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* path, <span class="hljs-type">const</span> <span class="hljs-type">char</span>* arg, ..., <span class="hljs-type">char</span>* <span class="hljs-type">const</span> envp[])</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">execv</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* path, <span class="hljs-type">char</span>* <span class="hljs-type">const</span> argv[])</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">execvp</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* file, <span class="hljs-type">char</span>* <span class="hljs-type">const</span> argv[])</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">execve</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* path, <span class="hljs-type">char</span>* <span class="hljs-type">const</span> argv[], <span class="hljs-type">char</span>* <span class="hljs-type">const</span> envp[])</span>;<br><span class="hljs-comment">// path指定可执行文件的完整路径，file指定文件名，该文件的具体位置在PATH中搜寻</span><br><span class="hljs-comment">// arg、argv被传递给新程序的main</span><br><span class="hljs-comment">// envp设置新程序的环境变量，如果未设置，新程序会使用由全局变量environ指定的环境变量</span><br><span class="hljs-comment">// 一般情况下不返回，因为如果没出差则原程序exec调用之后的代码都不会执行，已经被完全替换。出错时返回-1并设置errno</span><br><span class="hljs-comment">// 不会关闭原程序打开的文件描述符，除非该文件描述符被设置了类似SOCK_CLOEXEC的属性</span><br></code></pre></td></tr></table></figure>
+<h3 id="处理僵尸进程">处理僵尸进程</h3>
+<p>父进程一般需要跟踪子进程的退出状态。当子进程结束运行后，内核不会立即释放该进程的进程表表项。在子进程结束运行之后，父进程读取其状态之前，称该子进程处于僵尸态。父进程先于子进程结束，子进程的PPID被设置为1，即init进程，init进程接管了该子进程，并等待其结束，该状态子进程也称为僵尸态。停留在僵尸态的子进程依然占据着内核资源。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/wait.h&gt;</span></span><br><span class="hljs-comment">// 等待子进程的结束，并获取子进程的返回信息</span><br><span class="hljs-type">pid_t</span> <span class="hljs-title function_">wait</span><span class="hljs-params">(<span class="hljs-type">int</span>* stat_loc)</span>;<br><span class="hljs-comment">// 阻塞，等待任一个子进程结束，返回结束运行的子进程的PID并将子进程的退出状态信息存储于stat_loc参数指向的内存中</span><br><span class="hljs-type">pid_t</span> <span class="hljs-title function_">waitpid</span><span class="hljs-params">(<span class="hljs-type">pid_t</span> pid, <span class="hljs-type">int</span>* stat_loc, <span class="hljs-type">int</span> options)</span>;<br><span class="hljs-comment">// 只等待由pid指定的子进程，如果pid==-1则等待任一个子进程结束</span><br><span class="hljs-comment">// 如果options为WNOHANG则非阻塞，调用时目标子进程还没有结束或意外结束则返回0，否则返回该子进程的PID。</span><br></code></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/23/image-20230223220730369.png" srcset="/img/loading.gif" lazyload
+alt="退出状态信息" />
+<figcaption aria-hidden="true">退出状态信息</figcaption>
+</figure>
+<p>在事件已经发生的情况下执行非阻塞调用才能提高程序的效率。子进程在结束时会给父进程发送SIGCHLD信号，父进程可以通过该信号得知子进程是否结束，并在知道结束后调用waitpid以彻底结束它。</p>
+<h3 id="进程间通信">进程间通信</h3>
+<h4 id="用管道在父子间通信">用管道在父子间通信</h4>
+<p>fork后原先打开的管道文件描述符<code>fd[0]</code>和<code>fd[1]</code>依然处于打开状态，由于一对管道只能保证一个方向的数据传输，所以父进程和子进程必须有一个关闭<code>fd[0]</code>，另一个关闭<code>fd[1]</code>。</p>
+<h4 id="无关联进程之间的通信">无关联进程之间的通信</h4>
+<p>FIFO管道</p>
+<p>有一种特殊的管道称为FIFO（先进先出），也叫命名管道。它能用于无关联进程之间的通信，但网络编程中使用不多。</p>
+<h5 id="信号量semaphore">信号量（Semaphore）</h5>
+<p>Linux/Unix常用P（传递）、V（释放）来代替信号量中的wait、signal。</p>
+<p>对于信号量SV</p>
+<ul>
+<li>P(SV):
+如果SV的值大于0，则减1，继续执行；如果为0，则挂起进程的执行</li>
+<li>V(SV):
+如果有其他进程因为等待SV而挂起，就唤醒一个被挂起的进程；如果没有，则将SV加一</li>
+</ul>
+<h6 id="semget系统调用">semget系统调用</h6>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/sem.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">semget</span><span class="hljs-params">(<span class="hljs-type">key_t</span> key, <span class="hljs-type">int</span> num_sems, <span class="hljs-type">int</span> sem_flags)</span>;<br><span class="hljs-comment">// key用来唯一标识一个全局的信号量集，要通过信号量通信的进程需要使用相同的key来创建/获取该信号量</span><br><span class="hljs-comment">// sem_flags低9位表示权限，和open的mode参数相同。IPC_CREAT是一个高位标志，表示创建新的信号量集，但不能保证信号量是还不存在的。使用IPC_CREATE | IPC_EXCL来确保是一组新的唯一的信号量集，它会使得如果产生的信号量已经存在，semget会返回-1并设置errno为EEXIST。这与open的O_CREAT|O_EXCL类似。</span><br><span class="hljs-comment">// 将key设为IPC_PRIVATE（注意不是sem_flags）时，sem_flags的低9位以外的值全被忽略，生成一个新的信号量集（更准确的说法是IPC_NEW，但由于历史遗留问题）</span><br><span class="hljs-comment">// 成功时返回信号量集的标识符</span><br></code></pre></td></tr></table></figure>
+<p><code>semget</code>函数在创建信号量集时会对与之关联的内核数据结构体semid_ds执行创建并初始化操作</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/sem.h&gt;</span></span><br><span class="hljs-comment">// 描述IPC对象（信号量、共享内存、消息队列）的权限</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ipc_perm</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">key_t</span> key;<br>    <span class="hljs-type">uid_t</span> uid; <span class="hljs-comment">// 被初始化为调用进程的有效用户/组ID</span><br>    <span class="hljs-type">gid_t</span> gid;<br>    <span class="hljs-type">uid_t</span> cuid;<br>    <span class="hljs-type">gid_t</span> cgid;<br>    <span class="hljs-type">mode_t</span> mode; <span class="hljs-comment">// 初始化时低9为设置成sem_flags的低9位</span><br>    <span class="hljs-comment">// 省略其他</span><br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">semid_ds</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ipc_perm</span> <span class="hljs-title">sem_perm</span>;</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">int</span> sem_nsems; <span class="hljs-comment">// 信号量数目，初始化成num_sems</span><br>    <span class="hljs-type">time_t</span> sem_otime; <span class="hljs-comment">// 最后一次调用semop的时间，初始化为0</span><br>    <span class="hljs-type">time_t</span> sem_ctime; <span class="hljs-comment">// 最后一次调用semctl的时间，初始化为当前的系统时间</span><br>    <span class="hljs-comment">// 省略其他</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<h6 id="semop系统调用">semop系统调用</h6>
+<p>与每个信号量关联的一些重要的内核变量</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">unsigned</span> <span class="hljs-type">short</span> semval;		<span class="hljs-comment">// 信号量的值</span><br><span class="hljs-type">unsigned</span> <span class="hljs-type">short</span> semzcnt;		<span class="hljs-comment">// 等待信号量值变为0的进程数量</span><br><span class="hljs-type">unsigned</span> <span class="hljs-type">short</span> semncnt;		<span class="hljs-comment">// 等待信号量值增加的进程数量</span><br><span class="hljs-type">pid_t</span> sempid;				<span class="hljs-comment">// 最后一次指向semop操作的进程ID</span><br></code></pre></td></tr></table></figure>
+<p><code>semop</code>对信号量的操作实际上就是对这些内核变量的操作</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/sem.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">semop</span><span class="hljs-params">(<span class="hljs-type">int</span> sem_id, <span class="hljs-keyword">struct</span> sembuf* sem_ops, <span class="hljs-type">size_t</span> num_sem_ops)</span>;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sembuf</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">short</span> <span class="hljs-type">int</span> sem_num; <span class="hljs-comment">// 信号集中信号量的编号</span><br>    <span class="hljs-type">short</span> <span class="hljs-type">int</span> sem_op;			<span class="hljs-comment">// 操作类型，正数、0、负数</span><br>    <span class="hljs-type">short</span> <span class="hljs-type">int</span> sem_flg;			<span class="hljs-comment">// 可选值：IPC_NOWAIT和SEM_UNDO，SEM_UNDO表示当进程退出时，UNDO当前在进行的semop</span><br>&#125;;<br><span class="hljs-comment">// sem_ops和num_sem_ops组成一个数组，semop对数组元素依次操作，该过程是原子操作，失败的时候所有操作都不被执行。</span><br><span class="hljs-comment">// 如果sem_op大于0，则semop将被操作的信号量的值semval增加sem_op。该操作要求调用进程在对被操作信号量集上拥有写权限。此时若设置了SEM_UNDO，则系统将更新进程的semadj变量</span><br><span class="hljs-comment">// 如果sem_op等于0，表示这是一个“等待0”操作。该操作要求调用进程对呗操作信号量拥有读权限。如果此时信号量的值是0，则调用立即成功返回。如果信号量的值不是0，则semop操作失败或者阻塞进程以等待信号量变为0（根据IPC_NOWAIT是否设置，失败会设置errno为EAGAIN）。如果未指定IPC_NOWAIT，则信号量semzcnt加1，进程被投入睡眠，知道下列3个条件之一发生：</span><br>	<span class="hljs-comment">// 信号量的值变为0，此时系统将该信号量semzcnt减1.</span><br>	<span class="hljs-comment">// 被操作的信号量所在的信号量集被进程移除，此时，semop调用失败返回，errno被设置为EIDRM。</span><br>	<span class="hljs-comment">// 调用被信号中断，此时，semop调用失败返回，errno被设置EINTR，同时系统将信号量的semzcnt减1。</span><br><span class="hljs-comment">// 如果sem_op小于0，则表示对信号量进行减操作。即期望获得信号量，该操作要求调用进程对被操作信号量集拥有写权限。如果信号的值semval大于或者等于sem_op的绝对值，则semop操作成功，调用进程立即获得信号量，并且系统将该信号量的semval减去sem_op的绝对值。此时如果设置了SEM_UNDO标志，则系统将更新进程的semadj变量。如果信号量的值semval小于sem_op的绝对值，则semop失败返回或者阻塞等待信号量可用。在这种情况下，IPC_NOWAIT的标志被指定时，semop立即返回一个错误，并设置errno为EAGAIN。如果为指定IPC_NOWAIT标志，则信号量的semncnt加1，进程被投入睡眠知道下面三个条件满足：</span><br>	<span class="hljs-comment">// 信号量的值semval大于等于sem_op的绝对值，此时信号量的semncnt减1，并将semval减去sem_op的绝对值。</span><br>	<span class="hljs-comment">// 被操作信号量所在的信号量集被进程删除，调用返回失败，errno被设置为EIDRM；</span><br>	<span class="hljs-comment">// 调用被信号中断，此时semop调用失败返回，errno被设置为EINTR，同时系统将semncnt值减1。</span><br></code></pre></td></tr></table></figure>
+<h6 id="semctl系统调用">semctl系统调用</h6>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/sem.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">semctl</span><span class="hljs-params">(<span class="hljs-type">int</span> sem_id, <span class="hljs-type">int</span> sem_number, <span class="hljs-type">int</span> command, ...)</span>;<br><span class="hljs-comment">// sem_id是信号集，sem_number是被操作信号量在信号集中的下标</span><br><span class="hljs-comment">// 第四个参数类型由用户自己定义，但sys/sem.h给出了推荐格式</span><br><span class="hljs-class"><span class="hljs-keyword">union</span> <span class="hljs-title">semun</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">int</span> val;				<span class="hljs-comment">// 用于SETVAL命令</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">semid_ds</span>* <span class="hljs-title">buf</span>;</span>	<span class="hljs-comment">// 用于IPC_STAT和IPC_SET命令</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">short</span>* <span class="hljs-built_in">array</span>;	<span class="hljs-comment">// 用于GETALL和SETALL命令</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">seminfo</span>* __<span class="hljs-title">buf</span>;</span>	<span class="hljs-comment">// 用于IPC_INFO命令</span><br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">seminfo</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">int</span> semmap;	<span class="hljs-comment">// Linux内核没有使用</span><br>    <span class="hljs-type">int</span> semmni;	<span class="hljs-comment">// 系统最多可以拥有的信号量集数目</span><br>    <span class="hljs-type">int</span> semmns;	<span class="hljs-comment">// 系统最多可以拥有的信号量数目</span><br>    <span class="hljs-type">int</span> semmnu;	<span class="hljs-comment">// Linux内核没有使用</span><br>    <span class="hljs-type">int</span> semmsl;	<span class="hljs-comment">// 一个信号量集最多允许包含的信号量数目</span><br>    <span class="hljs-type">int</span> semopm;	<span class="hljs-comment">// semop一次能最多执行的sem_op操作数目</span><br>    <span class="hljs-type">int</span> semume;	<span class="hljs-comment">// Linux内核没有使用</span><br>    <span class="hljs-type">int</span> semusz;	<span class="hljs-comment">// sem_undo结构体的大小</span><br>    <span class="hljs-type">int</span> semvmx;	<span class="hljs-comment">// 最大允许的信号量值</span><br>    <span class="hljs-type">int</span> semaem;	<span class="hljs-comment">// 最多允许的UNDO次数（带SEM_UNDO标志的semop操作的次数）</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/24/image-20230224101657459.png" srcset="/img/loading.gif" lazyload
+alt="semctl的command参数" />
+<figcaption aria-hidden="true">semctl的command参数</figcaption>
+</figure>
+<blockquote>
+<p>除GETNCNT、GETPID、GETVAL、GETZCNT、SETVAL的其他操作都是针对整个信号量集的，此时semctl的参数sem_num被忽略</p>
+</blockquote>
+<h5 id="共享内存">共享内存</h5>
+<p>共享内存是效率最高的IPC，但是往往需要配合一些其他手段来防止竞态。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/shm.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">shmget</span><span class="hljs-params">(<span class="hljs-type">key_t</span> key, <span class="hljs-type">size_t</span> size, <span class="hljs-type">int</span> shmflg)</span>; <span class="hljs-comment">// 创建一段新的共享内存，或者获取一段已经存在的共享内存</span><br><span class="hljs-comment">// 如果创建新的共享内存，size必须被指定。如果是获取已经存在的共享内存，则size可以设置为0</span><br><span class="hljs-comment">// shmflg除了支持IPC_CREATE、IPC_EXCL外还支持SHM_HUGETLB（类似mmap的MAP_HUGETLB，系统将使用大页面来为共享内存分配空间）、SHM_NORESERVE（类似mmap的MAP_NORESERVE，不为共享内存保留交换分区（swap空间），这样，当物理内存不足时，对该共享内存执行写操作将触发SIGSEGV信号）</span><br><span class="hljs-comment">// 返回共享内存标识符</span><br><span class="hljs-comment">// 创建共享内存时共享内存的所有字节都被初始化为0，与之关联的内核数据结构shmid_ds被创建和初始化</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">shmid_ds</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ipc_perm</span> <span class="hljs-title">shm_perm</span>;</span> 	<span class="hljs-comment">// 共享内存的操作权限</span><br>    <span class="hljs-type">size_t</span> shm_segsz;			<span class="hljs-comment">// 共享内存大小，初始化为size</span><br>    <span class="hljs-type">__time_t</span> shm_atime;			<span class="hljs-comment">// 对这段内存最后一次调用shmat的时间，初始化为0</span><br>    <span class="hljs-type">__time_t</span> shm_dtime;			<span class="hljs-comment">// 对这段内存最后一次调用shmdt的时间，初始化为0</span><br>    <span class="hljs-type">__time_t</span> shm_ctime;			<span class="hljs-comment">// 对这段内存最后一次调用shmctl的时间，初始化为当前时间</span><br>    <span class="hljs-type">__pid_t</span> shm_cpid;			<span class="hljs-comment">// 创建者的PID</span><br>    <span class="hljs-type">__pid_t</span> shm_lpid;			<span class="hljs-comment">// 最后一次执行shmat或shmdt操作的进程的PID，初始化为0</span><br>    <span class="hljs-type">shmatt_t</span> shm_nattach;		<span class="hljs-comment">// 目前关联到此共享内存的进程数量，初始化为0</span><br>    <span class="hljs-comment">// 省略其他</span><br>&#125;;<br><span class="hljs-comment">// shm_perm初始化和sem_perm类似</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/shm.h&gt;</span></span><br><span class="hljs-type">void</span>* <span class="hljs-title function_">shmat</span><span class="hljs-params">(<span class="hljs-type">int</span> shm_id, <span class="hljs-type">const</span> <span class="hljs-type">void</span>* shm_addr, <span class="hljs-type">int</span> shmflg)</span>; <span class="hljs-comment">// 在使用前需要attach到进程的某块地址空间</span><br><span class="hljs-comment">// 如果shm_addr为NULL则由操作系统选择，这能保证代码的可移植性</span><br><span class="hljs-comment">// 如果shm_addr非空且SHM_RND未设置，则被关联到指定地址</span><br><span class="hljs-comment">// 如果shm_addr非空且设置了SHM_RND，被关联的地址是shm_addr-(shm_addr % SHMLBA)，即向下圆整到离shm_addr最近的SHMLBA的整数倍地址处，SHMLBA（Segment Low Boundary Address Multiple）是内存页面（PAGE_SIZE）的整数倍，现在Linux内核中恰好相等。</span><br><span class="hljs-comment">// 除了SHM_RND，shmflg还支持SHM_RDONLY（只读）、SHM_REMAP（如果地址shmaddr已经被关联到一段共享内存上，则取消之前关联的，重新关联）、SHM_EXEC（执行权限，对共享内存而言，执行权限实际上和读权限一样）</span><br><span class="hljs-comment">// 成功时返回被关联到的地址，并修改内核数据结构shmid_ds（sh_nattach加一，shm_lpid设置为调用进程的PID、shm_atime设置为当前的时间）</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">shmdt</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">void</span>* shm_addr)</span>;<span class="hljs-comment">// 使用后需要detach</span><br><span class="hljs-comment">// 成功返回0，同样修改shm_nattach、shm_lpid，此外设置shm_dtime为当前时间</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/shm.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">shmctl</span><span class="hljs-params">(<span class="hljs-type">int</span> shm_id, <span class="hljs-type">int</span> command, <span class="hljs-keyword">struct</span> shmid_ds* buf)</span>;<br></code></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/24/image-20230224111606441.png" srcset="/img/loading.gif" lazyload
+alt="shmctl支持的命令" />
+<figcaption aria-hidden="true">shmctl支持的命令</figcaption>
+</figure>
+<h6 id="共享内存的posix方法">共享内存的POSIX方法</h6>
+<p>利用mmap和它的MAP_ANONYMOUS可以实现父子进程之间的匿名内存共享。</p>
+<p>通过打开同一个文件，mmap也可以实现无关进程之间的内存共享。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/mman.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/stat.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;fcntl.h&gt;</span></span><br><span class="hljs-comment">// 在进行mmap前，需要先通过shm_open打开shmfd</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">shm_open</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* name, <span class="hljs-type">int</span> oflag, <span class="hljs-type">mode_t</span> mode)</span>;<br><span class="hljs-comment">// 从可移植性考虑，name应是&#x27;/&#x27;+basename，长度不超过NAME_MAX</span><br><span class="hljs-comment">// flg与open完全相同，O_RDONLY、O_RDWR、O_CREAT（不存在则创建，低9位为权限，初始长度为0）、O_TRUNC（如果已经存在则截断使其长度为0）</span><br><br><span class="hljs-comment">// 之后使用mmap进行内存的共享，失败返回MAP_FAILED</span><br><span class="hljs-comment">// munmap</span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">shm_unlink</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* name)</span>;<br><span class="hljs-comment">// 将name参数指定的共享内存对象标记为待删除，当所有使用该共享内存对象的进程都使用munmap将它从进程中分离之后，系统将销毁这个共享内存对象所占据的资源</span><br><span class="hljs-comment">// 编译时需-lrt</span><br></code></pre></td></tr></table></figure>
+<h5 id="消息队列">消息队列</h5>
+<p>消息队列是在两个进程之间传递二进制块数据的一种简单有效的方式，每个数据块都有一个特定的类型，接收方可以根据类型来有选择地接收数据，而不一定像管道和命名管道那样必须以先进先出的方式接收数据。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/msg.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">msgget</span><span class="hljs-params">(<span class="hljs-type">key_t</span> key, <span class="hljs-type">int</span> msgflg)</span>;<br><span class="hljs-comment">// 参数与semget相同</span><br><span class="hljs-comment">// 如果用于创建消息队列，则与之关联的内核数据结构msqid_ds将被创建并初始化</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">msqid_ds</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ipc_perm</span> <span class="hljs-title">msg_perm</span>;</span> 	<span class="hljs-comment">// 消息队列的操作权限</span><br>    <span class="hljs-type">time_t</span> msg_stime;			<span class="hljs-comment">// 最后一次调用msgsnd的时间</span><br>    <span class="hljs-type">time_t</span> msg_rtime;			<span class="hljs-comment">// 最后一次调用msgrcv的时间</span><br>    <span class="hljs-type">time_t</span> msg_ctime;			<span class="hljs-comment">// 最后一次被修改的时间</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> __msg_cbytes;	<span class="hljs-comment">// 消息队列中已有的字节数</span><br>    <span class="hljs-type">msgqnum_t</span> msg_qnum;			<span class="hljs-comment">// 消息队列中已有的消息数</span><br>    <span class="hljs-type">msglen_t</span> msg_qbytes;		<span class="hljs-comment">// 消息队列允许的最大字节数</span><br>    <span class="hljs-type">pid_t</span> msg_lspid;			<span class="hljs-comment">// 最后执行msgsnd的进程的PID</span><br>    <span class="hljs-type">pid_t</span> msg_lrpid;			<span class="hljs-comment">// 最后执行msgrcv的进程的PID</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/msg.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">msgsnd</span><span class="hljs-params">(<span class="hljs-type">int</span> msqid, <span class="hljs-type">const</span> <span class="hljs-type">void</span>* msg_ptr, <span class="hljs-type">size_t</span> msg_sz, <span class="hljs-type">int</span> msgflg)</span>;<br><span class="hljs-comment">// msgflg通常仅支持IPC_NOWAIT标志</span><br><span class="hljs-comment">// 默认情况下，发送消息时如果消息队列满了，则msgsnd将阻塞，但如果IPC_NOWAIT标志被指定，则msgsnd将立即返回并设置errno为EAGAIN</span><br><span class="hljs-comment">// 处于阻塞状态的msgsnd调用可能被两种异常情况终端：</span><br><span class="hljs-comment">// 		消息队列被移除，此时msgsnd调用将立即返回并设置errno为EIDRM</span><br><span class="hljs-comment">//		程序接收到信号，此时msgsnd调用将立即返回并设置errno为EINTR</span><br><span class="hljs-comment">// msg_ptr参数指向一个准备发送的消息，消息必须被定义为如下类型</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">msgbuf</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">long</span> mtype; <span class="hljs-comment">// 必须是正整数</span><br>    <span class="hljs-type">char</span> mtext[<span class="hljs-number">512</span>];<br>&#125;;<br><span class="hljs-comment">// 成功时将修改内核数据结构msqid_ds，将msg_qnum加1，将msg_lspid设置为调用进程的PID，将msg_stime设置为当前时间</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/msg.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">msgrcv</span><span class="hljs-params">(<span class="hljs-type">int</span> msqid, <span class="hljs-type">void</span>* msg_ptr, <span class="hljs-type">size_t</span> msg_sz, <span class="hljs-type">long</span> <span class="hljs-type">int</span> msgtype, <span class="hljs-type">int</span> msgflg)</span>;<br><span class="hljs-comment">// msgtype == 0则读取消息队列中的第一个消息</span><br><span class="hljs-comment">// msgtype &gt; 0 则读取消息队列中第一个类型为msgtype的消息（除非指定了MSG_EXCEPT）</span><br><span class="hljs-comment">// msgtype &lt; 0 则读取消息队列中第一个类型值比msgtype的绝对值小的消息</span><br><span class="hljs-comment">// msgflg支持IPC_NOWAIT（没有消息设置ENOMSG）、MSG_EXCEPT（msgtype&gt;0则接收消息队列中第一个非msgtype类型的消息）、MSG_NOERROR（如果消息数据部分的长度超过了msg_sz就将它阶段）</span><br><span class="hljs-comment">// 处于阻塞状态的msgrcv同样会被两种异常情况中断</span><br><span class="hljs-comment">// 成功时将修改内核数据结构msqid_ds，将msg_qnum减1，将msg_lrpid设置为调用进程的PID，将msg_rtime设置为当前时间</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/msg.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">msgctl</span><span class="hljs-params">(<span class="hljs-type">int</span> msqid, <span class="hljs-type">int</span> command, <span class="hljs-keyword">struct</span> msqid_ds* buf)</span>;<br></code></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/24/image-20230224141703485.png" srcset="/img/loading.gif" lazyload
+alt="msgctl支持的command" />
+<figcaption aria-hidden="true">msgctl支持的command</figcaption>
+</figure>
+<h4 id="ipc命令">IPC命令</h4>
+<p><code>ipcs</code>命令可以查看当前系统上有哪些共享资源实例</p>
+<p>可以使用<code>ipcrm</code>命令删除遗留在系统中的共享资源</p>
+<h3 id="进程间传递文件描述符">进程间传递文件描述符</h3>
+<p>只要传递文件描述符的值就好了</p>
+<h2 id="多线程编程">多线程编程</h2>
+<h3 id="线程">线程</h3>
+<p>NPTL是目前Linux的标准线程库，内核线程与用户线程1:1。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_create</span><span class="hljs-params">(<span class="hljs-type">pthread_t</span>* thread, <span class="hljs-type">const</span> <span class="hljs-type">pthread_attr_t</span>* attr,</span><br><span class="hljs-params">                  	<span class="hljs-type">void</span>* (*start_routine)(<span class="hljs-type">void</span>*), <span class="hljs-type">void</span>* arg)</span>;<br><span class="hljs-comment">// attr传递NULL表示使用默认线程属性</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/pthreadtypes.h&gt;</span></span><br><span class="hljs-keyword">typedef</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">int</span> <span class="hljs-type">pthread_t</span>;<br><br><span class="hljs-comment">// C++中使用它时，start_routine必须是static函数</span><br></code></pre></td></tr></table></figure>
+<p>一个用户可以打开的线程数量不能超过RLIMIT_NPROC软资源限制。系统上所有用户能创建的线程总数也不能超过/proc/sys/kernel/threads-max内核参数所定义的值。</p>
+<p>线程函数在结束时最好调用如下函数以确保安全、干净地退出</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#inclue <span class="hljs-string">&lt;pthread.h&gt;</span></span><br><span class="hljs-type">void</span> <span class="hljs-title function_">pthread_exit</span><span class="hljs-params">(<span class="hljs-type">void</span>* retval)</span>;<br></code></pre></td></tr></table></figure>
+<p><code>pthread_exit</code>通过retval参数项线程的回收者传递其退出信息，它永远不会失败。</p>
+<p>一个进程中的所有线程都可以调用<code>pthread_join</code>函数来回收其他线程（前提是目标线程是可回收的）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_join</span><span class="hljs-params">(<span class="hljs-type">pthread_t</span> thread, <span class="hljs-type">void</span>** retval)</span>;<br></code></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/24/image-20230224150333563.png" srcset="/img/loading.gif" lazyload
+alt="pthread_join可能引发的错误码" />
+<figcaption aria-hidden="true">pthread_join可能引发的错误码</figcaption>
+</figure>
+<p>希望异常终止一个线程（取消线程）时</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_cancel</span><span class="hljs-params">(<span class="hljs-type">pthread_t</span> thread)</span>;<br></code></pre></td></tr></table></figure>
+<p>接收到取消请求的目标线程可以决定是否允许被取消以及如何取消</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_setcancelstate</span><span class="hljs-params">(<span class="hljs-type">int</span> state, <span class="hljs-type">int</span>* oldstate)</span>;<br><span class="hljs-comment">// 设置是否允许取消</span><br><span class="hljs-comment">// PTHREAD_CANCEL_ENABLE 允许被取消，是默认值</span><br><span class="hljs-comment">// PTHREAD_CANCEL_DISABLE 禁止被取消。这种情况下，如果一个线程收到取消请求，它会将请求挂起，直到该线程允许被取消</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_setcanceltype</span><span class="hljs-params">(<span class="hljs-type">int</span> type, <span class="hljs-type">int</span> *oldtype)</span>;<br><span class="hljs-comment">// 设置如何取消</span><br><span class="hljs-comment">// PTHREAD_CANCEL_ASYNCHRONOUS 收到取消请求后立即取消</span><br><span class="hljs-comment">// PTHREAD_CANCEL_DEFERRED 允许推迟，直到它调用了所谓的取消点函数（pthread_join、pthread_testcancel、pthread_cond_wait、pthread_cond_timedwait、sem_wait、sigwait，根据POSIX标准，其他可能阻塞的系统调用比如read、wait也可以成为取消点，不过为了安全起见，我们最好在可能会被取消的代码中调用pthread_testcancel函数以设置取消点）</span><br></code></pre></td></tr></table></figure>
+<p>pthread_attr_t定义了一套完整的线程属性</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/pthreadtypes.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> __SIZEOF_PTHREAD_ATTR_T 36</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">union</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">char</span> __size[__SIZEOF_PTHREAD_ATTR_T];<br>    <span class="hljs-type">long</span> <span class="hljs-type">int</span> __align; <span class="hljs-comment">// 使得sizeof(long int)字节对齐</span><br>&#125;<span class="hljs-type">pthread_attr_t</span>;<br></code></pre></td></tr></table></figure>
+<p>线程库定义了一系列函数来操作它。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_init</span><span class="hljs-params">(<span class="hljs-type">pthread_attr_t</span>* attr)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_destroy</span><span class="hljs-params">(<span class="hljs-type">pthread_attr_t</span>* attr)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_getdetachstate</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">pthread_attr_t</span>* attr, <span class="hljs-type">int</span>* detachstate)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_setdetachstate</span><span class="hljs-params">(<span class="hljs-type">pthread_attr_t</span>* attr, <span class="hljs-type">int</span> detachstate)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_getstackaddr</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">pthread_attr_t</span>* attr, <span class="hljs-type">void</span>** stackaddr)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_setstackaddr</span><span class="hljs-params">(<span class="hljs-type">pthread_attr_t</span>* attr, <span class="hljs-type">void</span>* stackaddr)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_getstacksize</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">pthread_attr_t</span>* attr, <span class="hljs-type">size_t</span>* stacksize)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_setstacksize</span><span class="hljs-params">(<span class="hljs-type">pthread_attr_t</span>* attr , <span class="hljs-type">void</span>* stackaddr , <span class="hljs-type">size_t</span> stacksize)</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_getguardsize</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">pthread_addr_t</span>* __attr , <span class="hljs-type">size_t</span>* guardsize)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_setguardsize</span><span class="hljs-params">(<span class="hljs-type">pthread_attr_t</span>* attr , <span class="hljs-type">size_t</span> guardsize)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_getschedparam</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">pthread_attr_t</span>* attr , <span class="hljs-keyword">struct</span> sched_param* param)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_setschedparam</span><span class="hljs-params">(<span class="hljs-type">pthread_attr_t</span>* attr , <span class="hljs-type">const</span> <span class="hljs-keyword">struct</span> sched_param* param)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_getschedpolicy</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">pthread_attr_t</span>* attr , <span class="hljs-type">int</span>* policy)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_setschedpolicy</span><span class="hljs-params">(<span class="hljs-type">pthread_attr_t</span>* attr , <span class="hljs-type">int</span> policy)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_getinheritsched</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">pthread_attr_t</span>* attr , <span class="hljs-type">int</span>* inherit)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_setinheritsched</span><span class="hljs-params">(<span class="hljs-type">pthread_attr_t</span>* attr , <span class="hljs-type">int</span> inherit)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_getscope</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">pthread_attr_t</span>* attr , <span class="hljs-type">int</span>* scope)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_attr_setscope</span><span class="hljs-params">(<span class="hljs-type">pthread_attr_t</span>* attr , <span class="hljs-type">int</span> scope)</span>;<br></code></pre></td></tr></table></figure>
+<p>detachstate有两个值，PTHREAD_CREATE_JOINABLE（默认值）和PTHREAD_CREATE_DETACH（脱离线程）。脱离线程在退出时将自行释放其占用的系统资源。可以使用<code>pthread_detach</code>来将线程设为脱离线程。</p>
+<p>stack相关的属性是线程堆栈，一般来说不需要自己管理，因为Linux默认为每个线程分配了足够的堆栈空间（一般是8MB）。可以使用ulimt
+-s来查看或修改该默认值。</p>
+<p>guardsize是保护区大小，如果guardsize大于0，则系统创建线程的时候会在其堆栈的尾部额外分配guardsize字节的空间，作为保护堆栈不被错误地覆盖的区域。如果使用者通过pthread_attr_setstackaddr或pthread_attr_setstack函数手动设置线程的堆栈，则guardsize属性将被忽略。</p>
+<p>schedparam是线程调度参数，它的结构体目前只有一个整型成员sched_priority。</p>
+<p>schedpolicy是线程调度策略，有SCHED_FIFO、SCHED_RR、SCHED_OTHER（默认值）。前两种只能用于以超级用户身份运行的进程。</p>
+<p>inheritsched，是否继承调用线程的调度属性，有PTHREAD_INHERIT_SCHED和PTHREAD_EXPLICIT_SCHED两个值。前者表示继承，这种情况下再设置新的调度参数属性将没有任何效果，后者表示调用者要明确地指定新线程的调度参数。</p>
+<p>scope，线程间竞争CPU的范围，即线程优先级的有效范围。POSIX定义了PTHREAD_SCOPE_SYSTEM和PTHREAD_SCOPE_PROCESS两个可选值，前者表示所有线程一起竞争，后者表示仅与属于同一进程的线程竞争CPU。目前Linux只支持PTHREAD_SCOPE_SYSTEM。</p>
+<h3 id="posix信号量">POSIX信号量</h3>
+<p>常用的POSIX信号量</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">sem_init</span><span class="hljs-params">(<span class="hljs-type">sem_t</span>* sem , <span class="hljs-type">int</span> pshared , <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> value)</span>;<br><span class="hljs-comment">// pshared指定信号量类型，如果为0则是当前进程的局部信号量，否则就可以在多个进程间共享</span><br><span class="hljs-comment">// 初始化一个已经被初始化的信号量将导致不可预期的结果</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">sem_destroy</span><span class="hljs-params">(<span class="hljs-type">sem_t</span>* sem)</span>;<br><span class="hljs-comment">// 如果销毁一个正被其他线程等待的信号量将导致不可预期的结果</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">sem_wait</span><span class="hljs-params">(<span class="hljs-type">sem_t</span>* sem)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">sem_trywait</span><span class="hljs-params">(<span class="hljs-type">sem_t</span>* sem)</span>;<br><span class="hljs-comment">// 非阻塞，立即返回，信号量值为0则设置EAGAIN</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">sem_post</span><span class="hljs-params">(<span class="hljs-type">sem_t</span>* sem)</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="互斥锁">互斥锁</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_mutex_init</span><span class="hljs-params">(<span class="hljs-type">pthread_mutex_t</span>* mutex , <span class="hljs-type">const</span> <span class="hljs-type">pthread_mutexattr_t</span>* mutexattr)</span>;<br><span class="hljs-comment">// mutexattr为NULL则设为默认属性</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_mutex_destroy</span><span class="hljs-params">(<span class="hljs-type">pthread_mutex_t</span>* mutex)</span>;<br><span class="hljs-comment">// 销毁一个已经加锁的互斥锁将导致不可预期的后果</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_mutex_lock</span><span class="hljs-params">(<span class="hljs-type">pthread_mutex_t</span>* mutex)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_mutex_trylock</span><span class="hljs-params">(<span class="hljs-type">pthread_mutex_t</span>* mutex)</span>;<br><span class="hljs-comment">// 非阻塞，错误码EBUSY</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_mutex_unlock</span><span class="hljs-params">(<span class="hljs-type">pthread_mutex_t</span>* mutex)</span>;<br></code></pre></td></tr></table></figure>
+<p>还可以使用下面的方式初始化
+<code>pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;</code></p>
+<p>获取和设置互斥锁属性的函数有</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;pthread.h&gt;</span></span><br><span class="hljs-comment">/*初始化互斥锁属性对象*/</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_mutexattr_init</span><span class="hljs-params">(<span class="hljs-type">pthread_mutexattr_t</span>* attr)</span>;<br><span class="hljs-comment">/*销毁互斥锁属性对象*/</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_mutexattr_destroy</span><span class="hljs-params">(<span class="hljs-type">pthread_mutexattr_t</span>* attr)</span>;<br><span class="hljs-comment">/*获取和设置互斥锁的pshared属性*/</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_mutexattr_getpshared</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">pthread_mutexattr_t</span>* attr , <span class="hljs-type">int</span>* pshared)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_mutexattr_setpshared</span><span class="hljs-params">(<span class="hljs-type">pthread_mutexattr_t</span>* attr , <span class="hljs-type">int</span> pshared)</span>;<br><span class="hljs-comment">/*获取和设置互斥锁的type属性*/</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_mutexattr_gettype</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">pthread_mutexattr_t</span>* attr , <span class="hljs-type">int</span>* type)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_mutexattr_settype</span><span class="hljs-params">(<span class="hljs-type">pthread_mutexattr_t</span>* attr , <span class="hljs-type">int</span> type)</span>;<br></code></pre></td></tr></table></figure>
+<p>属性pshared指定是否允许跨进程共享互斥锁，PTHREAD_PROCESS_SHARED和PTHREAD_PROCESS_PRIVATE</p>
+<p>属性type指定互斥锁类型</p>
+<ul>
+<li>PTHREAD_MUTEX_NORMAL，普通锁，是默认类型，当一个线程对一个普通锁加锁以后，其余请求该锁的线程将形成一个等待队列，并在该锁解锁后按优先级获得它。这种锁类型保证了资源分配的公平性。但这种锁也容易引发问题：一个线程如果对一个已经加锁的普通锁再次加锁，将引发死锁；对一个已经被其他线程加锁的普通锁解锁，或者对一个已经解锁的普通锁再次解锁，将导致不可预期的后果。</li>
+<li>PTHREAD_MUTEX_ERRORCHECK，检错锁。一个线程如果对一个已经加锁的检错锁再次加锁，则加锁操作返回EDEADLK。对一个已经被其他线程加锁的检错锁解锁，或者对一个已经解锁的检错锁再次解锁，则解锁操作返回EPERM。</li>
+<li>PTHREAD_MUTEX_RECURSIVE，嵌套锁。这种锁允许一个线程在释放锁之前多次对它加锁而不发生死锁。不过其他线程如果要获得这个锁，则当前锁的拥有者必须执行相应次数的解锁操作。对一个已经被其他线程加锁的嵌套锁解锁，或者对一个已经解锁的嵌套锁再次解锁，则解锁操作返回EPERM。</li>
+<li>PTHREAD_MUTEX_DEFAULT，默认锁。一个线程如果对一个已经加锁的默认锁再次加锁，或者对一个已经被其他线程加锁的默认锁解锁，或者对一个已经解锁的默认锁再次解锁，将导致不可预期的后果。这种锁在实现的时候可能被映射为上面三种锁之一。</li>
+</ul>
+<h3 id="条件变量">条件变量</h3>
+<p>条件变量用于在线程之间同步共享数据的值。条件变量提供了一种线程间的通知机制：当某个共享数据达到某个值的时候，唤醒等待这个共享数据的线程。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;pthread.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_cond_init</span><span class="hljs-params">(<span class="hljs-type">pthread_cond_t</span>* cond , <span class="hljs-type">const</span> <span class="hljs-type">pthread_condattr_t</span>* cond_attr)</span>;<br><span class="hljs-comment">// 如果cond_attr设置为NULL则使用默认属性</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_cond_destroy</span><span class="hljs-params">(<span class="hljs-type">pthread_cond_t</span>* cond)</span>;<br><span class="hljs-comment">// 销毁一个正在被等待的条件变量将失败并返回EBUSY</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_cond_broadcast</span><span class="hljs-params">(<span class="hljs-type">pthread_cond_t</span>* cond)</span>;<br><span class="hljs-comment">// 以广播的方式唤醒所有等待目标条件变量的线程</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_cond_signal</span><span class="hljs-params">(<span class="hljs-type">pthread_cond_t</span>* cond)</span>;<br><span class="hljs-comment">// 唤醒一个</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_cond_wait</span><span class="hljs-params">(<span class="hljs-type">pthread_cond_t</span>* cond , <span class="hljs-type">pthread_mutex_t</span>* mutex)</span>;<br><span class="hljs-comment">// mutex是用于保护条件变量的互斥锁，以确保pthread_cond_wait操作的原子性。在执行该函数前，必须确保mutex已经加锁，否则将导致不可预期的结果</span><br><span class="hljs-comment">// 在执行时，首先把线程放入条件变量的等待队列，然后将互斥锁mutex解锁。mutex可以保证在函数开始执行到其调用线程被放入条件变量的等待队列之间的这段时间条件变量不会被其他函数修改</span><br><span class="hljs-comment">// 成功返回时，mutex将再次被锁上</span><br></code></pre></td></tr></table></figure>
+<p>同样可以通过<code>pthread_cond_t cond = PTHREAD_COND_INITIALIZER;</code>初始化。</p>
+<p>有时候我们可能想唤醒一个指定的线程，但pthread没有对该需求提供解决方法。不过我们可以间接地实现该需求：定义一个能够唯一表示目标线程的全局变量，在唤醒等待条件变量的线程前先设置该变量为目标线程，然后采用广播方式唤醒所有等待条件变量的线程，这些线程被唤醒后都检查该变量以判断被唤醒的是否是自己，如果是就开始执行后续代码，如果不是则返回继续等待。</p>
+<h3 id="线程同步机制包装类">线程同步机制包装类</h3>
+<p>可以将这些同步机制分别封装成类方便复用代码，符合RAII。</p>
+<h3 id="多线程环境">多线程环境</h3>
+<h4 id="线程和进程">线程和进程</h4>
+<p>子进程并不会复制父进程的所有进程，而是复制调用fork的那个线程，并且自动继承父进程中互斥锁、条件变量的状态。这引起了一个问题，子进程可能不清楚从父进程继承而来的互斥锁的具体状态，这个互斥锁可能被加锁了，但并不是由调用fork函数的那个线程锁住的，而是由其他线程锁住的。pthread提供了一个专门的函数pthread_atfork以确保fork调用后父进程和子进程都拥有一个清楚的锁状态。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_atfork</span><span class="hljs-params">(<span class="hljs-type">void</span> (*prepare)(<span class="hljs-type">void</span>), <span class="hljs-type">void</span> (*parent)(<span class="hljs-type">void</span>), <span class="hljs-type">void</span> (*child)(<span class="hljs-type">void</span>))</span>;<br><span class="hljs-comment">// 调用多次会注册多个函数，prepare按照注册时的逆序，parent和child按注册时的顺序</span><br></code></pre></td></tr></table></figure>
+<p>prepare句柄将在fork调用创建出子进程之前被执行，它可以用来锁住所有父进程中的互斥锁。parent句柄则是fork调用创建出子进程之后，而fork返回之前，在父进程中被执行。它的作用是释放所有在prepare句柄中被锁住的互斥锁。child句柄是fork返回之前，在子进程中被执行，也是用于释放所有在prepare句柄中被锁住的互斥锁。</p>
+<p>当其他线程加锁时，prepare试图acquire会被阻塞，直到其他线程释放锁，此时prepare能正常获得锁，然后在parent和child中分别释放，就能使得其他线程锁的状态都能释放。</p>
+<h4 id="线程和信号">线程和信号</h4>
+<p>在多线程环境下，设置进程信号掩码时不应用sigprocmask，而应使用下面的</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_sigmask</span><span class="hljs-params">(<span class="hljs-type">int</span> how, <span class="hljs-type">const</span> <span class="hljs-type">sigset_t</span>* newmask, <span class="hljs-type">sigset_t</span>* oldmask)</span>;<br></code></pre></td></tr></table></figure>
+<p>进程中的所有线程共享该进程的信号，线程库将根据线程掩码决定把信号发送给哪个具体的线程。所有线程共享信号处理函数，当我们在某个线程中设置了某个信号的信号处理函数后，它将覆盖其他线程为同一个信号设置的信号处理函数。因此，一般情况下应定义一个专门的线程来处理所有的信号避免意外出错。这可以通过如下两个步骤来实现：</p>
+<ol type="1">
+<li>在主线程创建出其他子线程之前就调用pthread_sigmask来设置好信号掩码，这样所有新创建的子线程都将自动继承这个信号掩码，所有线程都不会响应被屏蔽的信号</li>
+<li>在专门的线程处理函数中调用如下函数</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">sigwait</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">sigset_t</span>* <span class="hljs-built_in">set</span>, <span class="hljs-type">int</span>* sig)</span>;<br></code></pre></td></tr></table></figure>
+<p>可以使用下面的函数将信号发送给指定的线程。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;signal.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">pthread_kill</span><span class="hljs-params">(<span class="hljs-type">pthread_t</span> thread, <span class="hljs-type">int</span> sig)</span>;<br><span class="hljs-comment">// sig是0时不发送信号，但仍执行错误检查，可以用来检测目标线程是否存在</span><br></code></pre></td></tr></table></figure>
+<h2 id="进程池和线程池">进程池和线程池</h2>
+<p>池的子进程的数目一般在3~10个之间，子线程的数目应该和CPU数量差不多。</p>
+<p>在服务器启动之初就创建好可以使得子进程没有复制一些不必要的空间，占用资源较少。</p>
+<h2 id="服务器调制调试和测试">服务器调制、调试和测试</h2>
+<h3 id="最大文件描述符数">最大文件描述符数</h3>
+<p><code>ulimit -n</code>查看用户级文件描述符数限制</p>
+<p><code>ulimit -SHn &lt;max-file-number&gt;</code>临时修改</p>
+<p>永久修改需要在/etc/security/limits.conf中（分别修改硬限制和软限制）</p>
+<blockquote>
+<p>hard nofile <max-file-number></p>
+<p>soft nofile <max-file-number></p>
+</blockquote>
+<hr />
+<p>如果要修改系统级文件描述符限制，可使用<code>sysctl -w fs.file-max=&lt;max-file-number&gt;</code>（临时）</p>
+<p>永久修改需在/etc/sysctl.conf中</p>
+<blockquote>
+<p>fs.file-max=<max-file-number></p>
+</blockquote>
+<p>然后执行sysctl -p</p>
+<h3 id="调整内核参数">调整内核参数</h3>
+<p>几乎所有的内核模块，包括内核核心模块和驱动程序，都在/proc/sys文件系统下提供了某些配置文件以供用户调整模块的属性和行为，通常一个配置文件对应一个内核参数，文件名就是参数的名字，文件的内容是参数的值，我们可以通过命令<code>sysctl -a</code>查看所有这些内核参数。可以通过直接修改/proc/sys目录下的文件的方式来修改这些系统参数外，也可以使用sysctl
+命令来修改它们。这两种修改方式都是临时的。</p>
+<p>要永久修改应在/etc/sysctl.conf
+文件中加入相应参数及其数值，并执行sysctl -p使之生效。</p>
+<h4 id="文件相关">文件相关</h4>
+<p>/proc/sys/fs目录下的内核参数都与文件系统相关。</p>
+<p>/proc/sys/fs/fs/file-max，系统级文件描述符数限制，修改这个参数是临时修改。一般修改/proc/sys/fs/file-max
+后，应用程序需要把/proc/sys/fs/inode-max 设置为/proc/sys/fs/fs/file-max
+值的3-4倍，否则可能导致i 节点数不够用。</p>
+<p>/proc/sys/fs/epoll/max_user_watches，一个用户能够往epoll
+内核事件表注册的事件总量。
+它是指该用户打开的所有epoll实例总共能监听的事件数目，而不是单个epoll实例能监听的事件数目。往epoll内核事件表中注册一个事件，在32位系统上大概消耗90字节的内核空间，在64位系统上则消耗160字节的内核空间。所以，这个内核参数限制了epoll使用的内核内存总量。</p>
+<h4 id="网络相关">网络相关</h4>
+<p>内核中网络模块的相关参数都位于/proc/sys/net 目录下，其中和TCP/IP
+协议相关的参数主要位于如下三个目录中：core 、ipv4 、ipv6 。</p>
+<p>/proc/sys/net/core/somaxconn，指定listen监听队列里，能够建立完整连接从而进入ESTABLISHED
+状态的socket 的最大数目。</p>
+<p>/proc/sys/net/ipv4/tcp_max_syn_backlog，指定listen监听队列里，能够转移至ESTABLISHED或者SYN_RCVD状态的socket的最大数目。</p>
+<p>/proc/sys/net/ipv4/tcp_wmem，它包含了3个值，分别指定一个socket的TCP写缓存区的最小值、默认值和最大值。</p>
+<p>/proc/sys/net/ipv4/tcp_rmem，它包含了3个值，分别指定一个socket的TCP读缓存区的最小值、默认值和最大值。</p>
+<p>/proc/sys/net/ipv4/tcp_syncookies，指定是否打开TCP同步标签。同步标签通过启动cookie
+来防止一个监听socket因不停的重复接收来自同一个地址的连接请求（同步报文段），而导致listen监听队列溢出（所谓的SYN
+风暴）。</p>
+<h3 id="gdb调试">gdb调试</h3>
+<h4 id="调试多进程">调试多进程</h4>
+<h5 id="单独调试子进程">单独调试子进程</h5>
+<p>运行gdb，在gdb里执行<code>attach &lt;pid&gt;</code></p>
+<h5 id="follow-fork-mode">follow-fork-mode</h5>
+<p>在gdb里<code>set follow-fork-mode &lt;mode&gt;</code>，mode为parent或child，选择程序在执行fork后调试父进程还是子进程。</p>
+<h4 id="调试多线程">调试多线程</h4>
+<p><code>info threads</code>显示当前所有可调试的线程，gdb会为每一个线程分配一个ID，根据ID来操作对应的线程，ID前有“*”的是当前被调试的线程。</p>
+<p><code>thread &lt;ID&gt;</code>调试目标进程</p>
+<p>在调试多线程程序时，默认除了被调试的线程在执行外，其他线程也在继续执行。可以通过<code>set scheduler-locking [off|on|step]</code>设置其他线程的运行状态。off表示不锁定任何线程，这是默认值，on表示只有当前被调试的线程会继续执行，step表示在单步执行的时候只有当前线程会执行。</p>
+<h3 id="压力测试">压力测试</h3>
+<p>如果是本机测试，可以单纯用I/O复用，因为多线程和多进程本身的调度也要消耗大量时间。</p>
+<h2 id="系统检测工具">系统检测工具</h2>
+<h3 id="tcpdump">tcpdump</h3>
+<p>网络抓包</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs sh">-n <span class="hljs-comment"># 使用IP地址表示主机，而不是主机名；使用数字表示端口号，而不是服务名称</span><br>-i <span class="hljs-comment"># 指定要监听的网卡接口。-i any表示抓取所有网卡接口上的数据包</span><br>-v <span class="hljs-comment"># 输出一个稍微详细的信息，例如显示IP数据包中的TTL和TOS信息</span><br>-t <span class="hljs-comment"># 不打印时间戳</span><br>-e <span class="hljs-comment"># 进现实以太网帧头部信息</span><br>-c <span class="hljs-comment"># 仅抓取指定数量的数据包</span><br>-x <span class="hljs-comment"># 以十六进制显示数据包的内容，但不显示包中以太网帧的头部信息</span><br>-X <span class="hljs-comment"># 与-x类似，但还打印每个十六进制字节对应的ASCII字符</span><br>-XX <span class="hljs-comment"># 与-X相同，不过还打印以太网帧的头部信息</span><br>-s <span class="hljs-comment"># 设置抓包时的抓取长度</span><br>-S <span class="hljs-comment"># 以绝对值来显示TCP报文段的序号，而不是相对值</span><br>-w <span class="hljs-comment"># 将tcpdump的输出以特殊的格式定向到某个文件</span><br>-r <span class="hljs-comment">#从文件读取数据包信息并显示之</span><br></code></pre></td></tr></table></figure>
+<p>还支持用表达式进一步过滤数据包，操作数分三种，type（类型，包括host、net、port和portrange），dir（方向），proto（协议）</p>
+<p><code>tcpdump net 1.2.3.0/24</code></p>
+<p><code>tcpdump dst port 13579</code></p>
+<p><code>tcpdump icmp</code></p>
+<p><code>tcpdump ip host ernest-laptop and not Kongming20</code></p>
+<p>可以用括号改变优先级，但括号存在时应把tcpdump后面的整个表达式用单引号引起来，或用反斜杠对括号进行转义。</p>
+<p><code>tcpdump 'src 10.0.2.4 and (dst port 3389 or 22)'</code></p>
+<p>此外还允许直接使用数据包中的部分协议字段的内容来过滤数据包，比如仅抓取TCP同步报文段</p>
+<p><code>tcpdump 'tcp[13] &amp; 2 != 0'</code>（TCP头部第14个字节的第2个位是同步标志）</p>
+<p><code>tcpdump 'tcp[tcpflags] &amp; tcp-syn != 0'</code></p>
+<h3 id="lsof">lsof</h3>
+<p>列出当前系统打开的文件描述符</p>
+<h3 id="nc">nc</h3>
+<p>主要被用来快速构建网络连接，以调试客户端、服务器程序。</p>
+<h3 id="strace">strace</h3>
+<p>测试服务器性能的重要工具，跟踪程序运行过程中执行的系统调用和接收到的信号，并将系统调用名、参数、返回值及信号名输出到标准输出或指定文件。</p>
+<h3 id="netstat">netstat</h3>
+<p>功能强大的网络信息统计工具，可以打印本地网卡接口上的全部连接、路由表信息、网卡接口信息。不过获取路由表信息和网卡接口信息更实用的是route和ipconfig。</p>
+<h3 id="vmstat">vmstat</h3>
+<p>是virtual memory
+statistics的缩写，能实时输出系统的各种资源的使用情况，比如进程信息、内存使用、CPU使用率以及I/O使用情况</p>
+<p>可以使用iostat获得磁盘使用情况的更多信息，也可以使用mpstat获得CPU使用的更多信息。vmstat主要用于查看系统内存的使用情况。</p>
+<h3 id="ifstat">ifstat</h3>
+<p>是interface
+statistics的缩写，是一个简单的网络流量监测工具。使用ifstat命令可以大概估计各个时段服务器的总输入、输出流量。</p>
+<h3 id="mpstat">mpstat</h3>
+<p>是multi-processor
+statistics的缩写，能实时监测多处理器系统上每个CPU的使用情况。mpstat和iostat命令通常都集成在sysstat中。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/" class="category-chain-item">长篇笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/C/" class="category-chain-item">C++</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/C/" class="print-no-link">#C++</a>
+      
+        <a href="/tags/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/" class="print-no-link">#长篇笔记</a>
+      
+        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
+      
+        <a href="/tags/C/" class="print-no-link">#C</a>
+      
+        <a href="/tags/%E5%90%8E%E7%AB%AF/" class="print-no-link">#后端</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Linux高性能服务器编程笔记</div>
+      <div>http://example.com/2023/02/11/长篇笔记/C++/Linux高性能服务器编程笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JointHex</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/02/25/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/C++/Linux%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B/" title="Linux多线程服务器编程：使用muduo C++ 网络库">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux多线程服务器编程：使用muduo C++ 网络库</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/01/28/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/C++/modern-cpp-tutorial%20Note/" title="Modern Cpp Tutorial笔记">
+                        <span class="hidden-mobile">Modern Cpp Tutorial笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

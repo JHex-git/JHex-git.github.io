@@ -1,0 +1,811 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JointHex">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="看B站台湾大学教授李宏毅的深度学习课程的笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Deep Learning">
+<meta property="og:url" content="http://example.com/2022/04/29/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/DeepLearning/index.html">
+<meta property="og:site_name" content="JointHex的技术分享站">
+<meta property="og:description" content="看B站台湾大学教授李宏毅的深度学习课程的笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220404171605945.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220404144348885.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220404165316798.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220404192214389.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220404193012558.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220404193155353.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220404193445856.png">
+<meta property="article:published_time" content="2022-04-29T02:59:00.000Z">
+<meta property="article:modified_time" content="2024-03-04T06:07:45.575Z">
+<meta property="article:author" content="JointHex">
+<meta property="article:tag" content="长篇笔记">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="pytorch">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220404171605945.png">
+  
+  
+  
+  <title>Deep Learning - JointHex的技术分享站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>JointHex的技术分享站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/NPR.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Deep Learning"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-04-29 10:59" pubdate>
+          2022年4月29日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Deep Learning</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>看B站台湾大学教授李宏毅的深度学习课程的笔记</p>
+</blockquote>
+<span id="more"></span>
+<h1 id="deep-learning">Deep Learning</h1>
+<h2 id="基本概念">基本概念</h2>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220404171605945.png" srcset="/img/loading.gif" lazyload alt="image-20220404171605945" style="zoom:50%;" /></p>
+<p>在监督学习中，数据集一开始可以粗略分为<strong>训练集</strong>和<strong>测试集</strong>。训练集是用于训练模型的数据集，往往已经打好了标签。测试集是模型处于应用阶段时真正处理的数据，所以对于模型训练是未知的。</p>
+<p>用数据训练模型时，为减少过拟合的发生，使模型在测试集上也能表现出类似训练集上的性能，往往将训练集划分出一部分作为<strong>开发集</strong>（Dev），这部分开发集不参与模型训练，而只是用于检验训练出来的模型是否能够较好地应用于解决问题。</p>
+<h2 id="线性模型">线性模型</h2>
+<p><strong>model</strong>: <span class="math inline">\(\hat y=\omega*x +
+b\)</span></p>
+<p><strong>Training Loss</strong>(Error): <span
+class="math inline">\(loss = (\hat y - y)^2=(\omega * x -
+y)^2\)</span></p>
+<p><strong>Mean Square Error</strong>(MSE): <span
+class="math inline">\(cost = \frac{1}{N}\sum^N_{n=1}(\hat
+y_n-y_n)^2\)</span></p>
+<h3 id="穷举法">穷举法</h3>
+<p>穷举<span
+class="math inline">\(\omega\)</span>的值，取cost最小的<span
+class="math inline">\(\omega\)</span>作为训练结果</p>
+<p>MSE随着数据集规模的增大先减小后增大，转折点之前为<strong>欠拟合</strong>，转折点之后为<strong>过拟合</strong>。</p>
+<h3 id="梯度下降算法">梯度下降算法</h3>
+<ul>
+<li>利用函数的导数不断逼近极小值的方法。</li>
+<li>只能求解局部最小值，不保证是全局最小值，是一种贪心算法</li>
+<li>实际应用中往往没有很多局部最小值，更多的是鞍点</li>
+<li>要对数据集所有数据进行处理，效率较低</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220404144348885.png" srcset="/img/loading.gif" lazyload alt="image-20220404144348885" style="zoom:50%;" /></p>
+<p><span class="math inline">\(\omega = \omega - \alpha\frac{\partial
+cost}{\partial\omega}\)</span>，其中<span
+class="math inline">\(\alpha\)</span>为学习率。</p>
+<p>不断迭代<span
+class="math inline">\(\omega\)</span>直到它收敛（cost收敛）。</p>
+<p>如果发现cost没有收敛到一定的值而是发散，则本次训练失败，很可能是由学习率太大引起。</p>
+<p>为了观察训练数据的趋势，将迭代过程中得到的cost值记为<span
+class="math inline">\(C_0, C_1,
+C_2,...\)</span>，对其作一定的平滑处理，<span
+class="math inline">\(C_0&#39;=C_0, C_i&#39;=\beta C_i +
+(1-\beta)C_{i-1}&#39;\)</span></p>
+<h3
+id="随机梯度下降stochastic-gradient-descent">随机梯度下降（Stochastic
+Gradient Descent）</h3>
+<p>不取cost，而是通过随机取一个样本的loss引入一个随机的噪声，这样能够克服鞍点，且运算效率较高。</p>
+<p>对于<span class="math inline">\(\hat y_n=x_n\cdot
+\omega\)</span>，有下图</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220404165316798.png" srcset="/img/loading.gif" lazyload alt="image-20220404165316798" style="zoom:80%;" /></p>
+<h3 id="批量梯度下降mini-batch">批量梯度下降（mini-batch）</h3>
+<p>将样本均分为若干组，每组并行用梯度下降算法，组间使用随机梯度下降算法，效率较高又能较稳定地收敛。</p>
+<h2 id="计算图computational-graph">计算图（Computational Graph）</h2>
+<p>当参数较多时，样本之间的关系往往呈现非常复杂的结构。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220404192214389.png" srcset="/img/loading.gif" lazyload alt="image-20220404192214389" style="zoom:50%;" /></p>
+<p>这时候往往用矩阵表示相邻层级间的函数关系。</p>
+<p>如果只是简单地用一个变换矩阵和一个bias从上一层级得到下一层级，则最后得到的层级一定可以从第一层级直接变换得到。
+<span class="math display">\[
+\hat y=W_2(W_1\cdot X+b_1)+b_2=W_2W_1X+W_2b_1+b_2=WX+b\tag 1
+\]</span> 那么多层级就变得没有了意义。</p>
+<p>所以需要引入一个非线性的函数<span
+class="math inline">\(\sigma\)</span>，<span class="math inline">\(\hat
+y_1 = W_1\cdot X + b_1 + \sigma\)</span>。</p>
+<p>对于（1）式，可以绘制出它的计算图如下。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220404193012558.png" srcset="/img/loading.gif" lazyload alt="image-20220404193012558" style="zoom:50%;" /></p>
+<p>更准确地，应绘制成下图。</p>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220404193155353.png" srcset="/img/loading.gif" lazyload alt="image-20220404193155353" style="zoom: 33%;" /></p>
+<h3 id="计算图的梯度运算">计算图的梯度运算</h3>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/02/22/image-20220404193445856.png" srcset="/img/loading.gif" lazyload alt="image-20220404193445856" style="zoom: 33%;" /></p>
+<p>前馈时得到<span class="math inline">\(\frac {\partial z}{\partial
+x}\)</span>和<span class="math inline">\(\frac{\partial z}{\partial
+\omega}\)</span>，后馈时根据计算好的<span class="math inline">\(\frac
+{\partial z}{\partial x}\)</span>和<span
+class="math inline">\(\frac{\partial z}{\partial
+\omega}\)</span>，利用链式法则得到<span
+class="math inline">\(\frac{\partial L}{\partial x}\)</span>和<span
+class="math inline">\(\frac{\partial L}{\partial
+\omega}\)</span>，这就是梯度运算时需要用到的梯度。</p>
+<h2 id="pytorch">PyTorch</h2>
+<ul>
+<li>torch中基本的数据类型为Tensor，在运用tensor类进行计算时往往会构建计算图，它包含data和grad，它们也都是Tensor类型的</li>
+<li>记一个Tensor类的变量为tensor，则有
+<ul>
+<li><code>tensor = torch.Tensor([预估计值])</code></li>
+<li><code>tensor.data</code>返回的也是一个Tensor类的值，但不会构建运算图，<code>tensor.Item()</code>返回python标准数据类型</li>
+<li>默认情况下tensor不含梯度，但可以通过<code>tensor.requires_grad = True</code>使其包含梯度</li>
+<li>tensor与python标准类型的数据的运算返回结果依然为Tensor类</li>
+<li><code>tensor.zero_()</code>实现清零，训练时梯度使用一次后往往要清零，因为要重新计算。</li>
+<li>调用一个含Tensor类的方法相当于完成了一次前馈计算，通过<code>tensor.backward()</code>完成后馈计算，更新我们需要的梯度</li>
+</ul></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/" class="category-chain-item">长篇笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="category-chain-item">机器学习</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/" class="print-no-link">#长篇笔记</a>
+      
+        <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="print-no-link">#机器学习</a>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="print-no-link">#深度学习</a>
+      
+        <a href="/tags/python/" class="print-no-link">#python</a>
+      
+        <a href="/tags/pytorch/" class="print-no-link">#pytorch</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Deep Learning</div>
+      <div>http://example.com/2022/04/29/长篇笔记/机器学习/DeepLearning/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JointHex</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年4月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/09/09/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/C++/Effective%20Modern%20C++%20Note/" title="Effective Modern C++ 笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Effective Modern C++ 笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/29/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/d2l/" title="动手学深度学习">
+                        <span class="hidden-mobile">动手学深度学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
