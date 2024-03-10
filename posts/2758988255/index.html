@@ -1,0 +1,1313 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JointHex">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="学习GAMES202课程记录的笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GAMES202笔记">
+<meta property="og:url" content="https://jhex-git.github.io/posts/2758988255/index.html">
+<meta property="og:site_name" content="JointHex的技术分享站">
+<meta property="og:description" content="学习GAMES202课程记录的笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/07/26/image-20220902105814568.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/07/26/image-20220902123942751.png">
+<meta property="article:published_time" content="2023-03-20T02:00:00.000Z">
+<meta property="article:modified_time" content="2024-03-10T06:12:37.757Z">
+<meta property="article:author" content="JointHex">
+<meta property="article:tag" content="长篇笔记">
+<meta property="article:tag" content="图形学">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/07/26/image-20220902105814568.png">
+  
+  
+  
+  <title>GAMES202笔记 - JointHex的技术分享站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jhex-git.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>JointHex的技术分享站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/NPR.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="GAMES202笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-20 10:00" pubdate>
+          2023年3月20日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          35 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">GAMES202笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="real-time-high-quality-rendering">Real-Time High Quality
+Rendering</h1>
+<p>实时：速度快于30FPS，对于VR、AR要求90FPS</p>
+<p>interactive：像幻灯片一样，比较慢，但能交互</p>
+<h2 id="cg-basics">CG Basics</h2>
+<h3 id="graphics-pipeline">Graphics Pipeline</h3>
+<pre><code class=" mermaid">flowchart TD
+	id1(Application)
+	id2[Vertex Processing]
+	id3[Triangle Processing]
+	id4[Rasterization]
+	id5[Fragment Processing]
+	id6[Framebuffer Operations]
+	id7(display)
+	id1--&gt;id2--&gt;|Vertex Stream|id3--&gt;|Triangle Stream|id4--&gt;|Fragment Stream|id5--&gt;|Shaded Fragments|id6--&gt;id7
+	
+	
+</code></pre>
+<h3 id="opengl">OpenGL</h3>
+<ol type="1">
+<li>Place objects/models
+<ul>
+<li>Model specification</li>
+<li>Model transformation</li>
+<li>send object to GPU as a Vertex buffer object(VBO)</li>
+</ul></li>
+<li>Set up an easel
+<ul>
+<li>View transformation</li>
+<li>Create / use a framebuffer</li>
+<li>Set camera, e.g. gluPerspective</li>
+</ul></li>
+<li>Attach a canvas to the easel
+<ul>
+<li>OpenGL的一个优点：multiple render target(BRT)</li>
+<li>一个rendering
+pass指定一个framebuffer，但可以有多个textures作为输出</li>
+<li>framebuffer直接绘制到屏幕容易出现画面撕裂的效果，打开垂直同步其实就是不直接绘制，双重缓冲、三重缓冲技术</li>
+</ul></li>
+<li>Paint to the canvas
+<ul>
+<li>顶点着色器、片元着色器</li>
+<li>深度测试</li>
+</ul></li>
+</ol>
+<h3 id="opengl-shading-language-glsl">OpenGL Shading Language
+(GLSL)</h3>
+<blockquote>
+<p>调试shader</p>
+<ul>
+<li><p>Nsight Graphics(跨平台，但仅支持NVIDIA GPUs)</p></li>
+<li><p>RenderDoc(跨平台，不限制GPU)</p></li>
+<li><p>用颜色作为输出print出来</p></li>
+</ul>
+</blockquote>
+<h3 id="the-rendering-equation">The Rendering Equation</h3>
+<p>In real-time rendering(RTR)</p>
+<ul>
+<li>Visibility is often explicitly considered</li>
+<li>BRDF is often considered together with cosine term</li>
+</ul>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/07/26/image-20220901124347986.png" srcset="/img/loading.gif" lazyload /></p>
+<p>实时渲染中通常只考虑光线弹射一次</p>
+<h2 id="real-time-shadows">Real-Time Shadows</h2>
+<h3 id="recap-shadow-mapping">Recap: shadow mapping</h3>
+<ul>
+<li>A 2-Pass Algorithm
+<ul>
+<li>先从光源发射光线，得到Shadow Map(SM)</li>
+<li>从相机发射光源，根据SM</li>
+</ul></li>
+<li>An image-space algorithm
+<ul>
+<li>Pro: 不需要知道场景的几何</li>
+<li>Con:自遮挡和走样</li>
+</ul></li>
+</ul>
+<p>先从光源出发，得到各个角度能照到的点的深度作为shadow
+map。再从相机出发，根据相机照到的点检测是否在shadow
+map中决定是否有阴影。</p>
+<h4 id="shadow-mapping存在的问题">shadow mapping存在的问题</h4>
+<p>光线与阴影所投平面不垂直时，由于shadow
+map得到的每个点的深度是不连续的，会出现自遮挡的问题</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/07/26/image-20220902081445037.png" srcset="/img/loading.gif" lazyload /></p>
+<p>为解决该问题，可以引入一个和光线与平面夹角有关的误差允许bias，但这样又会造成detached
+shadow.</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/07/26/image-20220902081706816.png" srcset="/img/loading.gif" lazyload /></p>
+<p>工业界往往通过调整bias达到既没有自遮挡又没有detached
+shadow的效果。</p>
+<p>其他的解决方案：Second-depth shadow mapping</p>
+<ul>
+<li>在shadow
+map中记录最近和次近的点的深度，通过与最近和次近的点的中点的深度的比较决定是否有阴影</li>
+<li>开销略大，且要求不能有没厚度的物体，所以基本没有被使用</li>
+</ul>
+<h3 id="the-math-behind-shadow-mapping">The math behind shadow
+mapping</h3>
+<p><span class="math display">\[
+\int_{\Omega}f(x)g(x)dx\approx\frac{\int_\Omega f(x)dx}{\int_\Omega
+dx}\cdot\int_\Omega g(x)dx\tag {small support or smooth integrand}
+\]</span></p>
+<blockquote>
+<p>small support: 积分区间很小</p>
+<p>smooth integrand: 被积函数积分范围内变化不大</p>
+</blockquote>
+<p>由此，可以得到渲染方程 <span class="math display">\[
+\begin{align}
+L_o(p,
+\omega_o)&amp;=\int_{\Omega+}L_i(p,\omega_i)f_r(p,\omega_i,\omega_o)cos\theta_iV(p,\omega_i)d\omega_i\\
+&amp;\approx\frac{\int_{\Omega+}V(p,\omega_i)d\omega_i}{\int_{\Omega+}d\omega_i}\cdot\int_{\Omega+}L_i(p,\omega_i)f_r(p,\omega_i,\omega_o)cos\theta_id\omega_o
+\end{align}
+\]</span>
+约等式右边的第一项是Visibility，第二项是Shading，这其实就是shadow
+map做的事。</p>
+<p>什么时候近似准确</p>
+<ul>
+<li>Small support（积分限小）: point / directional lighting</li>
+<li>Smooth integrand（变化小）: diffuse bsdf / constant radiance area
+lighting</li>
+<li>两个满足一个就够了</li>
+</ul>
+<h3 id="percentage-closer-soft-shadowspcss">Percentage closer soft
+shadows（PCSS）</h3>
+<h4 id="percentage-closer-filteringpcf">Percentage Closer
+Filtering（PCF）</h4>
+<ul>
+<li>最初是用于抗锯齿</li>
+<li>后发现可以用于软阴影</li>
+</ul>
+<p>将着色点相对light的深度和着色点在shadow
+map上周围的一系列点（比如7*7，filter
+size）的深度进行比较，取平均得到visibility。注意不是对shadowmap做模糊处理。</p>
+<p>filter size越大，阴影越软，反之越硬。</p>
+<p>可以通过调节不同地方的filter
+size获得阴影软硬的变化，这样也就得到了PCSS。物体里阴影投射面越近的地方阴影越硬，越远越软。</p>
+<h4 id="pcss原理">PCSS原理</h4>
+<p><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/07/26/image-20220902105814568.png" srcset="/img/loading.gif" lazyload alt="image-20220902105814568" style="zoom:50%;" /></p>
+<p><span
+class="math inline">\(w_{Penumbra}\)</span>实际上就是软阴影。</p>
+<p>由相似可以得到 <span class="math display">\[
+w_{Penumbra}=(d_{Receiver}-d_{Blocker})\cdot w_{Light} / d_{Blocker}
+\]</span></p>
+<h4 id="具体实现">具体实现</h4>
+<blockquote>
+<p>面光源取中心生成shadow map</p>
+</blockquote>
+<ol type="1">
+<li>Blocker search: getting the average blocker depth in a certain
+region
+<ul>
+<li>region可采用常数或启发式</li>
+<li>启发式的region为着色点与光源的连线在shadow
+map（近平面）上的范围</li>
+<li><img src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/07/26/image-20220902123942751.png" srcset="/img/loading.gif" lazyload alt="image-20220902123942751" style="zoom:50%;" /></li>
+</ul></li>
+<li>Penumbra estimation: use the average blocker depth to determine
+filter size</li>
+<li>Percentage Closer Filtering</li>
+</ol>
+<p>在filter
+size大的时候开销很大，可以采用稀疏采样再图像降噪的方法来降低开销。</p>
+<h3 id="variance-soft-shadow-mapping">Variance soft shadow mapping</h3>
+<blockquote>
+<p>在temperal denoising方法提出后使用的没有PCSS多了</p>
+</blockquote>
+<h4 id="加速pcf">加速PCF</h4>
+<p>Shadow Mapping实际上就是得出shading
+point比filter的box里的百分之几的点近，如果知道分布，那么就可以快速得出这一点。</p>
+<p>可以使用mean和variance来描述一个分布</p>
+<ul>
+<li>Mean
+<ul>
+<li>Hardware
+MipMaping（只能求方形的mean，不能对任意矩形区域求mean，但很快）</li>
+<li>Summed Area Tables（SAT，会慢一些）</li>
+</ul></li>
+<li>Variance
+<ul>
+<li><span class="math inline">\(Var(X)=E(X^2)-E^2(X)\)</span>
+<ul>
+<li>需要额外的<span class="math inline">\(depth^2\)</span>的shadow
+map，根据这个shadow map生成mipmap或SAT</li>
+<li>可以将<span
+class="math inline">\(depth\)</span>作为一个颜色通道，<span
+class="math inline">\(depth^2\)</span>作为另一个颜色通道</li>
+</ul></li>
+</ul></li>
+<li>计算CDF
+<ul>
+<li>求数值解慢</li>
+<li>查表（Error Function，在C++中是e2f）需要大量空间</li>
+<li>用切比雪夫不等式来近似：<span
+class="math inline">\(P(x&gt;t)\le\frac{\sigma^2}{\sigma^2+(t-\mu)^2}\)</span>（<span
+class="math inline">\(t&gt;\mu\)</span>，对分布的类型没有要求，但是正态分布时非常近似）</li>
+</ul></li>
+</ul>
+<h4 id="加速blocker-search">加速Blocker Search</h4>
+<p>Blocker Search求的是一个块状区域内遮挡物的深度的均值<span
+class="math inline">\(z_{occ}\)</span>，记shading
+point的深度为t，块状区域内非遮挡物的深度的均值为<span
+class="math inline">\(z_{unocc}\)</span>，则有 <span
+class="math display">\[
+\frac{N_1}{N}z_{unocc}+\frac{N_2}{N}z_{occ}=z_{Avg}
+\]</span> 用切比雪夫不等式近似，<span
+class="math inline">\(\frac{N_1}{N}=P(x&gt;t),\frac{N2}{N}=1-P(x&gt;t)\)</span>，大胆假设<span
+class="math inline">\(z_{unocc}=t\)</span>，这样就能解出<span
+class="math inline">\(z_{occ}\)</span></p>
+<h3 id="mipmap-and-summed-area-variance-shadow-maps">MIPMAP and
+Summed-Area Variance Shadow Maps</h3>
+<p>MIPMAP可能需要双线性插值甚至三线性插值，会不准。</p>
+<p>SAT是记录从（0, 0）到（i,
+j）的矩形元素的和（前缀和思想的二维应用）。先按行并行求，再按列并行加起来。</p>
+<h3 id="moment-shadow-mapping">Moment shadow mapping</h3>
+<p>VSSM只用了<span class="math inline">\(z\)</span>和<span
+class="math inline">\(z^2\)</span>来表示分布，所以对于正态分布效果比较好，对其他分布则由于不够近似容易出现问题，会出现一些区域过黑（可以接受），一些区域过亮（light
+leaking，不可接受）。MSM引入了更高阶的矩（moment）来实现更好地表述分布。通常到<span
+class="math inline">\(z^4\)</span>就能取得很好的效果。</p>
+<p>但是从四阶矩重建出CDF开销比较大。</p>
+<h3 id="distance-field-soft-shadows">Distance field soft shadows</h3>
+<p>Distance Function: At any point, giving the minimum distance（could
+be signed distance） to the closest location on an object.
+即空间中一个点到所有物体的最近距离。</p>
+<p>SDF：signed。可以定位物体内部的距离为负数，外部为正数。人们通常情况不管是否signed都称之为SDF。</p>
+<h4 id="blend">blend</h4>
+<p>SDF可以用于blend物体边界。直接对两张有明显边界的图进行线性插值显然无法得到边界移动的中间结果。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/07/26/image-20230726140318617.png" srcset="/img/loading.gif" lazyload /></p>
+<p>但是SDF就可以很好地实现这一点。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/07/26/image-20230726140353657.png" srcset="/img/loading.gif" lazyload /></p>
+<p>进而实现这样的变化。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/07/26/image-20230726140541488.png" srcset="/img/loading.gif" lazyload /></p>
+<h4 id="usage">Usage</h4>
+<h5 id="ray-marching">Ray Marching</h5>
+<p>SDF的值可以看作a safe distance
+around。因此，对于在p点的光线，可以前进<span
+class="math inline">\(SDF(p)\)</span>的距离，不断迭代，直到到达物体。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/07/26/image-20230726140849208.png" srcset="/img/loading.gif" lazyload /></p>
+<h5 id="determine-the-approx-percentage-of-occlusion">determine the
+approx percentage of occlusion</h5>
+<p>SDF的值可以看作a safe angle seen from the eye。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/07/26/image-20230726141054428.png" srcset="/img/loading.gif" lazyload /></p>
+<p>着色点的safe angle越小，表明被遮挡得越厉害，即less visibility。</p>
+<p>safe angle的计算：在ray
+marching的时候计算各个点对应的角度，取最小的角度，表达式显而易见为<span
+class="math inline">\(arcsin(\frac{SDF(p)}{d_{travel}})\)</span>。但是反三角函数的计算比较复杂，实际上可以直接用反三角函数前的值来表示。即<span
+class="math inline">\(min\{\frac{kSDF(p)}{|p-o|},
+1.0\}\)</span>，o为光线出发的地方。这里的k实际上可以看作对阴影软硬的控制的系数，k越大阴影越硬。</p>
+<ul>
+<li>Pros
+<ul>
+<li>Fast（不考虑DF的计算）</li>
+<li>High quality</li>
+</ul></li>
+<li>Cons
+<ul>
+<li>Need precomputation</li>
+<li>Need heavy storage</li>
+<li>对于物体形变需要重新计算SDF</li>
+<li>Artifact</li>
+</ul></li>
+</ul>
+<h2 id="real-time-environment-mapping">Real-time Environment
+Mapping</h2>
+<p>认为光照来自无限远。</p>
+<p>主流的两种存储方式：Spherical map和Cube map</p>
+<h3 id="shading-from-environment-lighting">Shading from Environment
+Lighting</h3>
+<p>由于上述的存储方式，环境光照又称为Image-Based Lighting（IBL）</p>
+<p>使用它进行着色，在不考虑visibility的情况下 <span
+class="math display">\[
+L_o(p, \omega_o)=\int_{\Omega+}L_i(p, \omega_i)f_r(p, w_i,
+w_o)cos\theta_id\omega_i
+\]</span> <span
+class="math inline">\(\Omega+\)</span>表示上半球，和着色点的法线方向相关。</p>
+<p>为解这个方程，直观的想法是使用蒙特卡洛积分，但是需要大量采样，开销很大。</p>
+<p>在实时渲染中，往往不使用sampling。但是现在很多降噪方法的提出使得这一点变得不那么绝对。</p>
+<p>BRDF往往要么是glossy的，要么是diffuse的。glossy意味着small
+support，diffuse意味着smooth，</p>
+<p>可以联想到这个近似式 <span class="math display">\[
+\int_\Omega
+f(x)g(x)dx\approx\frac{\int_{\Omega_G}f(x)dx}{\int_{\Omega_G}dx}\int_\Omega
+g(x)dx
+\]</span> 那么渲染方程就可以写作 <span class="math display">\[
+L_o(p, \omega_o)\approx\frac{\int_{\Omega_{f_r}}L_i(p,
+\omega_i)d\omega_i}{\int_{\Omega_{f_r}}d\omega_i}\int_{\Omega+}f_r(p,\omega_i,\omega_o)cos\theta_id\omega_i
+\]</span> 右边的第一项其实就是对环境光做滤波。可以prefilter environment
+light，得到一组不同滤波核滤波的环境光。在着色时只需要查询着色点反射方向的prefiltered
+environment lighting即可。</p>
+<p>实际上我们可以发现，原本的蒙特卡洛积分是在反射方向附近进行采样再加权平均，现在的则是预先filter再直接取值，两者非常近似。</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/07/26/image-20230726152706419.png" srcset="/img/loading.gif" lazyload /></p>
+<p>对于右边的第二项，核心思想是预计算，但是直接预计算的话维度很大，需要大量的存储空间。</p>
+<p>这里我们使用Microfacet模型，F为菲涅尔项 <span class="math display">\[
+\begin{align}
+\int_{\Omega+}f_rcos\theta_id\omega_i&amp;=\int_{\Omega+}\frac{f_r(p,\omega_i,\omega_o)}{F}Fcos\theta_id\omega_i\\
+&amp;\approx\int_{\Omega+}\frac{f_r}{F}(R_0+(1-R_0)(1-cos\theta)^5)cos\theta_id\omega_i（\text{Schlick&#39;s
+approximation}）\\
+&amp;=R_0\int_{\Omega+}\frac{f_r}{F}(1-(1-cos\theta)^5)cos\theta_id\omega_i+\\
+&amp;\int_{\Omega+}\frac{f_r}{F}(1-cos\theta)^5cos\theta_id\omega_i
+\end{align}
+\]</span> 而<span
+class="math inline">\(f_r(i,o)=\frac{F(i,h)G(i,o,h)D(h)}{4(n,i)(n,o)}\)</span>，<span
+class="math inline">\(\frac{f_r}{F}=\frac{G(i,o,h)D(h)}{4(n,i)(n,o)}\)</span>，因为不考虑shadow，所以忽略G项（shadowing-masking
+term），此时只和D和<span
+class="math inline">\(\theta\)</span>有关。<span
+class="math inline">\(D(h)=\frac{e^{-\frac{tan^2\theta_h}{\alpha^2}}}{\pi\alpha^2cos^4\theta_h}\)</span>，<span
+class="math inline">\(\theta_h\)</span>可以转化为<span
+class="math inline">\(\theta\)</span>的表达式，所以最终只和<span
+class="math inline">\(\alpha\)</span>（roughness）和<span
+class="math inline">\(cos\theta\)</span>有关，所以只需要预计算一个二维的表，作为一个texture。这个texture为LUT。</p>
+<p>这种将乘积的积分（求和）拆开先求积分（求和）再求乘积的方法被称为Split
+Sum Approximation。</p>
+<h3 id="shadow-from-environment-lighting">Shadow from Environment
+Lighting</h3>
+<p>很难实现，通常工业界的做法是根据最强的光源决定阴影，或者用Ambient
+Occlusion。</p>
+<h3 id="background-knowledge">Background knowledge</h3>
+<h4 id="frequency-and-filtering">Frequency and filtering</h4>
+<p>Any product integral can be considered as filtering <span
+class="math display">\[
+\int_\Omega f(x)g(x)dx
+\]</span> The frequency of the integral is the lowest of any
+individual's.</p>
+<h4 id="basis-functions">Basis functions</h4>
+<p>A set of functions that can be used to represent other functions in
+general <span class="math display">\[
+f(x)=\sum_i c_i\cdot B_i(x)
+\]</span></p>
+<h3 id="real-time-environment-lighting">Real-time environment
+lighting</h3>
+<h4 id="spherical-harmonicssh">Spherical Harmonics（SH）</h4>
+<p>A set of 2D basis functions <span
+class="math inline">\(B_i(\omega)\)</span> defined on the sphere.</p>
+<p>可视化如图</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/08/02/image-20230802164910221.png" srcset="/img/loading.gif" lazyload /></p>
+<p>给定一个<span
+class="math inline">\(\omega\)</span>，会与一个基函数有且只有一个交点，交点处的颜色即表示函数值的大小。</p>
+<p><span class="math inline">\(l\)</span>是SH的阶数，第<span
+class="math inline">\(l\)</span>阶SH有<span class="math inline">\(2l +
+1\)</span>个基函数，前<span class="math inline">\(l\)</span>阶有<span
+class="math inline">\((l+1)^2\)</span>个基函数。</p>
+<p>SH使用时往往取前三阶。</p>
+<p>越高阶的SH表示越高频率的信息，所以SH往往适用于低频信息。</p>
+<p>基函数的系数的求解称为投影，可以通过下式得到 <span
+class="math display">\[
+c_i=\int_\Omega f(\omega)B_i(\omega)d\omega
+\]</span> <span
+class="math inline">\(B_i(\omega)\)</span>由勒让德多项式（Legendre
+polynomial）得到。</p>
+<h4 id="prefiltered-environment-lighting">Prefiltered environment
+lighting</h4>
+<p>Diffuse的BRDF往往只有低频信息，所以基本只有前三阶（l=0,1,2）的系数非零。</p>
+<p>Rendering Equation中<span
+class="math inline">\(L*fr*d\omega_i\)</span>可以将<span
+class="math inline">\(f_r\)</span>看作低通滤波（frequency of the
+integral is the lowest of any
+individual's），所以实际上L也没必要含高频信息。</p>
+<p>对于任何光照，只要brdf是diffuse的，那么用前三阶作为光照，平均误差不超过3%。</p>
+<h4 id="precomputed-radiance-transferprt">Precomputed Radiance
+Transfer（PRT）</h4>
+<p>把Rendering Equation <span class="math display">\[
+L(o)=\int_\Omega L(i)V(i)\rho(i,o)max(0,n\cdot i)di
+\]</span> 中的<span
+class="math inline">\(L(i)\)</span>看作lighting，<span
+class="math inline">\(V(i)\rho(i,o)max(0,n\cdot i)\)</span>看作light
+transport，可以发现lighting仅与<span
+class="math inline">\(i\)</span>有关，是一个球面函数，light
+transport的变量也只有<span
+class="math inline">\(i\)</span>，也是一个球面函数。</p>
+<p><span class="math inline">\(L(i)\approx\sum l_j B_j(i)\)</span></p>
+<p>考虑在场景中只有光照可以发生变化的情况，我们可以预计算light
+transport。</p>
+<ul>
+<li>Pro：可以方便地切换环境光，能够快速地处理光源的旋转，由于保留了V项，能够产生阴影</li>
+<li>Con：场景中的物体不能移动</li>
+</ul>
+<h5 id="diffuse-case">Diffuse case</h5>
+<p><span class="math display">\[
+\begin{align}
+L(o)&amp;=\rho\int_\Omega L(i)V(i)max(0,n\cdot i)di\\
+&amp;\approx \rho\sum l_j\int_\Omega B_j(i)V(i)max(0, n\cdot i)di
+\end{align}
+\]</span></p>
+<p>在实时渲染中，往往认为积分和求和顺序总是可交换（除了differentiable
+rendering）</p>
+<p>上式的积分可以预计算，于是得到 <span class="math display">\[
+L(o)\approx\rho\sum l_jT_j
+\]</span> 其中<span class="math inline">\(T_i\approx\int_\Omega
+B_j(i)V(i)max(0,n\cdot i)di\)</span></p>
+<p>可以看到，积分最终变成了两个函数在同一组基函数上的投影的乘积，即点乘。</p>
+<p>另一种思路 <span class="math display">\[
+L(\omega_i)\approx\sum_p c_pB_p(\omega_i)\\
+T(\omega_i)\approx\rho\sum_q c_qB_q(\omega_i)\\
+\begin{align}
+L_o(p,\omega_o)&amp;=\int_{\Omega+}L(\omega_i)T(\omega_i)d\omega_i\\
+&amp;=\rho\sum_p\sum_qc_pc_q\int_{\Omega+}B_p(\omega_i)B_q(\omega_i)d\omega_i\\
+&amp;=\rho\sum l_jT_j（由正交性得）
+\end{align}
+\]</span></p>
+<p>如果我们将上面<span
+class="math inline">\(T_j\)</span>的式子看作渲染方程，<span
+class="math inline">\(B_j\)</span>则相当于光照，<span
+class="math inline">\(T_j\)</span>实际上就是着色点在<span
+class="math inline">\(B_j\)</span>光照下的颜色。</p>
+<h5 id="basis-functions-1">Basis functions</h5>
+<p>采用SH作为basic function</p>
+<p>SH的性质</p>
+<ul>
+<li>orthonormal
+<ul>
+<li><span class="math inline">\(\int_\Omega B_j(i)\cdot B_k(i)di=1\text{
+if (j=k)}\)</span></li>
+<li><span class="math inline">\(\int_\Omega B_j(i)\cdot B_k(i)di=0\text{
+if (j}\ne\text{k)}\)</span></li>
+</ul></li>
+<li>simple projection/reconstruction</li>
+<li>simple rotation
+<ul>
+<li>当光源发生旋转时，就是对<span class="math inline">\(\sum l_j
+B_j(i)\)</span>进行旋转，可以看作对各个<span
+class="math inline">\(B_j\)</span>进行旋转，而SH中<span
+class="math inline">\(B_j\)</span>旋转后的结果可以用同阶的SH的线性组合表示</li>
+</ul></li>
+<li>simple convolution</li>
+<li>few basis functions: low freqs</li>
+</ul>
+<h5 id="glossy-case">Glossy case</h5>
+<p><span class="math display">\[
+\begin{align}
+L(o)&amp;=\int_\Omega L(i)V(i)\rho(i,o)max(0,n\cdot i)di\\
+&amp;\approx\sum l_jT_j(o)
+\end{align}
+\]</span></p>
+<p>在diffuse中，<span class="math inline">\(L\)</span>是一个值，light
+transport预计算得到向量<span
+class="math inline">\([T_1,T2,...T_n]\)</span>。</p>
+<p>而在diffuse中，<span
+class="math inline">\(L(o)\)</span>是一个向量，light
+transport预计算得到矩阵，<span
+class="math inline">\(L(o)\)</span>约等于light的系数向量和transport系数矩阵的乘。</p>
+<h4 id="more-basis-functions">More Basis Functions</h4>
+<p>Wavelet（小波）</p>
+<p>定义在图像块上，每个基函数的定义域不一定相同，（灰色为非定义域内）</p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/08/02/image-20230802200504235.png" srcset="/img/loading.gif" lazyload /></p>
+<p>Wavelet可以保留各个频率的信息。</p>
+<p>每次对图像进行Wavelet
+transform，仅会有很少的基函数的系数非零，通过这个进行数据压缩，是一种非线性的近似。</p>
+<p>由于Wavelet定义在图像块上，人们往往使用cubemap表示环境光而不是sphere，对cubemap的每张图分别进行Wavelet
+Transform。</p>
+<p>Wavelet Transform</p>
+<ul>
+<li>将高频信息留在右上、左下、右下，稍微低频的留在左上角，再对左上角递归做这样的操作。</li>
+</ul>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/08/02/image-20230802230222445.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/08/02/image-20230802201142396.png" srcset="/img/loading.gif" lazyload /></p>
+<p>JPEG就使用了一种类似小波变换的离散余弦变换DCT</p>
+<p>小波变换一个比较大的缺点就是不支持旋转。</p>
+<h2 id="real-time-global-illuminationin-3d">Real-time Global
+Illumination（in 3D）</h2>
+<p>在实时渲染中，全局光照往往只要求one bounce indirect illumination</p>
+<h3 id="reflective-shadow-mapsrsm">Reflective Shadow Maps（RSM）</h3>
+<p>主要思路是将被直接光照照亮的表面作为新的次级光源，用来照亮其他点。</p>
+<ul>
+<li>用shadow map可以获得直接被光源照亮的点</li>
+<li>shadow map上的每一个像素都是一个小的surface
+patch，可以作为面光源</li>
+<li>渲染时只知道次级光源朝相机的radiance，但不知道朝被间接照亮的物体表面的radiance
+<ul>
+<li>假设所有reflector都是diffuse的，于是朝被间接照亮的物体表面的radiance等于朝相机的radiance（对接受物没有要求）</li>
+</ul></li>
+</ul>
+<p><img
+src="https://raw.githubusercontent.com/JHex-git/images/master/image/2023/08/06/image-20230806141007346.png" srcset="/img/loading.gif" lazyload />
+<span class="math display">\[
+\begin{align}
+L_o(p,\omega_o)&amp;=\int_{\Omega_{patch}}Li(p,\omega_i)V(p,\omega_i)f_{r_p}(p,\omega_i,\omega_o)cos\theta_i
+d\omega_i\\
+&amp;=\int_{A_{patch}}L_i(q\rightarrow
+p)V(p,\omega_i)f_{r_p}(p,q\rightarrow p,\omega_o)\frac{cos\theta_p
+cos\theta_q}{||q-p||^2}dA
+\end{align}
+\]</span> 对于diffuse的reflect，<span
+class="math inline">\(f_{r_q}=\frac{\rho}{\pi}\)</span>，<span
+class="math inline">\(\rho\)</span>为albedo，根据BRDF的定义，有<span
+class="math inline">\(L_i=f_{r_q}\cdot
+\frac{\Phi}{dA}\)</span>，其中<span
+class="math inline">\(\Phi\)</span>是incident flux，由光源决定。</p>
+<p>由此可以得到q给x点的Irradiance，<span
+class="math inline">\(E_q(x,n)=L_i(q\rightarrow p)\cdot\frac{cos\theta_p
+cos\theta_q}{||q-p||^2}dA
+=\Phi_q\frac{max\{0,&lt;n_q|x-x_q&gt;\}max\{0,&lt;n|x_q-x&gt;\}}{||x-x_q||^4}\)</span></p>
+<p>遮挡问题由于没法求解，所以visibility直接不算</p>
+<p>对于每一个shading point，都需要求shadow
+map上的所有像素的贡献，这样很明显计算量太大了，而且有一些像素可以简单地判断出没有贡献。为了实现判断，需要在shadow
+map上记录一些额外的信息，除了深度以外，还包括世界坐标、法向量、flux。可以通过着色点和secondary
+light连线的方向和法线的夹角判断简单的遮挡关系。</p>
+<p>为了减少计算量，采用和PCSS类似的方法，仅对部分点进行采样。考虑到彼此之间越近的reflector和receiver贡献越大，假设深度图上越近且深度接近的点的世界坐标也足够近，仅对这些点进行采样，这样子计算量就不再是shadow
+map的分辨率，而可以压缩到400个patch。</p>
+<p>RSM技术通常被用来做游戏中的手电筒。</p>
+<ul>
+<li>Pros：易于实现</li>
+<li>Cons：
+<ul>
+<li>由于采用了shadow map，performance和光源数线性相关</li>
+<li>No visibility check for indirect illumination</li>
+<li>Many assumptions：diffuse reflectors，depth as distance, etc</li>
+<li>Sampling rate/ quality trade off</li>
+</ul></li>
+</ul>
+<h3 id="light-propagation-volumeslpv">Light Propagation
+Volumes（LPV）</h3>
+<p>Key idea：Radiance travels in a straight line and does not change</p>
+<p>Key
+solution：将空间划分为网格，从被光源直接照亮的物体表面出发，通过网格向各方向传播</p>
+<p>具体步骤：</p>
+<ol type="1">
+<li>用和RSM一样的方法得到被光源直接照亮的点的集合，可以适当减少surface
+patch的数量</li>
+<li>将点云作为虚拟光源注入到网格中
+<ul>
+<li>Sum up directional radiance distribution in each grid cell</li>
+<li>将和投影到二阶球谐函数上</li>
+</ul></li>
+<li>Volumetric radiance propagation
+<ul>
+<li>For each grid cell, collect the radiance received from each of its 6
+faces</li>
+<li>Sum up, and again use SH to represent</li>
+<li>Repeat this propagation several times till the volume becomes
+stable（差不多4到5次收敛）</li>
+</ul></li>
+<li>Scene lighting with final light propagation volume
+<ul>
+<li>For any shading point, find the grid cell it is located in</li>
+<li>Grab the incident radiance in the grid cell（from all
+directions）</li>
+<li>shade</li>
+</ul></li>
+</ol>
+<p>疑惑：grid cell是如何收集radiance的</p>
+<ul>
+<li>如果是像cubemap一样收集，那岂不是不向grid中心的信息都丢失了？</li>
+<li>如果是简单地相加，那不就相当于把各个面接收到的光的起点都移动到grid
+cell的中心，那光线就不是沿直线传播了呀？而且按照论文中的图示，感觉论文就是这样做的，不能理解。</li>
+</ul>
+<h3 id="voxel-global-illuminationvxgi">Voxel Global
+Illumination（VXGI）</h3>
+<h2 id="real-time-global-illuminationscrenn-space">Real-Time Global
+Illumination（screnn space）</h2>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/" class="category-chain-item">长篇笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" class="category-chain-item">图形学</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%95%BF%E7%AF%87%E7%AC%94%E8%AE%B0/" class="print-no-link">#长篇笔记</a>
+      
+        <a href="/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/" class="print-no-link">#图形学</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>GAMES202笔记</div>
+      <div>https://jhex-git.github.io/posts/2758988255/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JointHex</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/3518714048/" title="windows自带处理软件的坑">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">windows自带处理软件的坑</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/1754838349/" title="unity package手动下载">
+                        <span class="hidden-mobile">unity package手动下载</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"FvaaC9dNif0JdOxPEO11zxwt-gzGzoHsz","appKey":"PYTu3V8b64AtTM1bIzVLyvDP","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
