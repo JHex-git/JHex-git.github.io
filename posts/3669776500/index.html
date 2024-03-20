@@ -24,7 +24,7 @@
 <meta property="og:description" content="阅读《Linux多线程服务器编程》时记录下的笔记">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-02-25T13:34:48.000Z">
-<meta property="article:modified_time" content="2024-03-10T06:12:37.757Z">
+<meta property="article:modified_time" content="2024-03-11T14:28:07.733Z">
 <meta property="article:author" content="JointHex">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="长篇笔记">
@@ -285,7 +285,7 @@
 <p>多线程编程中，构造函数中不要把this传出去，半构造的对象可能带来不可预计的后果，即使是构造函数的最后，因为它可能作为基类，基类构造完了，不代表子类构造结束了。</p>
 <p>这种情况下往往需要二段式构造，需要一个额外的initialize函数。既然允许二段式构造，那也不必在构造函数中抛出异常，而可以根据initialize函数的返回值确认构造是否正常。</p>
 <p>使用成员变量mutex不能够保护析构函数，因为析构函数会把mutex析构，此时如果有其他函数被mutex拦住，将发生未定义行为。</p>
-<p>遇到要对多个物体加锁的场景，尤其是物体由参数传入时，要注意加锁顺序，可以通过比较地址大小决定枷锁顺序。</p>
+<p>遇到要对多个物体加锁的场景，尤其是物体由参数传入时，要注意加锁顺序，可以通过比较地址大小决定加锁顺序。</p>
 
                 
               </div>
@@ -420,7 +420,7 @@
     Fluid.utils.loadComments('#valine', function() {
       Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
         var options = Object.assign(
-          {"appId":"FvaaC9dNif0JdOxPEO11zxwt-gzGzoHsz","appKey":"PYTu3V8b64AtTM1bIzVLyvDP","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {"appId":"xnfEeEvX3j8WtgaQfyz6xZ6h-gzGzoHsz","appKey":"UlWK7jpf639GUXTHUzKqoNga","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
           {
             el: "#valine",
             path: window.location.pathname
