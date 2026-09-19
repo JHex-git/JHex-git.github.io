@@ -1,0 +1,721 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.jpg">
+  <link rel="icon" href="/img/avatar.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="JointHex">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="代码基于UE 5.6  在正式进入标准emitter之前，还是先把粒子的渲染给理清，这里以sprite为例。 MeshBatch创建 前文提到，GPU Sim的simulate在GetDataBuffer中分配了gpu buffer，调用栈如下 1234567FNiagaraStatelessComputeManager::GetDataBufferFNiagaraRendererS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Niagara（二）：Sprite粒子渲染">
+<meta property="og:url" content="https://jhex-git.github.io/posts/1219731573/index.html">
+<meta property="og:site_name" content="JointHex的技术分享站">
+<meta property="og:description" content="代码基于UE 5.6  在正式进入标准emitter之前，还是先把粒子的渲染给理清，这里以sprite为例。 MeshBatch创建 前文提到，GPU Sim的simulate在GetDataBuffer中分配了gpu buffer，调用栈如下 1234567FNiagaraStatelessComputeManager::GetDataBufferFNiagaraRendererS">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-09-19T14:29:14.000Z">
+<meta property="article:modified_time" content="2026-09-19T14:29:46.884Z">
+<meta property="article:author" content="JointHex">
+<meta property="article:tag" content="UE">
+<meta property="article:tag" content="Niagara">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Niagara（二）：Sprite粒子渲染 - JointHex的技术分享站</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jhex-git.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>JointHex的技术分享站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/NPR.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Niagara（二）：Sprite粒子渲染"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-09-19 22:29" pubdate>
+          2026年9月19日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Niagara（二）：Sprite粒子渲染</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>代码基于UE 5.6</p>
+</blockquote>
+<p>在正式进入标准emitter之前，还是先把粒子的渲染给理清，这里以sprite为例。</p>
+<h1 id="meshbatch创建">MeshBatch创建</h1>
+<p>前文提到，GPU Sim的simulate在GetDataBuffer中分配了gpu
+buffer，调用栈如下 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp">FNiagaraStatelessComputeManager::GetDataBuffer<br>FNiagaraRendererSprites::PrepareParticleSpriteRenderData<br>FNiagaraRendererSprites::GetDynamicMeshElements<br>FNiagaraSystemRenderData::GetDynamicMeshElements<br>FNiagaraSceneProxy::GetDynamicMeshElements<br>FDynamicMeshElementContext::GatherDynamicMeshElementsForPrimitive<br>FDynamicMeshElementContext::LaunchAsyncTask::__l2::&lt;lambda_1&gt;::<span class="hljs-built_in">operator</span>()<br></code></pre></td></tr></table></figure>
+<code>FDynamicMeshElementContext::LaunchAsyncTask</code>会遍历所有<code>FPrimitiveSceneInfo*</code>，其中包括niagara的primitive，每个Niagara
+System
+Instance都在其中注册了一个primitive，持有<code>FNiagaraSceneProxy</code>。
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp">UE::<span class="hljs-function">Tasks::FTask <span class="hljs-title">FDynamicMeshElementContext::LaunchAsyncTask</span><span class="hljs-params">(FDynamicPrimitiveIndexQueue* PrimitiveIndexQueue, UE::Tasks::ETaskPriority TaskPriority)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> Pipe.<span class="hljs-built_in">Launch</span>(UE_SOURCE_LOCATION, [<span class="hljs-keyword">this</span>, PrimitiveIndexQueue]<br>	&#123;<br>		...<br>		<span class="hljs-keyword">while</span> (PrimitiveIndexQueue-&gt;<span class="hljs-built_in">Pop</span>(PrimitiveIndex))<br>		&#123;<br>			<span class="hljs-built_in">GatherDynamicMeshElementsForPrimitive</span>(Primitives[PrimitiveIndex.Index], PrimitiveIndex.ViewMask);<br>		&#125;<br>		...<br>	&#125;, TaskPriority);<br>&#125;<br></code></pre></td></tr></table></figure>
+<code>FNiagaraSystemRenderData::GetDynamicMeshElements</code>遍历所有的EmitterRenderers
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">FNiagaraSystemRenderData::GetDynamicMeshElements</span><span class="hljs-params">(<span class="hljs-type">const</span> TArray&lt;<span class="hljs-type">const</span> FSceneView*&gt;&amp; Views, <span class="hljs-type">const</span> FSceneViewFamily&amp; ViewFamily, uint32 VisibilityMap, FMeshElementCollector&amp; Collector, <span class="hljs-type">const</span> FNiagaraSceneProxy&amp; SceneProxy)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">for</span> (int32 RendererIdx : RendererDrawOrder)<br>	&#123;<br>		FNiagaraRenderer* Renderer = EmitterRenderers_RT[RendererIdx];<br>		<span class="hljs-keyword">if</span> (Renderer &amp;&amp; (Renderer-&gt;<span class="hljs-built_in">GetSimTarget</span>() != ENiagaraSimTarget::GPUComputeSim || FNiagaraUtilities::<span class="hljs-built_in">AllowGPUParticles</span>(ViewFamily.<span class="hljs-built_in">GetShaderPlatform</span>())))<br>		&#123;<br>			Renderer-&gt;<span class="hljs-built_in">GetDynamicMeshElements</span>(Views, ViewFamily, VisibilityMap, Collector, &amp;SceneProxy);<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+在<code>FNiagaraRendererSprites::GetDynamicMeshElements</code>中，
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">FNiagaraRendererSprites::GetDynamicMeshElements</span><span class="hljs-params">(<span class="hljs-type">const</span> TArray&lt;<span class="hljs-type">const</span> FSceneView*&gt;&amp; Views, <span class="hljs-type">const</span> FSceneViewFamily&amp; ViewFamily, uint32 VisibilityMap, FMeshElementCollector&amp; Collector, <span class="hljs-type">const</span> FNiagaraSceneProxy *SceneProxy)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>	...<br>	FParticleSpriteRenderData ParticleSpriteRenderData;<br>	<span class="hljs-built_in">PrepareParticleSpriteRenderData</span>(Collector.<span class="hljs-built_in">GetRHICommandList</span>(), ParticleSpriteRenderData, ViewFamily, DynamicDataRender, SceneProxy, ENiagaraGpuComputeTickStage::Last);<br>	...<br>	<span class="hljs-built_in">PrepareParticleRenderBuffers</span>(RHICmdList, ParticleSpriteRenderData, Collector.<span class="hljs-built_in">GetDynamicReadBuffer</span>());<br>	...<br>&#125;<br></code></pre></td></tr></table></figure>
+首先调用<code>FNiagaraRendererSprites::PrepareParticleSpriteRenderData</code>分配particle
+simulate的<code>FNiagaraDataBuffer</code>并传递给<code>ParticleSpriteRenderData</code>，是否需要cull、sort以及blend
+mode之类的渲染设置也都被写入<code>ParticleSpriteRenderData</code>。然后调用<code>PrepareParticleRenderBuffers</code>，根据之前获取好的<code>FNiagaraDataBuffer</code>，直接在<code>ParticleSpriteRenderData</code>写更底层的buffer相关的数据，比如SRV、stride之类的。如果是CPU
+Sim，还把cpu sim完的buffer打包传递到gpu上。 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">FNiagaraRendererSprites::PrepareParticleRenderBuffers</span><span class="hljs-params">(FRHICommandListBase&amp; RHICmdList, FParticleSpriteRenderData&amp; ParticleSpriteRenderData, FGlobalDynamicReadBuffer&amp; DynamicReadBuffer)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">if</span> ( SourceMode == ENiagaraRendererSourceDataMode::Particles )<br>	&#123;<br>		<span class="hljs-keyword">if</span> ( SimTarget == ENiagaraSimTarget::CPUSim )<br>		&#123;<br>			<span class="hljs-comment">// For CPU simulations we do not gather int parameters inside TransferDataToGPU currently so we need to copy off</span><br>			<span class="hljs-comment">// integrate attributes if we are culling on the GPU.</span><br>			TArray&lt;uint32, TInlineAllocator&lt;<span class="hljs-number">1</span>&gt;&gt; IntParamsToCopy;<br>			<span class="hljs-keyword">if</span> (ParticleSpriteRenderData.bNeedsCull)<br>			&#123;<br>				<span class="hljs-keyword">if</span> (ParticleSpriteRenderData.bSortCullOnGpu)<br>				&#123;<br>					<span class="hljs-keyword">if</span> (RendererVisTagOffset != INDEX_NONE)<br>					&#123;<br>						ParticleSpriteRenderData.RendererVisTagOffset = IntParamsToCopy.<span class="hljs-built_in">Add</span>(RendererVisTagOffset);<br>					&#125;<br>				&#125;<br>				<span class="hljs-keyword">else</span><br>				&#123;<br>					ParticleSpriteRenderData.RendererVisTagOffset = RendererVisTagOffset;<br>				&#125;<br>			&#125;<br><br>			FParticleRenderData ParticleRenderData = <span class="hljs-built_in">TransferDataToGPU</span>(RHICmdList, DynamicReadBuffer, ParticleSpriteRenderData.RendererLayout, IntParamsToCopy, ParticleSpriteRenderData.SourceParticleData);<br>			<span class="hljs-type">const</span> uint32 NumInstances = ParticleSpriteRenderData.SourceParticleData-&gt;<span class="hljs-built_in">GetNumInstances</span>();<br><br>			ParticleSpriteRenderData.ParticleFloatSRV = <span class="hljs-built_in">GetSrvOrDefaultFloat</span>(ParticleRenderData.FloatData);<br>			ParticleSpriteRenderData.ParticleHalfSRV = <span class="hljs-built_in">GetSrvOrDefaultHalf</span>(ParticleRenderData.HalfData);<br>			ParticleSpriteRenderData.ParticleIntSRV = <span class="hljs-built_in">GetSrvOrDefaultInt</span>(ParticleRenderData.IntData);<br>			ParticleSpriteRenderData.ParticleFloatDataStride = ParticleRenderData.FloatStride / <span class="hljs-built_in">sizeof</span>(<span class="hljs-type">float</span>);<br>			ParticleSpriteRenderData.ParticleHalfDataStride = ParticleRenderData.HalfStride / <span class="hljs-built_in">sizeof</span>(FFloat16);<br>			ParticleSpriteRenderData.ParticleIntDataStride = ParticleRenderData.IntStride / <span class="hljs-built_in">sizeof</span>(int32);<br>		&#125;<br>		<span class="hljs-keyword">else</span><br>		&#123;<br>			ParticleSpriteRenderData.ParticleFloatSRV = <span class="hljs-built_in">GetSrvOrDefaultFloat</span>(ParticleSpriteRenderData.SourceParticleData-&gt;<span class="hljs-built_in">GetGPUBufferFloat</span>());<br>			ParticleSpriteRenderData.ParticleHalfSRV = <span class="hljs-built_in">GetSrvOrDefaultHalf</span>(ParticleSpriteRenderData.SourceParticleData-&gt;<span class="hljs-built_in">GetGPUBufferHalf</span>());<br>			ParticleSpriteRenderData.ParticleIntSRV = <span class="hljs-built_in">GetSrvOrDefaultInt</span>(ParticleSpriteRenderData.SourceParticleData-&gt;<span class="hljs-built_in">GetGPUBufferInt</span>());<br>			ParticleSpriteRenderData.ParticleFloatDataStride = ParticleSpriteRenderData.SourceParticleData-&gt;<span class="hljs-built_in">GetFloatStride</span>() / <span class="hljs-built_in">sizeof</span>(<span class="hljs-type">float</span>);<br>			ParticleSpriteRenderData.ParticleHalfDataStride = ParticleSpriteRenderData.SourceParticleData-&gt;<span class="hljs-built_in">GetHalfStride</span>() / <span class="hljs-built_in">sizeof</span>(FFloat16);<br>			ParticleSpriteRenderData.ParticleIntDataStride = ParticleSpriteRenderData.SourceParticleData-&gt;<span class="hljs-built_in">GetInt32Stride</span>() / <span class="hljs-built_in">sizeof</span>(int32);<br><br>			ParticleSpriteRenderData.RendererVisTagOffset = RendererVisTagOffset;<br>		&#125;<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>		ParticleSpriteRenderData.ParticleFloatSRV = FNiagaraRenderer::<span class="hljs-built_in">GetDummyFloatBuffer</span>();<br>		ParticleSpriteRenderData.ParticleHalfSRV = FNiagaraRenderer::<span class="hljs-built_in">GetDummyHalfBuffer</span>();<br>		ParticleSpriteRenderData.ParticleIntSRV = FNiagaraRenderer::<span class="hljs-built_in">GetDummyIntBuffer</span>();<br>		ParticleSpriteRenderData.ParticleFloatDataStride = <span class="hljs-number">0</span>;<br>		ParticleSpriteRenderData.ParticleHalfDataStride = <span class="hljs-number">0</span>;<br>		ParticleSpriteRenderData.ParticleIntDataStride = <span class="hljs-number">0</span>;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+接下来做sort和cull。 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">FNiagaraRendererSprites::GetDynamicMeshElements</span><span class="hljs-params">(<span class="hljs-type">const</span> TArray&lt;<span class="hljs-type">const</span> FSceneView*&gt;&amp; Views, <span class="hljs-type">const</span> FSceneViewFamily&amp; ViewFamily, uint32 VisibilityMap, FMeshElementCollector&amp; Collector, <span class="hljs-type">const</span> FNiagaraSceneProxy *SceneProxy)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>	...<br>	FNiagaraGPUSortInfo SortInfo;<br>	<span class="hljs-keyword">if</span> (ParticleSpriteRenderData.bNeedsSort || ParticleSpriteRenderData.bNeedsCull)<br>	&#123;<br>		<span class="hljs-built_in">InitializeSortInfo</span>(ParticleSpriteRenderData, *SceneProxy, *View, ViewIndex, SortInfo);<br>	&#125;<br>	FMeshCollectorResources* CollectorResources = &amp;Collector.<span class="hljs-built_in">AllocateOneFrameResource</span>&lt;FMeshCollectorResources&gt;();<br>	FNiagaraSpriteVertexFactory&amp; VertexFactory = CollectorResources-&gt;VertexFactory;<br><br>	<span class="hljs-comment">// Sort/Cull particles if needed.</span><br>	uint32 NumInstances = SourceMode == ENiagaraRendererSourceDataMode::Particles ? ParticleSpriteRenderData.SourceParticleData-&gt;<span class="hljs-built_in">GetNumInstances</span>() : <span class="hljs-number">1</span>;<br><br>	VertexFactory.<span class="hljs-built_in">SetSortedIndices</span>(<span class="hljs-literal">nullptr</span>, <span class="hljs-number">0xFFFFFFFF</span>);<br>	FNiagaraGpuComputeDispatchInterface* ComputeDispatchInterface = SceneProxy-&gt;<span class="hljs-built_in">GetComputeDispatchInterface</span>();<br>	<span class="hljs-keyword">if</span> (ParticleSpriteRenderData.bNeedsCull || ParticleSpriteRenderData.bNeedsSort)<br>	&#123;<br>		<span class="hljs-keyword">if</span> (ParticleSpriteRenderData.bSortCullOnGpu)<br>		&#123;<br>			SortInfo.CulledGPUParticleCountOffset = ParticleSpriteRenderData.bNeedsCull ? ComputeDispatchInterface-&gt;<span class="hljs-built_in">GetGPUInstanceCounterManager</span>().<span class="hljs-built_in">AcquireCulledEntry</span>() : INDEX_NONE;<br>			<span class="hljs-keyword">if</span> (ComputeDispatchInterface-&gt;<span class="hljs-built_in">AddSortedGPUSimulation</span>(RHICmdList, SortInfo))<br>			&#123;<br>				VertexFactory.<span class="hljs-built_in">SetSortedIndices</span>(SortInfo.AllocationInfo.BufferSRV, SortInfo.AllocationInfo.BufferOffset);<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">else</span><br>		&#123;<br>			FGlobalDynamicReadBuffer::FAllocation SortedIndices;<br>			SortedIndices = Collector.<span class="hljs-built_in">GetDynamicReadBuffer</span>().<span class="hljs-built_in">AllocateUInt32</span>(NumInstances);<br>			NumInstances = <span class="hljs-built_in">SortAndCullIndices</span>(SortInfo, *ParticleSpriteRenderData.SourceParticleData, SortedIndices);<br>			VertexFactory.<span class="hljs-built_in">SetSortedIndices</span>(SortedIndices.SRV, <span class="hljs-number">0</span>);<br>		&#125;<br>	&#125;<br>	...<br>&#125;<br></code></pre></td></tr></table></figure>
+这里暂时不展开cull和sort。接着就是最关键的meshbatch的创建。
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">FNiagaraRendererSprites::GetDynamicMeshElements</span><span class="hljs-params">(<span class="hljs-type">const</span> TArray&lt;<span class="hljs-type">const</span> FSceneView*&gt;&amp; Views, <span class="hljs-type">const</span> FSceneViewFamily&amp; ViewFamily, uint32 VisibilityMap, FMeshElementCollector&amp; Collector, <span class="hljs-type">const</span> FNiagaraSceneProxy *SceneProxy)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>	...<br>	<span class="hljs-keyword">if</span> (NumInstances &gt; <span class="hljs-number">0</span>)<br>	&#123;<br>		<span class="hljs-built_in">SetupVertexFactory</span>(RHICmdList, ParticleSpriteRenderData, VertexFactory);<br>		CollectorResources-&gt;UniformBuffer = <span class="hljs-built_in">CreateViewUniformBuffer</span>(ParticleSpriteRenderData, *View, ViewFamily, *SceneProxy, VertexFactory);<br>		VertexFactory.<span class="hljs-built_in">SetSpriteUniformBuffer</span>(CollectorResources-&gt;UniformBuffer);<br><br>		<span class="hljs-type">const</span> uint32 GPUCountBufferOffset = SortInfo.CulledGPUParticleCountOffset != INDEX_NONE ? SortInfo.CulledGPUParticleCountOffset : ParticleSpriteRenderData.SourceParticleData-&gt;<span class="hljs-built_in">GetGPUInstanceCountBufferOffset</span>();<br>		FMeshBatch&amp; MeshBatch = Collector.<span class="hljs-built_in">AllocateMesh</span>();<br>		<span class="hljs-built_in">CreateMeshBatchForView</span>(RHICmdList, ParticleSpriteRenderData, MeshBatch, *View, *SceneProxy, VertexFactory, NumInstances, GPUCountBufferOffset, ParticleSpriteRenderData.bNeedsCull);<br>		Collector.<span class="hljs-built_in">AddMesh</span>(ViewIndex, MeshBatch);<br>		...<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure> 其中SetupVertexFactory设置了facing和alignment。
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">FNiagaraRendererSprites::CreateMeshBatchForView</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">	FRHICommandListBase&amp; RHICmdList,</span></span><br><span class="hljs-params"><span class="hljs-function">	FParticleSpriteRenderData&amp; ParticleSpriteRenderData,</span></span><br><span class="hljs-params"><span class="hljs-function">	FMeshBatch&amp; MeshBatch,</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-type">const</span> FSceneView&amp; View,</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-type">const</span> FNiagaraSceneProxy&amp; SceneProxy,</span></span><br><span class="hljs-params"><span class="hljs-function">	FNiagaraSpriteVertexFactory&amp; VertexFactory,</span></span><br><span class="hljs-params"><span class="hljs-function">	uint32 NumInstances,</span></span><br><span class="hljs-params"><span class="hljs-function">	uint32 GPUCountBufferOffset,</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-type">bool</span> bDoGPUCulling</span></span><br><span class="hljs-params"><span class="hljs-function">)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>	FNiagaraSpriteVFLooseParameters VFLooseParams;<br>	VFLooseParams.NiagaraParticleDataFloat = ParticleSpriteRenderData.ParticleFloatSRV;<br>	VFLooseParams.NiagaraParticleDataHalf = ParticleSpriteRenderData.ParticleHalfSRV;<br>	VFLooseParams.NiagaraFloatDataStride = FMath::<span class="hljs-built_in">Max</span>(ParticleSpriteRenderData.ParticleFloatDataStride, ParticleSpriteRenderData.ParticleHalfDataStride);<br><br>	FMaterialRenderProxy* MaterialRenderProxy = ParticleSpriteRenderData.DynamicDataSprites-&gt;Material;<br>	<span class="hljs-built_in">check</span>(MaterialRenderProxy);<br><br>	VFLooseParams.CutoutParameters = VertexFactory.<span class="hljs-built_in">GetCutoutParameters</span>();<br>	VFLooseParams.CutoutGeometry = VertexFactory.<span class="hljs-built_in">GetCutoutGeometrySRV</span>() ? VertexFactory.<span class="hljs-built_in">GetCutoutGeometrySRV</span>() : GFNiagaraNullCutoutVertexBuffer.VertexBufferSRV.<span class="hljs-built_in">GetReference</span>();<br>	VFLooseParams.ParticleAlignmentMode = VertexFactory.<span class="hljs-built_in">GetAlignmentMode</span>();<br>	VFLooseParams.ParticleFacingMode = VertexFactory.<span class="hljs-built_in">GetFacingMode</span>();<br>	VFLooseParams.SortedIndices = VertexFactory.<span class="hljs-built_in">GetSortedIndicesSRV</span>() ? VertexFactory.<span class="hljs-built_in">GetSortedIndicesSRV</span>() : GFNiagaraNullSortedIndicesVertexBuffer.VertexBufferSRV.<span class="hljs-built_in">GetReference</span>();<br>	VFLooseParams.SortedIndicesOffset = VertexFactory.<span class="hljs-built_in">GetSortedIndicesOffset</span>();<br><br>	FNiagaraGPUInstanceCountManager::FIndirectArgSlot IndirectDraw;<br>	<span class="hljs-keyword">if</span> ((SourceMode == ENiagaraRendererSourceDataMode::Particles) &amp;&amp; (GPUCountBufferOffset != INDEX_NONE))<br>	&#123;<br>		FNiagaraGpuComputeDispatchInterface* ComputeDispatchInterface = SceneProxy.<span class="hljs-built_in">GetComputeDispatchInterface</span>();<br>		<span class="hljs-built_in">check</span>(ComputeDispatchInterface);<br><br>		IndirectDraw = ComputeDispatchInterface-&gt;<span class="hljs-built_in">GetGPUInstanceCounterManager</span>().<span class="hljs-built_in">AddDrawIndirect</span>(<br>			RHICmdList,<br>			GPUCountBufferOffset,<br>			NumIndicesPerInstance,<br>			<span class="hljs-number">0</span>,<br>			View.<span class="hljs-built_in">IsInstancedStereoPass</span>(),<br>			bDoGPUCulling,<br>			ParticleSpriteRenderData.SourceParticleData-&gt;<span class="hljs-built_in">GetGPUDataReadyStage</span>()<br>		);<br>	&#125;<br>	...<br>&#125;<br></code></pre></td></tr></table></figure> <code>NumIndicesPerInstance</code>来自于 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">uint32 <span class="hljs-title">UNiagaraSpriteRendererProperties::GetNumIndicesPerInstance</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-comment">// This is a based on cutout vertices making a triangle strip.</span><br>	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">GetNumCutoutVertexPerSubimage</span>() == <span class="hljs-number">8</span>)<br>	&#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">18</span>;<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">6</span>;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+对于非cutout为6，也就是说本身渲染的时候并不是用triangle
+strip。这里的cutout主要是使用一个更精确的凸包替代矩形sprite覆盖非完全透明区域，减少完全透明区域生成fragment，和我们要探讨的核心问题无关，不再展开。
+重点是<code>AddDrawIndirect</code>。 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function">FNiagaraGPUInstanceCountManager::FIndirectArgSlot <span class="hljs-title">FNiagaraGPUInstanceCountManager::AddDrawIndirect</span><span class="hljs-params">(FRHICommandListBase&amp; RHICmdList, uint32 InstanceCountBufferOffset, uint32 NumIndicesPerInstance, uint32 StartIndexLocation, <span class="hljs-type">bool</span> bIsInstancedStereoEnabled, <span class="hljs-type">bool</span> bCulled, ENiagaraGpuComputeTickStage::Type ReadyTickStage)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-function">UE::TScopeLock <span class="hljs-title">Lock</span><span class="hljs-params">(AddDrawIndirectGuard)</span></span>;<br><br>	<span class="hljs-type">const</span> ENiagaraDrawIndirectArgGenTaskFlags TaskFlags =<br>		(bIsInstancedStereoEnabled ? ENiagaraDrawIndirectArgGenTaskFlags::InstancedStereo : ENiagaraDrawIndirectArgGenTaskFlags::None)<br>		| (bCulled ? ENiagaraDrawIndirectArgGenTaskFlags::UseCulledCounts : ENiagaraDrawIndirectArgGenTaskFlags::None)<br>		| (ReadyTickStage == ENiagaraGpuComputeTickStage::PostOpaqueRender ? ENiagaraDrawIndirectArgGenTaskFlags::PostOpaque : ENiagaraDrawIndirectArgGenTaskFlags::None);<br>	<span class="hljs-function">FNiagaraDrawIndirectArgGenTaskInfo <span class="hljs-title">Info</span><span class="hljs-params">(InstanceCountBufferOffset, NumIndicesPerInstance, StartIndexLocation, TaskFlags)</span></span>;<br><br>	FNiagaraDrawIndirectArgGenSlotInfo* SlotInfo = DrawIndirectArgMap.<span class="hljs-built_in">Find</span>(Info);<br>	<span class="hljs-keyword">if</span> ( SlotInfo == <span class="hljs-literal">nullptr</span> )<br>	&#123;<br>		<span class="hljs-comment">// Attempt to allocate a new slot from the pool, or add to the pool if it&#x27;s full</span><br>		FIndirectArgsPoolEntry* PoolEntry = DrawIndirectPool.<span class="hljs-built_in">Num</span>() &gt; <span class="hljs-number">0</span> ? DrawIndirectPool.<span class="hljs-built_in">Last</span>().<span class="hljs-built_in">Get</span>() : <span class="hljs-literal">nullptr</span>;<br>		<span class="hljs-keyword">if</span> (PoolEntry == <span class="hljs-literal">nullptr</span> || PoolEntry-&gt;UsedEntriesTotal &gt;= PoolEntry-&gt;AllocatedEntries)<br>		&#123;<br>			FIndirectArgsPoolEntryPtr NewEntry = <span class="hljs-built_in">MakeUnique</span>&lt;FIndirectArgsPoolEntry&gt;();<br>			NewEntry-&gt;AllocatedEntries = PoolEntry ? <span class="hljs-built_in">uint32</span>(PoolEntry-&gt;AllocatedEntries * GNiagaraIndirectArgsPoolBlockSizeFactor) : <span class="hljs-built_in">uint32</span>(GNiagaraIndirectArgsPoolMinSize);<br><br>			<span class="hljs-built_in">INDIRECT_ARG_POOL_LOG</span>(<span class="hljs-string">&quot;Increasing pool from size %d to %d&quot;</span>, PoolEntry ? PoolEntry-&gt;AllocatedEntries : <span class="hljs-number">0</span>, NewEntry-&gt;AllocatedEntries);<br><br>			TResourceArray&lt;uint32&gt; InitData;<br>			InitData.<span class="hljs-built_in">AddZeroed</span>(NewEntry-&gt;AllocatedEntries * NIAGARA_DRAW_INDIRECT_ARGS_SIZE);<br>			NewEntry-&gt;Buffer.<span class="hljs-built_in">Initialize</span>(RHICmdList, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;NiagaraGPUDrawIndirectArgs&quot;</span>), <span class="hljs-built_in">sizeof</span>(uint32), NewEntry-&gt;AllocatedEntries * NIAGARA_DRAW_INDIRECT_ARGS_SIZE, EPixelFormat::PF_R32_UINT, kIndirectArgsDefaultState, BUF_Static | BUF_DrawIndirect, &amp;InitData);<br><br>			PoolEntry = NewEntry.<span class="hljs-built_in">Get</span>();<br>			DrawIndirectPool.<span class="hljs-built_in">Emplace</span>(<span class="hljs-built_in">MoveTemp</span>(NewEntry));<br>		&#125;<br><br>		Info.IndirectArgsBufferOffset = PoolEntry-&gt;UsedEntriesTotal * NIAGARA_DRAW_INDIRECT_ARGS_SIZE;<br>		++PoolEntry-&gt;UsedEntriesTotal;<br><br>		SlotInfo = &amp;DrawIndirectArgMap.<span class="hljs-built_in">Add</span>(Info);<br>		SlotInfo-&gt;PoolIndex = DrawIndirectPool.<span class="hljs-built_in">Num</span>() - <span class="hljs-number">1</span>;<br>		SlotInfo-&gt;BufferOffset = Info.IndirectArgsBufferOffset * <span class="hljs-built_in">sizeof</span>(uint32);<br><br>		<span class="hljs-type">const</span> ENiagaraGPUCountUpdatePhase::Type CountPhase = ReadyTickStage == ENiagaraGpuComputeTickStage::PostOpaqueRender ? ENiagaraGPUCountUpdatePhase::PostOpaque : ENiagaraGPUCountUpdatePhase::PreOpaque;<br>		DrawIndirectArgGenTasks[CountPhase].<span class="hljs-built_in">Add</span>(Info);<br>		++PoolEntry-&gt;UsedEntries[CountPhase];<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-built_in">FIndirectArgSlot</span>(DrawIndirectPool[SlotInfo-&gt;PoolIndex]-&gt;Buffer.Buffer, DrawIndirectPool[SlotInfo-&gt;PoolIndex]-&gt;Buffer.SRV, SlotInfo-&gt;BufferOffset);<br>&#125;<br></code></pre></td></tr></table></figure>
+这个函数分配好了绘制niagara sprite所需的indirect draw的args
+buffer以及offset，但buffer内的参数填充通过记入<code>DrawIndirectArgGenTasks</code>延后处理（<code>FNiagaraGPUInstanceCountManager::UpdateDrawIndirectBuffers</code>）。这个buffer基于多个DrawIndirectPool，每个Pool都比前一个大2（GNiagaraIndirectArgsPoolBlockSizeFactor）倍，写满了创建新Pool。
+在<code>AddDrawIndirect</code>后，把持有大量sprite渲染相关参数的VFLooseParams通过Uniform
+Buffer的形式传递给VertexFactory，再进一步传递给MeshBatch。FMeshBatch描述用哪个VF、哪个材质、什么拓扑、什么渲染状态画，FMeshBatchElement描述一次draw具体画哪一段index、多少个instance、是否indirect。
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">FNiagaraRendererSprites::CreateMeshBatchForView</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">	FRHICommandListBase&amp; RHICmdList,</span></span><br><span class="hljs-params"><span class="hljs-function">	FParticleSpriteRenderData&amp; ParticleSpriteRenderData,</span></span><br><span class="hljs-params"><span class="hljs-function">	FMeshBatch&amp; MeshBatch,</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-type">const</span> FSceneView&amp; View,</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-type">const</span> FNiagaraSceneProxy&amp; SceneProxy,</span></span><br><span class="hljs-params"><span class="hljs-function">	FNiagaraSpriteVertexFactory&amp; VertexFactory,</span></span><br><span class="hljs-params"><span class="hljs-function">	uint32 NumInstances,</span></span><br><span class="hljs-params"><span class="hljs-function">	uint32 GPUCountBufferOffset,</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-type">bool</span> bDoGPUCulling</span></span><br><span class="hljs-params"><span class="hljs-function">)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>	...<br>	<span class="hljs-keyword">if</span> (IndirectDraw.<span class="hljs-built_in">IsValid</span>())<br>	&#123;<br>		VFLooseParams.IndirectArgsBuffer = IndirectDraw.SRV;<br>		VFLooseParams.IndirectArgsOffset = IndirectDraw.Offset / <span class="hljs-built_in">sizeof</span>(uint32);<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>		VFLooseParams.IndirectArgsBuffer = GFNiagaraNullSortedIndicesVertexBuffer.VertexBufferSRV;<br>		VFLooseParams.IndirectArgsOffset = <span class="hljs-number">0</span>;<br>	&#125;<br><br>	VertexFactory.<span class="hljs-built_in">SetLooseParameterUniformBuffer</span>(FNiagaraSpriteVFLooseParametersRef::<span class="hljs-built_in">CreateUniformBufferImmediate</span>(VFLooseParams, UniformBuffer_SingleFrame));<br><br>	MeshBatch.VertexFactory = &amp;VertexFactory;<br>	MeshBatch.CastShadow = SceneProxy.<span class="hljs-built_in">CastsDynamicShadow</span>() &amp;&amp; bCastShadows;<br><span class="hljs-meta">#<span class="hljs-keyword">if</span> RHI_RAYTRACING</span><br>	MeshBatch.CastRayTracedShadow = SceneProxy.<span class="hljs-built_in">CastsDynamicShadow</span>() &amp;&amp; bCastShadows;<br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br>	MeshBatch.bUseAsOccluder = <span class="hljs-literal">false</span>;<br>	MeshBatch.ReverseCulling = SceneProxy.<span class="hljs-built_in">IsLocalToWorldDeterminantNegative</span>();<br>	MeshBatch.Type = PT_TriangleList;<br>	MeshBatch.DepthPriorityGroup = SceneProxy.<span class="hljs-built_in">GetDepthPriorityGroup</span>(&amp;View);<br>	MeshBatch.bCanApplyViewModeOverrides = <span class="hljs-literal">true</span>;<br>	MeshBatch.bUseWireframeSelectionColoring = SceneProxy.<span class="hljs-built_in">IsSelected</span>();<br>	MeshBatch.SegmentIndex = <span class="hljs-number">0</span>;<br><br><span class="hljs-meta">#<span class="hljs-keyword">if</span> WITH_EDITORONLY_DATA</span><br>	<span class="hljs-keyword">if</span> (bIncludeInHitProxy == <span class="hljs-literal">false</span>)<br>	&#123;<br>		MeshBatch.BatchHitProxyId = FHitProxyId::InvisibleHitProxyId;<br>	&#125;<br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br><br>	<span class="hljs-type">const</span> <span class="hljs-type">bool</span> bIsWireframe = View.Family-&gt;EngineShowFlags.Wireframe;<br>	<span class="hljs-keyword">if</span> (bIsWireframe)<br>	&#123;<br>		MeshBatch.MaterialRenderProxy = UMaterial::<span class="hljs-built_in">GetDefaultMaterial</span>(MD_Surface)-&gt;<span class="hljs-built_in">GetRenderProxy</span>();<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>		MeshBatch.MaterialRenderProxy = MaterialRenderProxy;<br>	&#125;<br><br>	FMeshBatchElement&amp; MeshElement = MeshBatch.Elements[<span class="hljs-number">0</span>];<br>	MeshElement.IndexBuffer = &amp;GParticleIndexBuffer;<br>	MeshElement.FirstIndex = <span class="hljs-number">0</span>;<br>	MeshElement.NumPrimitives = NumIndicesPerInstance / <span class="hljs-number">3</span>;<br>	MeshElement.NumInstances = FMath::<span class="hljs-built_in">Max</span>(<span class="hljs-number">0u</span>, NumInstances);<br>	MeshElement.MinVertexIndex = <span class="hljs-number">0</span>;<br>	MeshElement.MaxVertexIndex = <span class="hljs-number">0</span>;<br>	MeshElement.PrimitiveUniformBuffer = SceneProxy.<span class="hljs-built_in">GetCustomUniformBuffer</span>(RHICmdList, <span class="hljs-built_in">IsMotionBlurEnabled</span>());<br>	<span class="hljs-keyword">if</span> (IndirectDraw.<span class="hljs-built_in">IsValid</span>())<br>	&#123;<br>		MeshElement.IndirectArgsBuffer = IndirectDraw.Buffer;<br>		MeshElement.IndirectArgsOffset = IndirectDraw.Offset;<br>		MeshElement.NumPrimitives = <span class="hljs-number">0</span>;<br>	&#125;<br><br>	<span class="hljs-keyword">if</span> (NumCutoutVertexPerSubImage == <span class="hljs-number">8</span>)<br>	&#123;<br>		MeshElement.IndexBuffer = &amp;GSixTriangleParticleIndexBuffer;<br>	&#125;<br>	...<br>&#125;<br></code></pre></td></tr></table></figure> 至此Get Dynamic Mesh
+Elements（GDME）就差不多清楚了。现在看一下indirect
+args是怎么写的。对于stateless，FNiagaraGPUInstanceCountManager::UpdateDrawIndirectBuffers的调用发生在FGPUSortManager::OnPreRender的收尾阶段（PostPreRenderEvent.Broadcast）（对于ENiagaraGPUCountUpdatePhase::PreOpque），此时simulate已经完成。
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">FNiagaraGPUInstanceCountManager::UpdateDrawIndirectBuffers</span><span class="hljs-params">(FNiagaraGpuComputeDispatchInterface* ComputeDispatchInterface, FRHICommandList&amp; RHICmdList, ENiagaraGPUCountUpdatePhase::Type CountPhase)</span></span><br><span class="hljs-function"></span>&#123;<br>	...<br>		<span class="hljs-comment">// 把之前记录好的DrawIndirectArgGenTasks搬到GPU上</span><br>		<span class="hljs-built_in">INC_DWORD_STAT_BY</span>(STAT_NiagaraIndirectDraws, ArgTasks.<span class="hljs-built_in">Num</span>());<br><br>		<span class="hljs-built_in">SCOPED_DRAW_EVENT</span>(RHICmdList, NiagaraUpdateDrawIndirectBuffers);<br><br>		<span class="hljs-comment">// Allocate task buffer</span><br>		FReadBuffer TaskInfosBuffer;<br>		&#123;<br>			<span class="hljs-type">const</span> uint32 ArgGenSize = ArgTasks.<span class="hljs-built_in">Num</span>() * <span class="hljs-built_in">sizeof</span>(FNiagaraDrawIndirectArgGenTaskInfo);<br>			<span class="hljs-type">const</span> uint32 InstanceCountClearSize = bClearCounts ? InstanceCountClearTasks.<span class="hljs-built_in">Num</span>() * <span class="hljs-built_in">sizeof</span>(uint32) : <span class="hljs-number">0</span>;<br>			<span class="hljs-type">const</span> uint32 TaskBufferSize = ArgGenSize + InstanceCountClearSize;<br>			TaskInfosBuffer.<span class="hljs-built_in">Initialize</span>(RHICmdList, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;NiagaraTaskInfosBuffer&quot;</span>), <span class="hljs-built_in">sizeof</span>(uint32), TaskBufferSize / <span class="hljs-built_in">sizeof</span>(uint32), EPixelFormat::PF_R32_UINT, BUF_Volatile);<br><br>			uint8* TaskBufferData = (uint8*)RHICmdList.<span class="hljs-built_in">LockBuffer</span>(TaskInfosBuffer.Buffer, <span class="hljs-number">0</span>, TaskBufferSize, RLM_WriteOnly);<br>			FMemory::<span class="hljs-built_in">Memcpy</span>(TaskBufferData, ArgTasks.<span class="hljs-built_in">GetData</span>(), ArgGenSize);<br>			FMemory::<span class="hljs-built_in">Memcpy</span>(TaskBufferData + ArgGenSize, InstanceCountClearTasks.<span class="hljs-built_in">GetData</span>(), InstanceCountClearSize);<br>			RHICmdList.<span class="hljs-built_in">UnlockBuffer</span>(TaskInfosBuffer.Buffer);<br>		&#125;<br>		...<br>		<span class="hljs-comment">// 对于每个Pool，dispatch一次FNiagaraDrawIndirectResetCountsCS来生成indirect args</span><br>		<span class="hljs-type">const</span> int32 NumDispatches = FMath::<span class="hljs-built_in">Max</span>(DrawIndirectPool.<span class="hljs-built_in">Num</span>(), <span class="hljs-number">1</span>);<br>		uint32 ArgGenTaskOffset = <span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">for</span> (int32 DispatchIdx = <span class="hljs-number">0</span>; DispatchIdx &lt; NumDispatches; ++DispatchIdx)<br>		&#123;<br>			<span class="hljs-comment">// Get draw indirect pool UAV</span><br>			<span class="hljs-comment">// Note: If we have counts to clear but no indirect args we won&#x27;t have a DrawIndirectPool entry</span><br>			FRHIUnorderedAccessView* ArgsUAV = <span class="hljs-literal">nullptr</span>;<br>			int32 NumArgGenTasks = <span class="hljs-number">0</span>;<br>			<span class="hljs-keyword">if</span> (DrawIndirectPool.<span class="hljs-built_in">IsValidIndex</span>(DispatchIdx))<br>			&#123;<br>				FIndirectArgsPoolEntryPtr&amp; PoolEntry = DrawIndirectPool[DispatchIdx];<br>				ArgsUAV = PoolEntry-&gt;Buffer.UAV;<br>				NumArgGenTasks = PoolEntry-&gt;UsedEntries[CountPhase];<br>			&#125;<br>			<span class="hljs-keyword">else</span><br>			&#123;<br>				ArgsUAV = ComputeDispatchInterface-&gt;<span class="hljs-built_in">GetEmptyUAVFromPool</span>(RHICmdList, PF_R32_UINT, ENiagaraEmptyUAVType::Buffer);<br>			&#125;<br><br>			<span class="hljs-type">const</span> <span class="hljs-type">bool</span> bIsLastDispatch = DispatchIdx == (NumDispatches - <span class="hljs-number">1</span>);<br>			<span class="hljs-type">const</span> int32 NumInstanceCountClearTasks = bIsLastDispatch &amp;&amp; bClearCounts ? InstanceCountClearTasks.<span class="hljs-built_in">Num</span>() : <span class="hljs-number">0</span>;<br><br>			<span class="hljs-comment">// Do we have anything to do for this pool?</span><br>			<span class="hljs-keyword">if</span> (NumArgGenTasks + NumInstanceCountClearTasks == <span class="hljs-number">0</span>)<br>			&#123;<br>				<span class="hljs-keyword">continue</span>;<br>			&#125;<br><br>			FNiagaraDrawIndirectArgsGenCS::FParameters ArgsGenParameters;<br>			ArgsGenParameters.TaskInfos				= TaskInfosBuffer.SRV;<br>			ArgsGenParameters.CulledInstanceCounts	= CulledCountsSRV;<br>			ArgsGenParameters.RWInstanceCounts		= CountsUAV;<br>			ArgsGenParameters.RWDrawIndirectArgs	= ArgsUAV;<br>			ArgsGenParameters.TaskCount.X			= ArgGenTaskOffset;<br>			ArgsGenParameters.TaskCount.Y			= NumArgGenTasks;<br>			ArgsGenParameters.TaskCount.Z			= NumInstanceCountClearTasks;<br>			ArgsGenParameters.TaskCount.W			= NumArgGenTasks + NumInstanceCountClearTasks;<br><br>			<span class="hljs-comment">// If the device supports RW Texture buffers then we can use a single compute pass, otherwise we need to split into two passes</span><br>			<span class="hljs-keyword">if</span> (GRHISupportsRWTextureBuffers)<br>			&#123;<br>				FComputeShaderUtils::<span class="hljs-built_in">Dispatch</span>(RHICmdList, DrawIndirectArgsGenCS, ArgsGenParameters, <span class="hljs-built_in">FIntVector</span>(FMath::<span class="hljs-built_in">DivideAndRoundUp</span>(NumArgGenTasks + NumInstanceCountClearTasks, NIAGARA_DRAW_INDIRECT_ARGS_GEN_THREAD_COUNT), <span class="hljs-number">1</span>, <span class="hljs-number">1</span>));<br>			&#125;<br>			<span class="hljs-keyword">else</span><br>			&#123;<br>				<span class="hljs-keyword">if</span> (NumArgGenTasks &gt; <span class="hljs-number">0</span>)<br>				&#123;<br>					FComputeShaderUtils::<span class="hljs-built_in">Dispatch</span>(RHICmdList, DrawIndirectArgsGenCS, ArgsGenParameters, <span class="hljs-built_in">FIntVector</span>(FMath::<span class="hljs-built_in">DivideAndRoundUp</span>(NumArgGenTasks, NIAGARA_DRAW_INDIRECT_ARGS_GEN_THREAD_COUNT), <span class="hljs-number">1</span>, <span class="hljs-number">1</span>));<br>				&#125;<br><br>				<span class="hljs-keyword">if</span> (NumInstanceCountClearTasks &gt; <span class="hljs-number">0</span>)<br>				&#123;<br>					FNiagaraDrawIndirectResetCountsCS::FParameters ClearCountParameters;<br>					ClearCountParameters.TaskInfos			= ArgsGenParameters.TaskInfos;<br>					ClearCountParameters.RWInstanceCounts	= ArgsGenParameters.RWInstanceCounts;<br>					ClearCountParameters.TaskCount			= ArgsGenParameters.TaskCount;<br>					ClearCountParameters.TaskCount.X		= <span class="hljs-number">0</span>;<br><br>					FNiagaraDrawIndirectResetCountsCS::FPermutationDomain PermutationVectorResetCounts;<br>					<span class="hljs-function">TShaderMapRef&lt;FNiagaraDrawIndirectResetCountsCS&gt; <span class="hljs-title">DrawIndirectResetCountsArgsGenCS</span><span class="hljs-params">(GetGlobalShaderMap(FeatureLevel), PermutationVectorResetCounts)</span></span>;<br>					FComputeShaderUtils::<span class="hljs-built_in">Dispatch</span>(RHICmdList, DrawIndirectResetCountsArgsGenCS, ClearCountParameters, <span class="hljs-built_in">FIntVector</span>(FMath::<span class="hljs-built_in">DivideAndRoundUp</span>(NumInstanceCountClearTasks, NIAGARA_DRAW_INDIRECT_ARGS_GEN_THREAD_COUNT), <span class="hljs-number">1</span>, <span class="hljs-number">1</span>));<br>				&#125;<br>			&#125;<br><br>			ArgGenTaskOffset += NumArgGenTasks;<br>		&#125;<br><br>		<span class="hljs-keyword">if</span> (bCountBufferIsValid)<br>		&#123;<br>			RHICmdList.<span class="hljs-built_in">EndUAVOverlap</span>(CountsUAV);<br>		&#125;<br><br>		<span class="hljs-comment">// Generate and execute transitions</span><br>		Transitions.<span class="hljs-built_in">Reset</span>();<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; PoolEntry : DrawIndirectPool)<br>		&#123;<br>			Transitions.<span class="hljs-built_in">Emplace</span>(PoolEntry-&gt;Buffer.UAV, ERHIAccess::UAVCompute, kIndirectArgsDefaultState);<br>		&#125;<br>		Transitions.<span class="hljs-built_in">Emplace</span>(CurrentCountBuffer.UAV, ERHIAccess::UAVCompute, kCountBufferDefaultState);<br>		RHICmdList.<span class="hljs-built_in">Transition</span>(Transitions);<br>	&#125;<br><br>	<span class="hljs-comment">// Add free counts back to list as we have cleared them</span><br>	<span class="hljs-keyword">if</span> ( bClearCounts )<br>	&#123;<br>		FreeEntries.<span class="hljs-built_in">Append</span>(InstanceCountClearTasks);<br>		InstanceCountClearTasks.<span class="hljs-built_in">Empty</span>();<br>	&#125;<br><br>	DrawIndirectArgGenTasks[CountPhase].<span class="hljs-built_in">Empty</span>();<br>	...<br>&#125;<br></code></pre></td></tr></table></figure>
+这里进行了合批，对一个Pool进行一次dispatch。Shader本身很简单，就是从buffer里读相关的值写入indirect
+args buffer。 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">// Engine\Plugins\FX\Niagara\Shaders\Private\NiagaraDrawIndirectArgsGen.usf<br>void MainCS(uint TaskIndex : SV_DispatchThreadID)<br>&#123;<br>	const uint ArgGenTaskOffset = TaskCount.x;<br>	const uint NumArgGenTasks = TaskCount.y;<br>	const uint NumInstanceCountClearTasks = TaskCount.z;<br>	const uint NumTotalTasks = TaskCount.w;<br><br>	if (TaskIndex &lt; NumArgGenTasks)<br>	&#123;<br>		const uint InfoOffset = (ArgGenTaskOffset + TaskIndex) * NIAGARA_DRAW_INDIRECT_TASK_INFO_SIZE;<br>		const uint ArgOffset = TaskInfos[InfoOffset + 0];<br>		const uint Flags = TaskInfos[InfoOffset + 4];<br>		const bool bUseCulledCounts = (Flags &amp; FLAG_USE_CULLED_COUNTS) != 0;<br>		const bool bInstancedStereo = (Flags &amp; FLAG_INSTANCED_STEREO) != 0;<br><br>		uint InstanceCount = 0;<br>		BRANCH<br>		if (bUseCulledCounts)<br>		&#123;<br>			InstanceCount = CulledInstanceCounts[TaskInfos[InfoOffset + 1]];<br>		&#125;<br>		else<br>		&#123;<br>			InstanceCount = RWInstanceCounts[TaskInfos[InfoOffset + 1]];<br>		&#125;<br><br>		if (bInstancedStereo)<br>		&#123;<br>			InstanceCount *= 2;<br>		&#125;<br><br>		RWDrawIndirectArgs[ArgOffset + 0] = TaskInfos[InfoOffset + 2]; // NumIndicesPerInstance<br>		RWDrawIndirectArgs[ArgOffset + 1] = InstanceCount;<br>		RWDrawIndirectArgs[ArgOffset + 2] = TaskInfos[InfoOffset + 3]; // StartIndexLocation<br>		RWDrawIndirectArgs[ArgOffset + 3] = 0; // BaseVertexLocation<br>		RWDrawIndirectArgs[ArgOffset + 4] = 0; // StartInstanceLocation<br>	&#125;<br>	...<br>&#125;<br></code></pre></td></tr></table></figure></p>
+<h1 id="vs">VS</h1>
+<p>准备工作就绪，现在看一下vertex shader是怎么实现的。 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">// Engine\Plugins\FX\Niagara\Shaders\Private\NiagaraSpriteVertexFactory.ush<br><br>FVertexFactoryInput LoadVertexFactoryInputForHGS(uint TriangleIndex, int VertexIndex)<br>&#123;<br>	...<br>	// For 4 verts cutout geometry and normal particle geometry, use the typical 6 indices<br>	FVertexFactoryInput Input;<br>	<br>	uint IndexBuffer[6] = &#123; 0, 2, 3, 0, 1, 2 &#125;;<br>	uint VertexId = IndexBuffer[(TriangleIndex * 3 + VertexIndex) % 6];<br>	if (GetCutoutNumVertices() &gt; 0)<br>	&#123;<br>		Input.TexCoord = NiagaraSpriteVFLooseParameters.CutoutGeometry[VertexId];<br>	&#125;<br>	else<br>	&#123;<br>		float2 TexCoords[4] = &#123; float2(0.0f, 0.0f), float2(0.0f, 1.0f), float2(1.0f, 1.0f), float2(1.0f, 0.0f) &#125;;<br>		Input.TexCoord = TexCoords[VertexId];<br>	&#125;<br>	Input.VertexId = VertexId;<br>	Input.InstanceId = TriangleIndex / 2;<br><br>	return Input;<br>&#125;<br><br>void ComputeBillboardUVs(FVertexFactoryInput Input, float2 ParticleSize, float SubImageIndex, float2 UVScale, out float2 UVForPosition, out float2 UVForTexturing, out float2 UVForTexturingUnflipped)<br>&#123;<br>	...<br>	// Note: not inverting positions, as that would change the winding order<br>	UVForPosition = Input.TexCoord.xy;<br>	UVForTexturingUnflipped = UVForPosition;<br>	UVForTexturing = float2(0.5f, 0.5f) + ((UVForTexturingUnflipped - float2(0.5f, 0.5f)) * UVScale * sign(ParticleSize));<br>&#125;<br><br>FVertexFactoryIntermediates GetVertexFactoryIntermediates(FVertexFactoryInput Input)<br>&#123;<br>	FVertexFactoryIntermediates Intermediates = (FVertexFactoryIntermediates)0;<br>	uint ParticleID = GetInstanceId(GetInstanceIdFromVF(Input)); // NOTE: Handles instanced stereo<br><br>	if(NiagaraSpriteVFLooseParameters.SortedIndicesOffset != 0xFFFFFFFF)<br>	&#123;<br>		ParticleID = NiagaraSpriteVFLooseParameters.SortedIndices[NiagaraSpriteVFLooseParameters.SortedIndicesOffset + ParticleID];<br>	&#125;<br><br>	const FLWCVector3 ParticlePosition = GetNiagaraParticlePosition(ParticleID);<br>	const float3 ParticleTranslatedWorldPosition = LWCToFloat(LWCAdd(ParticlePosition, ResolvedView.TileOffset.PreViewTranslation));<br><br>	const float ParticleRotation = GetNiagaraParticleRotation(ParticleID);<br>	const float2 ParticleSize = GetNiagaraParticleSize(ParticleID);<br>	const float3 ParticleVelocity = GetNiagaraParticleVelocity(ParticleID);<br>	const float SubImageIndex = GetNiagaraParticleSubimage(ParticleID);<br>	const float3 CustomFacing = SafeNormalize(GetNiagaraParticleFacingVector(ParticleID));<br>	const float3 CustomAlignment = SafeNormalize(GetNiagaraParticleAlignmentVector(ParticleID));	<br>	const float2 PivotOffset = GetNiagaraPivotOffset(ParticleID);<br>	const float2 UVScale = GetNiagaraUVScale(ParticleID);<br>	const float3 CameraOffset = SafeNormalize(ResolvedView.TranslatedWorldCameraOrigin - ParticleTranslatedWorldPosition) * GetNiagaraCameraOffset(ParticleID);<br>	<br>	Intermediates.SceneData = VF_GPUSCENE_GET_INTERMEDIATES(Input);<br>	Intermediates.Position = ParticlePosition;<br>	...<br>	Intermediates.CustomAlignmentVector = SafeNormalize(GetNiagaraParticleAlignmentVector(ParticleID));<br>	Intermediates.UVScale = UVScale;<br>	...<br>	ComputeBillboardUVs(Input, ParticleSize, SubImageIndex, UVScale, UVForPosition, UVForTexturing, UVForTexturingUnflipped);<br><br>	const float2 Size = abs(Intermediates.Size.xy);<br>	...<br>	// Vertex position<br>	const float2x3 Tangents = float2x3(Intermediates.TangentRight, Intermediates.TangentUp);<br>	const float3 VertexOffset = CameraOffset + mul(Size * PixelSizeRatio * (UVForPosition - PivotOffset), Tangents);<br><br>	// 得到billboard的顶点坐标<br>	Intermediates.VertexWorldPosition = LWCAdd(ParticlePosition, VertexOffset);<br>	...<br>	return Intermediates;<br>&#125;<br><br>// 从Simulation中获取particle position<br>FLWCVector3 GetNiagaraParticlePosition(uint InstanceID)<br>&#123;<br>	float3 ParticlePos = GetNiagaraParticleSimPosition(InstanceID);<br>	return SimToWorldPos(ParticlePos, DFFastToTileOffset(GetPrimitiveDataFromUniformBuffer().LocalToWorld));<br>&#125;<br><br>float3 GetNiagaraParticleSimPosition(uint InstanceID)<br>&#123;<br>	return SafeGetVec3(NiagaraSpriteVF.PositionDataOffset, InstanceID, NiagaraSpriteVF.DefaultPos.xyz);<br>&#125;<br>float3 SafeGetVec3(int RegisterIndex, uint InstanceID, float3 DefaultValue)<br>&#123;<br>	return RegisterIndex == -1 ? DefaultValue : float3(GetFloat(RegisterIndex, InstanceID), GetFloat(RegisterIndex+1, InstanceID), GetFloat(RegisterIndex+2, InstanceID));<br>&#125;<br>float GetFloat(int RegisterIdx, uint InstanceID)<br>&#123;<br>	RegisterIdx &amp;= (~(1u &lt;&lt; 31));<br>	return ParticleDataFloatBuffer[(RegisterIdx * ParticleDataFloatStride + InstanceID)]; // 这里符合我们之前说的把float3拆分成component，同component紧挨着放<br>&#125;<br></code></pre></td></tr></table></figure>
+不过看起来并没有任何shader
+include了NiagaraSpriteVertexFactory.ush，唯一用到它的是
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// Engine\Plugins\FX\Niagara\Source\NiagaraVertexFactories\Private\NiagaraSpriteVertexFactory.cpp</span><br><span class="hljs-built_in">IMPLEMENT_VERTEX_FACTORY_TYPE</span>(FNiagaraSpriteVertexFactory,<span class="hljs-string">&quot;/Plugin/FX/Niagara/Private/NiagaraSpriteVertexFactory.ush&quot;</span>,<br>	  EVertexFactoryFlags::UsedWithMaterials<br>	| EVertexFactoryFlags::SupportsDynamicLighting<br>	| EVertexFactoryFlags::SupportsRayTracing<br>	| EVertexFactoryFlags::SupportsRayTracingDynamicGeometry<br>	| EVertexFactoryFlags::SupportsPSOPrecaching<br>);<br><br><span class="hljs-comment">// Engine\Source\Runtime\RenderCore\Public\VertexFactory.h</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> IMPLEMENT_VERTEX_FACTORY_TYPE(FactoryClass, ShaderFilename, Flags) \</span><br><span class="hljs-meta">	FVertexFactoryType FactoryClass::StaticType( \</span><br><span class="hljs-meta">		TEXT(#FactoryClass), \</span><br><span class="hljs-meta">		TEXT(ShaderFilename), \</span><br><span class="hljs-meta">		Flags, \</span><br><span class="hljs-meta">		IMPLEMENT_VERTEX_FACTORY_VTABLE(FactoryClass) \</span><br><span class="hljs-meta">		); \</span><br><span class="hljs-meta">		FVertexFactoryType* FactoryClass::GetType() const &#123; return &amp;StaticType; &#125;</span><br></code></pre></td></tr></table></figure></p>
+<p>FVertexFactoryType中include了ush <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// Engine\Source\Runtime\RenderCore\Public\VertexFactory.h</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ModifyCompilationEnvironment</span><span class="hljs-params">(<span class="hljs-type">const</span> FVertexFactoryShaderPermutationParameters&amp; Parameters, FShaderCompilerEnvironment&amp; OutEnvironment)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-comment">// Set up the mapping from VertexFactory.usf to the vertex factory type&#x27;s source code.</span><br>	FString VertexFactoryIncludeString = FString::<span class="hljs-built_in">Printf</span>( <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;#include \&quot;%s\&quot;&quot;</span>), <span class="hljs-built_in">GetShaderFilename</span>() );<br>	OutEnvironment.IncludeVirtualPathToContentsMap.<span class="hljs-built_in">Add</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;/Engine/Generated/VertexFactory.ush&quot;</span>), VertexFactoryIncludeString);<br><br>	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">IncludesFwdShaderFile</span>())<br>	&#123;<br>		FString VertexFactoryFwdIncludeString = FString::<span class="hljs-built_in">Printf</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;#include \&quot;%s\&quot;&quot;</span>), <span class="hljs-built_in">GetShaderFwdFilename</span>());<br>		OutEnvironment.IncludeVirtualPathToContentsMap.<span class="hljs-built_in">Add</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;/Engine/Generated/VertexFactoryFwd.ush&quot;</span>), VertexFactoryFwdIncludeString);<br>		OutEnvironment.<span class="hljs-built_in">SetDefine</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;USE_VERTEX_FACTORY_FWD&quot;</span>), <span class="hljs-number">1</span>);<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>		OutEnvironment.IncludeVirtualPathToContentsMap.<span class="hljs-built_in">Add</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;/Engine/Generated/VertexFactoryFwd.ush&quot;</span>), <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;#include \&quot;/Engine/Private/VertexFactoryDefaultFwd.ush\&quot;&quot;</span>));<br>	&#125;<br><br>	OutEnvironment.<span class="hljs-built_in">SetDefine</span>(<span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;HAS_PRIMITIVE_UNIFORM_BUFFER&quot;</span>), <span class="hljs-number">1</span>);<br><br>	(*ModifyCompilationEnvironmentRef)(Parameters, OutEnvironment);<br>&#125;<br></code></pre></td></tr></table></figure>
+在下面的函数中进行了设置，这样就清楚了。 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title">PrepareMeshMaterialShaderCompileJob</span><span class="hljs-params">(EShaderPlatform Platform,</span></span><br><span class="hljs-params"><span class="hljs-function">	EShaderPermutationFlags PermutationFlags,</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-type">const</span> FMaterial* Material,</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-type">const</span> FMaterialShaderMapId&amp; MaterialShaderMapId,</span></span><br><span class="hljs-params"><span class="hljs-function">	FSharedShaderCompilerEnvironment* MaterialEnvironment,</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-type">const</span> FShaderPipelineType* ShaderPipeline,</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-type">const</span> FString&amp; DebugGroupName,</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-type">const</span> TCHAR* DebugDescription,</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-type">const</span> TCHAR* DebugExtension,</span></span><br><span class="hljs-params"><span class="hljs-function">	FShaderCompileJob* NewJob)</span></span><br><span class="hljs-function"></span>&#123;<br>	...<br>	<span class="hljs-comment">// apply the vertex factory changes to the compile environment</span><br>	<span class="hljs-built_in">check</span>(VertexFactoryType);<br>	VertexFactoryType-&gt;<span class="hljs-built_in">ModifyCompilationEnvironment</span>(<span class="hljs-built_in">FVertexFactoryShaderPermutationParameters</span>(Platform, MaterialParameters, VertexFactoryType, ShaderType, PermutationFlags), ShaderEnvironment);<br><br>	Material-&gt;<span class="hljs-built_in">SetupExtraCompilationSettings</span>(Platform, NewJob-&gt;Input.ExtraSettings);<br><br>	<span class="hljs-comment">//update material shader stats</span><br>	<span class="hljs-built_in">UpdateMaterialShaderCompilingStats</span>(Material);<br><br>	<span class="hljs-built_in">UE_LOG</span>(LogShaders, Verbose, <span class="hljs-built_in">TEXT</span>(<span class="hljs-string">&quot;			%s&quot;</span>), ShaderType-&gt;<span class="hljs-built_in">GetName</span>());<br><br>	<span class="hljs-comment">// Allow the shader type to modify the compile environment.</span><br>	ShaderType-&gt;<span class="hljs-built_in">SetupCompileEnvironment</span>(Platform, MaterialParameters, VertexFactoryType, Key.PermutationId, PermutationFlags, ShaderEnvironment);<br><br>	<span class="hljs-type">bool</span> bAllowDevelopmentShaderCompile = Material-&gt;<span class="hljs-built_in">GetAllowDevelopmentShaderCompile</span>();<br><br>	<span class="hljs-comment">// Compile the shader environment passed in with the shader type&#x27;s source code.</span><br>	::<span class="hljs-built_in">GlobalBeginCompileShader</span>(<br>		DebugGroupName,<br>		VertexFactoryType,<br>		ShaderType,<br>		ShaderPipeline,<br>		Key.PermutationId,<br>		ShaderType-&gt;<span class="hljs-built_in">GetShaderFilename</span>(),<br>		ShaderType-&gt;<span class="hljs-built_in">GetFunctionName</span>(),<br>		<span class="hljs-built_in">FShaderTarget</span>(ShaderType-&gt;<span class="hljs-built_in">GetFrequency</span>(), Platform),<br>		NewJob-&gt;Input,<br>		bAllowDevelopmentShaderCompile,<br>		DebugDescription,<br>		DebugExtension<br>	);<br>&#125;<br></code></pre></td></tr></table></figure></p>
+<h1 id="vs-to-ps">VS to PS</h1>
+<p>VS输出的属性如下 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">struct FVertexFactoryInterpolantsVSToPS<br>&#123;<br>	// First row of the tangent to world matrix, Interp_Sizer used by SUBUV_PARTICLES in w<br>	float4	TangentToWorld0AndInterp_Sizer : TANGENTTOWORLD0;<br>	// Last row of the tangent to world matrix in xyz<br>	float4	TangentToWorld2	: TANGENTTOWORLD2;<br>	<br>#if (DYNAMIC_PARAMETERS_MASK &amp; 1)<br>	nointerpolation float4 DynamicParameter	: PARTICLE_DYNAMIC_PARAM0;<br>#endif<br>#if (DYNAMIC_PARAMETERS_MASK &amp; 2)<br>	nointerpolation float4 DynamicParameter1 : PARTICLE_DYNAMIC_PARAM1;<br>#endif<br>#if (DYNAMIC_PARAMETERS_MASK &amp; 4)<br>	nointerpolation float4 DynamicParameter2 : PARTICLE_DYNAMIC_PARAM2;<br>#endif<br>#if (DYNAMIC_PARAMETERS_MASK &amp; 8)<br>	nointerpolation float4 DynamicParameter3 : PARTICLE_DYNAMIC_PARAM3;<br>#endif<br><br>#if NEEDS_PARTICLE_COLOR<br>	float4	Color				: TEXCOORD0;<br>#endif<br><br>#if NUM_TEX_COORD_INTERPOLATORS<br>	float4	TexCoords[(NUM_TEX_COORD_INTERPOLATORS + 1) / 2]	: TEXCOORD1;<br>#endif<br><br>	//Not sure this is actually being used now and it&#x27;s awkward to slot in now we&#x27;re supporting custom UVs so I&#x27;m just giving this its own interpolant.<br>#if LIGHTMAP_UV_ACCESS<br>	float2 LightMapUVs : LIGHTMAP_UVS;<br>#endif<br><br>#if USE_PARTICLE_SUBUVS<br>	float4 ParticleSubUVs : PARTICLE_SUBUVS;<br>#endif<br><br>#if USE_PARTICLE_POSITION<br>	/** Cam-relative (translated) particle center and radius */<br>	nointerpolation float4 ParticleTranslatedWorldPositionAndSize	: PARTICLE_POSITION;<br>#endif<br><br>#if USE_PARTICLE_VELOCITY<br>	nointerpolation float4 ParticleVelocity : PARTICLE_VELOCITY;<br>#endif<br><br>#if USE_PARTICLE_TIME<br>	nointerpolation float RelativeTime : PARTICLE_TIME;<br>#endif<br><br>#if USE_PARTICLE_LIGHTING_OFFSET<br>	float3 LightingPositionOffset : PARTICLE_LIGHTING_OFFSET;<br>#endif<br><br>#if USE_PARTICLE_SIZE<br>	nointerpolation float2 ParticleSize : PARTICLE_SIZE;<br>#endif<br><br>#if USE_PARTICLE_SPRITE_ROTATION<br>	nointerpolation float ParticleSpriteRotation : PARTICLE_SPRITE_ROTATION;<br>#endif<br><br>#if USE_PARTICLE_RANDOM<br>	nointerpolation float ParticleRandom : PARTICLE_RANDOM;<br>#endif<br>&#125;;<br></code></pre></td></tr></table></figure>
+输出属性由以下函数进行设置，主要是拷贝Intermediates中的内容，包括DynamicParameter等。
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">FVertexFactoryInterpolantsVSToPS VertexFactoryGetInterpolantsVSToPS(FVertexFactoryInput Input, FVertexFactoryIntermediates Intermediates, FMaterialVertexParameters VertexParameters)<br>&#123;<br>	FVertexFactoryInterpolantsVSToPS Interpolants;<br><br>	// Initialize the whole struct to 0<br>	Interpolants = (FVertexFactoryInterpolantsVSToPS)0;<br><br>#if NUM_TEX_COORD_INTERPOLATORS<br>	float2 CustomizedUVs[NUM_TEX_COORD_INTERPOLATORS];<br>	GetMaterialCustomizedUVs(VertexParameters, CustomizedUVs);<br>	GetCustomInterpolators(VertexParameters, CustomizedUVs);<br><br>	UNROLL<br>	for (int CoordinateIndex = 0; CoordinateIndex &lt; NUM_TEX_COORD_INTERPOLATORS; CoordinateIndex++)<br>	&#123;<br>		SetUV(Interpolants, CoordinateIndex, CustomizedUVs[CoordinateIndex]);<br>	&#125;<br>#endif<br><br>#if LIGHTMAP_UV_ACCESS<br>	Interpolants.LightMapUVs = Intermediates.TexCoord.xy;<br>#endif<br><br>#if USE_PARTICLE_SUBUVS<br>	Interpolants.ParticleSubUVs.xy = VertexParameters.Particle.SubUVCoords[0];<br>	Interpolants.ParticleSubUVs.zw = VertexParameters.Particle.SubUVCoords[1];<br>#endif<br><br>	// Calculate the transform from tangent to world space.<br>	// Note that &quot;local&quot; space for particles is actually oriented in world space! Therefore no rotation is needed.<br>	float3x3 TangentToWorld = Intermediates.TangentToLocal;<br><br>	Interpolants.TangentToWorld0AndInterp_Sizer.xyz = TangentToWorld[0];<br>	Interpolants.TangentToWorld0AndInterp_Sizer.w = Intermediates.SubImageLerp;<br>	Interpolants.TangentToWorld2 = float4(TangentToWorld[2], sign(determinant(Intermediates.TangentToLocal)));<br><br>#if NEEDS_PARTICLE_COLOR<br>	Interpolants.Color = Intermediates.Color;<br>#endif<br><br>#if (DYNAMIC_PARAMETERS_MASK &amp; 1)<br>	Interpolants.DynamicParameter = Intermediates.DynamicParameter;<br>#endif<br>#if (DYNAMIC_PARAMETERS_MASK &amp; 2)<br>	Interpolants.DynamicParameter1 = Intermediates.DynamicParameter1;<br>#endif<br>#if (DYNAMIC_PARAMETERS_MASK &amp; 4)<br>	Interpolants.DynamicParameter2 = Intermediates.DynamicParameter2;<br>#endif<br>#if (DYNAMIC_PARAMETERS_MASK &amp; 8)<br>	Interpolants.DynamicParameter3 = Intermediates.DynamicParameter3;<br>#endif<br><br>#if USE_PARTICLE_POSITION<br>	Interpolants.ParticleTranslatedWorldPositionAndSize = Intermediates.TranslatedWorldPositionAndSize;<br>#endif<br><br>#if USE_PARTICLE_VELOCITY<br>	Interpolants.ParticleVelocity = Intermediates.ParticleVelocity;<br>#endif<br><br>#if USE_PARTICLE_TIME<br>	Interpolants.RelativeTime = Intermediates.RelativeTime;<br>#endif<br><br>#if USE_PARTICLE_LIGHTING_OFFSET<br>	Interpolants.LightingPositionOffset = Intermediates.LightingPositionOffset;<br>#endif<br><br>#if USE_PARTICLE_SIZE<br>	Interpolants.ParticleSize = Intermediates.ParticleSize;<br>#endif<br><br>#if USE_PARTICLE_SPRITE_ROTATION<br>	Interpolants.ParticleSpriteRotation = Intermediates.ParticleSpriteRotation;<br>#endif<br><br>#if USE_PARTICLE_RANDOM<br>	Interpolants.ParticleRandom = Intermediates.ParticleRandom;<br>#endif<br><br>	return Interpolants;<br>&#125;<br></code></pre></td></tr></table></figure> PS能够根据这个计算出所有材质属性 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">FMaterialPixelParameters GetMaterialPixelParameters(FVertexFactoryInterpolantsVSToPS Interpolants, float4 SvPosition)<br>&#123;<br>	// GetMaterialPixelParameters is responsible for fully initializing the result<br>	FMaterialPixelParameters Result = MakeInitializedMaterialPixelParameters();<br><br>#if USE_PARTICLE_SUBUVS<br>	#if  NUM_TEX_COORD_INTERPOLATORS<br>		UNROLL<br>		for( int CoordinateIndex = 0; CoordinateIndex &lt;  NUM_TEX_COORD_INTERPOLATORS; CoordinateIndex++ )<br>		&#123;<br>			Result.TexCoords[CoordinateIndex] = Interpolants.SubUV0AndTexCoord0.zw;<br>		&#125;<br>	#endif<br>	Result.Particle.SubUVCoords[0] = Interpolants.SubUV0AndTexCoord0.xy;<br>	Result.Particle.SubUVCoords[1] = Interpolants.SubUV1AndLerp.xy;<br>	Result.Particle.SubUVLerp = Interpolants.SubUV1AndLerp.z;<br>#elif  NUM_TEX_COORD_INTERPOLATORS<br>	UNROLL<br>	for (int CoordinateIndex = 0; CoordinateIndex &lt; NUM_TEX_COORD_INTERPOLATORS / 2; ++CoordinateIndex)<br>	&#123;<br>		Result.TexCoords[CoordinateIndex * 2] = Interpolants.TexCoords[CoordinateIndex].xy;<br>		Result.TexCoords[CoordinateIndex * 2 + 1] = Interpolants.TexCoords[CoordinateIndex].wz;<br>	&#125;<br>	#if NUM_TEX_COORD_INTERPOLATORS &amp; 1<br>		Result.TexCoords[NUM_TEX_COORD_INTERPOLATORS - 1] = Interpolants.TexCoords[NUM_TEX_COORD_INTERPOLATORS / 2].xy;<br>	#endif // #if NUM_TEX_COORD_INTERPOLATORS &amp; 1<br>#endif<br><br>	half3 TangentToWorld0 = Interpolants.TangentToWorld0.xyz;<br>	half4 TangentToWorld2 = Interpolants.TangentToWorld2;<br>	Result.UnMirrored = TangentToWorld2.w;<br><br>#if INTERPOLATE_VERTEX_COLOR<br>	Result.VertexColor = Interpolants.VertexColor;<br>#else<br>	Result.VertexColor = 0;<br>#endif<br><br>#if NEEDS_PARTICLE_COLOR<br>	Result.Particle.Color = Interpolants.ParticleColor;<br>#endif<br><br>#if (DYNAMIC_PARAMETERS_MASK != 0)<br>	Result.Particle.DynamicParameterValidMask = NiagaraMeshVF.MaterialParamValidMask;<br>#endif<br>#if (DYNAMIC_PARAMETERS_MASK &amp; 1)<br>	Result.Particle.DynamicParameter = Interpolants.DynamicParameter;<br>#endif<br>#if (DYNAMIC_PARAMETERS_MASK &amp; 2)<br>	Result.Particle.DynamicParameter1 = Interpolants.DynamicParameter1;<br>#endif<br>#if (DYNAMIC_PARAMETERS_MASK &amp; 4)<br>	Result.Particle.DynamicParameter2 = Interpolants.DynamicParameter2;<br>#endif<br>#if (DYNAMIC_PARAMETERS_MASK &amp; 8)<br>	Result.Particle.DynamicParameter3 = Interpolants.DynamicParameter3;<br>#endif<br><br>#if USE_PARTICLE_POSITION<br>	Result.Particle.TranslatedWorldPositionAndSize.xyz = Interpolants.ParticleTranslatedWorldPosition;<br>	Result.Particle.TranslatedWorldPositionAndSize.w = 1;<br>	Result.Particle.PrevTranslatedWorldPositionAndSize = Result.Particle.TranslatedWorldPositionAndSize;<br>#endif<br><br>#if USE_PARTICLE_VELOCITY<br>	Result.Particle.Velocity = Interpolants.ParticleVelocity;<br>#endif<br><br>#if USE_PARTICLE_TIME<br>	Result.Particle.RelativeTime = Interpolants.RelativeTime;<br>#endif<br><br>#if USE_PARTICLE_RANDOM<br>	Result.Particle.Random = Interpolants.ParticleRandom;<br>#else<br>	Result.Particle.Random = 0.0f;<br>#endif<br><br>#if USE_PARTICLE_LOCAL_TO_WORLD<br>	//-TODO: LWC Precision Loss<br>	FLWCMatrix ParticleToWorld = LWCPromote(transpose(float4x4(Interpolants.ParticleToWorld[0], Interpolants.ParticleToWorld[1], Interpolants.ParticleToWorld[2], float4(0.0f, 0.0f, 0.0f, 1.0f))));<br>	#if NEEDS_PARTICLE_LOCAL_TO_WORLD<br>		Result.Particle.ParticleToWorld = DFFromTileOffset(ParticleToWorld);<br>	#endif<br>	#if NEEDS_INSTANCE_LOCAL_TO_WORLD_PS<br>		Result.InstanceLocalToWorld = DFFromTileOffset(ParticleToWorld);<br>	#endif<br>#endif<br><br>#if USE_PARTICLE_WORLD_TO_LOCAL<br>	//-TODO: LWC Precision Loss<br>	FLWCInverseMatrix WorldToParticle = LWCPromoteInverse(transpose(float4x4(Interpolants.WorldToParticle[0], Interpolants.WorldToParticle[1], Interpolants.WorldToParticle[2], float4(0.0f, 0.0f, 0.0f, 1.0f))));<br>	#if NEEDS_PARTICLE_WORLD_TO_LOCAL<br>		Result.Particle.WorldToParticle = DFFromTileOffset(WorldToParticle);<br>	#endif<br>	#if NEEDS_INSTANCE_WORLD_TO_LOCAL_PS<br>		Result.InstanceWorldToLocal = DFFromTileOffset(WorldToParticle);<br>	#endif<br>#endif<br><br>	Result.Particle.MotionBlurFade = 1.0f;<br>	Result.TangentToWorld = AssembleTangentToWorld( TangentToWorld0, TangentToWorld2 );<br>	Result.TwoSidedSign = 1;<br><br>#if USE_WORLDVERTEXNORMAL_CENTER_INTERPOLATION<br>	Result.WorldVertexNormal_Center = Interpolants.TangentToWorld2_Center.xyz;<br>#endif<br><br>#if VF_USE_PRIMITIVE_SCENE_DATA<br>	Result.PrimitiveId = Interpolants.PrimitiveId;<br>#endif<br><br>	return Result;<br>&#125;<br></code></pre></td></tr></table></figure>
+至此，绘制流程就完全清晰了。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/" class="category-chain-item">源码阅读</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/UE/" class="print-no-link">#UE</a>
+      
+        <a href="/tags/Niagara/" class="print-no-link">#Niagara</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Niagara（二）：Sprite粒子渲染</div>
+      <div>https://jhex-git.github.io/posts/1219731573/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>JointHex</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年9月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/3406797478/" title="Niagara（一）：lightweight emitter (Stateless)">
+                        <span class="hidden-mobile">Niagara（一）：lightweight emitter (Stateless)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"xnfEeEvX3j8WtgaQfyz6xZ6h-gzGzoHsz","appKey":"UlWK7jpf639GUXTHUzKqoNga","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
